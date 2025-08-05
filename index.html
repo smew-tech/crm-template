@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrderSystem - Hệ thống Quản lý</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .main-content {
+            transition: margin-left 0.3s ease;
+        }
+
+        .active-nav {
+            background-color: #EFF6FF;
+            color: #3B82F6;
+            font-weight: 600;
+        }
+
+        .active-nav i {
+            color: #3B82F6;
+        }
+
+        .nav-item:hover {
+            background-color: #F3F4F6;
+        }
+
+        .active-tab {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+            font-weight: 600;
+        }
+
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <div class="flex">
+        <aside id="sidebar" class="fixed h-full bg-white shadow-lg w-64 p-4 z-30">
+            <div class="flex items-center space-x-2 mb-6">
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-lg"><i
+                        class="fas fa-store"></i></div><span class="font-bold text-xl text-gray-800">OrderSystem</span>
+            </div>
+            <nav id="main-nav" class="space-y-2">
+                <a href="_dashboard.html" data-title="Dashboard"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg active-nav"><i
+                        class="fas fa-tachometer-alt w-6 text-center text-gray-500"></i><span
+                        class="ml-3">Dashboard</span></a>
+                <a href="_order-management.html" data-title="Quản lý Đơn hàng"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-shopping-cart w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Đơn
+                        hàng</span></a>
+                <a href="_financial-management.html" data-title="Quản lý Tài chính"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-wallet w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Tài
+                        chính</span></a>
+                <a href="_user-management.html" data-title="Quản lý Người dùng"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-users w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Người
+                        dùng</span></a>
+                <a href="_auction-management.html" data-title="Hệ thống Đấu giá"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-gavel w-6 text-center text-gray-500"></i><span class="ml-3">Hệ thống Đấu
+                        giá</span></a>
+                <a href="_product-category-management.html" data-title="Quản lý Loại sản phẩm"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-tags w-6 text-center text-gray-500"></i><span class="ml-3">Loại sản phẩm &
+                        Phí</span></a>
+
+                <a href="_settings.html" data-title="Cài đặt Hệ thống"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-cog w-6 text-center text-gray-500"></i><span class="ml-3">Cài đặt Hệ
+                        thống</span></a>
+            </nav>
+        </aside>
+
+        <div id="main-content-container" class="main-content ml-64 w-full min-h-screen">
+            <header
+                class="sticky top-0 bg-white/80 backdrop-blur-sm z-20 flex justify-between items-center p-6 border-b">
+                <h1 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                <div class="relative"><button class="flex items-center space-x-2">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </button></div>
+            </header>
+
+            <main id="page-content-area" class="p-6">
+            </main>
+        </div>
+    </div>
+
+    <!-- create-order -->
+    <div id="create-order-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div
+            class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-full overflow-y-auto transform scale-95">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold">Tạo Đơn hàng mới</h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="relative"><input type="text" placeholder="Dán link sản phẩm từ website (Amazon, Yahoo...)"
+                        class="w-full pl-4 pr-20 py-2 border rounded-lg"><button
+                        class="absolute right-1 top-1 bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Lấy thông
+                        tin</button></div>
+                <input type="text" placeholder="Tên sản phẩm (sẽ được tự động điền)"
+                    class="w-full p-2 border rounded-lg bg-gray-100" disabled>
+                <div class="grid grid-cols-3 gap-4">
+                    <input type="number" placeholder="Số lượng" class="w-full p-2 border rounded-lg">
+                    <input type="text" placeholder="Giá (USD/JPY)" class="w-full p-2 border rounded-lg bg-gray-100"
+                        disabled>
+                    <select class="w-full p-2 border rounded-lg">
+                        <option>Khu vực (Mỹ/Nhật)</option>
+                        <option>Mỹ</option>
+                        <option>Nhật</option>
+                    </select>
+                </div>
+                <textarea placeholder="Ghi chú cho đơn hàng..." rows="3"
+                    class="w-full p-2 border rounded-lg"></textarea>
+            </div>
+            <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                <button
+                    class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu Đơn
+                    hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- order-detail -->
+    <div id="order-detail-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div
+            class="modal-content bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-full overflow-y-auto transform scale-95">
+            <div class="p-6 border-b flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 class="text-xl font-bold">Chi tiết Đơn hàng <span id="detail-order-id" class="text-blue-600"></span>
+                </h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Bảng chiết tính tài chính</h4>
+                        <div class="p-3 text-sm space-y-2">
+                            <div><span>Tiền hàng:</span><span class="float-right font-medium">15,000,000 đ</span></div>
+                            <div><span>Phí mua hộ:</span><span class="float-right font-medium">150,000 đ</span></div>
+                            <div><span>Phí vận chuyển QT:</span><span class="float-right font-medium">100,000 đ</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2"><span>Tổng tiền:</span><span
+                                    class="float-right font-bold text-lg text-blue-600">15,250,000 đ</span></div>
+                            <div><span>Đã cọc:</span><span class="float-right font-medium text-green-600">9,150,000
+                                    đ</span></div>
+                            <div class="mt-2"><span>Còn lại phải trả:</span><span
+                                    class="float-right font-bold text-lg text-red-600">6,100,000 đ</span></div>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Danh sách sản phẩm</h4>
+                        <div class="p-3">Sản phẩm A, Sản phẩm B...</div>
+                    </div>
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Thông tin kiện hàng</h4>
+                        <div class="p-3">Mã kiện: <span class="font-medium">MK12345</span>, Cân nặng: <span
+                                class="font-medium">2.5 Kg</span></div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Thông tin chung</h4>
+                        <div class="p-3 text-sm space-y-1">
+                            <p>Khách hàng: <strong id="detail-customer-name"></strong></p>
+                            <p><strong>Nguồn:</strong> Amazon (Mỹ)</p>
+                            <p><strong>Vận chuyển:</strong> SEA</p>
+                            <p>Ngày tạo: <strong>05/08/2025</strong></p>
+                            <p>Sales: <strong>Nguyễn Văn An</strong></p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm space-y-2">
+                            <h4 class="font-bold text-base mb-2">Bảng chiết tính tài chính</h4>
+                            <div><span>Tiền hàng:</span><span class="float-right font-medium">15,000,000 đ</span></div>
+                            <div class="border-t pt-2 mt-2"><span>Tổng tiền:</span><span
+                                    class="float-right font-bold text-lg text-blue-600">15,250,000 đ</span></div>
+                        </div>
+                    </div>
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Timeline trạng thái</h4>
+                        <ul class="p-3 space-y-2 text-sm">
+                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Đã đặt cọc</li>
+                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Đã mua hàng</li>
+                            <li><i class="far fa-circle text-gray-400 mr-2"></i>Hàng về kho</li>
+                        </ul>
+                    </div>
+                    <div class="border rounded-lg">
+                        <h4 class="font-bold p-3 bg-gray-50 border-b">Ghi chú nội bộ</h4>
+                        <div class="p-3"><textarea rows="3"
+                                class="w-full p-2 border rounded-lg text-sm"></textarea><button
+                                class="mt-2 text-sm bg-gray-200 px-3 py-1 rounded">Lưu</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- bank-account -->
+    <div id="bank-account-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form id="bank-account-form">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 id="bank-modal-title" class="text-xl font-bold">Thêm tài khoản Ngân hàng mới</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div><label class="block text-sm font-medium text-gray-700">Tên ngân hàng</label><input type="text"
+                            name="bank_name" placeholder="VD: Vietcombank" class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div><label class="block text-sm font-medium text-gray-700">Số tài khoản</label><input type="text"
+                            name="account_number" placeholder="VD: 0123456789"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Tên chủ tài khoản</label><input
+                            type="text" name="account_name" placeholder="VD: CTY TNHH ORDER SYSTEM"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Hạn mức/ngày (VND)</label><input
+                            type="number" name="limit" placeholder="VD: 500000000"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Trạng thái</label><select name="status"
+                            class="mt-1 w-full p-2 border rounded-lg">
+                            <option value="active">Hoạt động</option>
+                            <option value="paused">Tạm dừng</option>
+                        </select></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- customer-detail -->
+    <div id="customer-detail-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div
+            class="modal-content bg-gray-100 rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] flex flex-col transform scale-95">
+            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10 flex-shrink-0">
+                <h3 class="text-xl font-bold">Chi tiết Khách hàng: <span id="detail-customer-modal-name"
+                        class="text-blue-600"></span></h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto tab-container">
+                <div class="border-b border-gray-200 mb-4 bg-white rounded-t-lg p-2 sticky top-0">
+                    <nav class="flex space-x-6 -mb-px" aria-label="Tabs">
+                        <a href="#detail-overview"
+                            class="tab-link shrink-0 border-b-2 px-1 pb-3 text-sm font-medium active-tab">Tổng quan</a>
+                        <a href="#detail-orders"
+                            class="tab-link shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500">Lịch
+                            sử Đơn hàng</a>
+                        <a href="#detail-transactions"
+                            class="tab-link shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500">Lịch
+                            sử Giao dịch</a>
+                        <a href="#detail-fees"
+                            class="tab-link shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500">Cài
+                            đặt Phí riêng</a>
+                        <a href="#detail-notes"
+                            class="tab-link shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium text-gray-500">Ghi
+                            chú Nội bộ</a>
+                    </nav>
+                </div>
+                <div id="detail-fees" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h4 class="font-bold text-base mb-2">Cài đặt Phí riêng cho Khách hàng</h4>
+                        <p class="text-sm text-gray-600 mb-4">Gán các mức phí dịch vụ đặc biệt cho khách hàng này. Nếu
+                            không cài đặt, hệ thống sẽ áp dụng mức phí mặc định.</p>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-3 items-center gap-4">
+                                <label class="font-semibold">Laptop</label>
+                                <select class="col-span-2 p-2 border rounded-lg text-sm">
+                                    <option>Mặc định</option>
+                                    <option selected>Phí 0%</option>
+                                    <option>Phí 1%</option>
+                                    <option>Phí 2%</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-3 items-center gap-4">
+                                <label class="font-semibold">Mỹ phẩm</label>
+                                <select class="col-span-2 p-2 border rounded-lg text-sm">
+                                    <option selected>Mặc định</option>
+                                    <option>Phí 0%</option>
+                                    <option>Phí 2%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-right mt-4"><button
+                                class="text-sm bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Lưu Cài đặt
+                                Phí</button></div>
+                    </div>
+                </div>
+
+                <div id="detail-overview" class="tab-content">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Tổng số Đơn hàng</p>
+                            <p class="text-2xl font-bold">25</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Tổng chi tiêu</p>
+                            <p class="text-2xl font-bold">152.750.000đ</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm text-gray-500">Công nợ hiện tại</p>
+                            <p class="text-2xl font-bold text-red-600">5.450.000đ</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div class="lg:col-span-2 space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Sổ địa chỉ</h4><button
+                                        class="text-sm text-blue-600 font-semibold">+ Thêm địa chỉ</button>
+                                </div>
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold">Nhà riêng</p>
+                                    <p class="text-sm text-gray-600">123 Đường ABC, Phường 4, Quận 5, TP. Hồ Chí Minh
+                                    </p>
+                                    <p class="text-sm text-gray-600">0987 654 321</p><span
+                                        class="text-xs bg-gray-200 px-2 py-0.5 rounded-full">Mặc định</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Tài khoản ngân hàng</h4><button
+                                        class="text-sm text-blue-600 font-semibold">+ Thêm tài khoản</button>
+                                </div>
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold">Vietcombank</p>
+                                    <p class="text-sm text-gray-600">STK: 0123456789</p>
+                                    <p class="text-sm text-gray-600">Chủ TK: NGUYEN VAN AN</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold mb-2">Thông tin liên hệ</h4>
+                                <p class="text-sm text-gray-600">an.nguyen@email.com</p>
+                                <p class="text-sm text-gray-600">0987 654 321</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Nhân viên phụ trách</h4><button
+                                        class="text-sm text-blue-600 font-semibold">Thay đổi</button>
+                                </div>
+                                <p class="text-sm font-semibold">John Doe</p>
+                                <p class="text-xs text-gray-500">Sales Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail-orders" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <div class="grid grid-cols-3 gap-4 mb-4">
+                            <input type="text" placeholder="Tìm theo mã đơn..."
+                                class="col-span-3 md:col-span-1 px-2 py-1 border rounded">
+                            <select class="px-2 py-1 border rounded">
+                                <option>-- Lọc trạng thái --</option>
+                            </select>
+                            <input type="date" class="px-2 py-1 border rounded text-gray-500">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 text-left">Mã Đơn</th>
+                                        <th class="p-2 text-left">Ngày tạo</th>
+                                        <th class="p-2 text-right">Tổng tiền</th>
+                                        <th class="p-2 text-center">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="p-2 text-blue-600">#DH-0805-1</td>
+                                        <td class="p-2">05/08/2025</td>
+                                        <td class="p-2 text-right">15,250,000 đ</td>
+                                        <td class="p-2 text-center"><span
+                                                class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ
+                                                thanh toán đủ</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail-transactions" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <div class="grid grid-cols-3 gap-4 mb-4">
+                            <input type="text" placeholder="Tìm theo mã GD..."
+                                class="col-span-3 md:col-span-1 px-2 py-1 border rounded">
+                            <select class="px-2 py-1 border rounded">
+                                <option>-- Lọc loại GD --</option>
+                                <option>Nạp tiền</option>
+                                <option>Thanh toán</option>
+                                <option>Rút tiền</option>
+                            </select>
+                            <input type="date" class="px-2 py-1 border rounded text-gray-500">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-2 text-left">Mã GD</th>
+                                        <th class="p-2 text-left">Loại</th>
+                                        <th class="p-2 text-right">Số tiền</th>
+                                        <th class="p-2 text-left">Ghi chú</th>
+                                        <th class="p-2 text-left">Ngày</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="p-2">N-0805-1</td>
+                                        <td class="p-2"><span class="text-green-600 font-medium">Nạp tiền</span></td>
+                                        <td class="p-2 text-right text-green-600">+5,000,000 đ</td>
+                                        <td class="p-2">CK thanh toán</td>
+                                        <td class="p-2">05/08/2025</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail-notes" class="tab-content hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h4 class="font-bold text-base mb-2">Thêm Ghi chú mới</h4>
+                        <textarea rows="3" class="w-full p-2 border rounded-lg text-sm"
+                            placeholder="Nhân viên thêm ghi chú về khách hàng tại đây..."></textarea>
+                        <div class="text-right mt-2"><button
+                                class="text-sm bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Lưu ghi
+                                chú</button></div>
+                        <hr class="my-4">
+                        <h4 class="font-bold text-base mb-2">Lịch sử Ghi chú</h4>
+                        <div class="space-y-6 border-l-2 border-gray-200 ml-3 pl-6">
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[30px] top-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white">
+                                </div>
+                                <p class="font-medium">John Doe <span class="text-gray-500 font-normal text-sm">-
+                                        2025-08-01 14:20</span></p>
+                                <p class="text-gray-700 mt-1">Đã liên hệ khách hàng tư vấn về chính sách VIP. Khách hàng
+                                    rất quan tâm.</p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[30px] top-1 w-4 h-4 bg-gray-400 rounded-full border-2 border-white">
+                                </div>
+                                <p class="font-medium">Jane Smith <span class="text-gray-500 font-normal text-sm">-
+                                        2025-07-25 09:00</span></p>
+                                <p class="text-gray-700 mt-1">Khách hàng hỏi về tình trạng đơn hàng #OD2240, đã báo hàng
+                                    đang trên đường về VN.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- tier-policy -->
+    <div id="tier-policy-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Chính sách cho Loại khách hàng: <span id="policy-tier-name"
+                            class="text-yellow-500"></span></h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">% Đặt cọc (Vận chuyển AIR)</label><input type="number"
+                            value="70" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">Phí dịch vụ (%)</label><input type="number" value="3"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">Phí hủy đơn (VND)</label><input type="number"
+                            value="50000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu Chính
+                        sách</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- add-tier -->
+    <div id="add-tier-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Thêm Loại khách hàng mới</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">Tên Loại</label><input type="text"
+                            placeholder="VD: Vàng" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">Mô tả</label><input type="text"
+                            placeholder="VD: Khách hàng tiềm năng" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">% Đặt cọc (Vận chuyển AIR)</label><input type="number"
+                            placeholder="VD: 80" class="mt-1 w-full p-2 border rounded-lg"></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Thêm
+                        Loại</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- add-role -->
+    <div id="add-role-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <form>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Thêm Vai trò mới</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">Tên Vai trò</label><input type="text"
+                            placeholder="VD: Quản lý Kho" class="mt-1 w-full p-2 border rounded-lg"></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Thêm Vai
+                        trò</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- add-yahoo-account -->
+    <div id="add-yahoo-account-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <form>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Thêm tài khoản Yahoo</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">Tên đăng nhập</label><input type="text"
+                            placeholder="VD: yahoo_account_1" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">Mật khẩu</label><input type="password"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu tài
+                        khoản</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- auction-detail -->
+    <div id="auction-detail-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div
+            class="modal-content bg-gray-100 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col transform scale-95">
+            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10 flex-shrink-0">
+                <h3 class="text-xl font-bold">Chi tiết Phiên đấu giá</h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto space-y-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <p><strong>Sản phẩm:</strong> Vintage Camera a7</p>
+                    <p><strong>Link gốc:</strong> <a href="#"
+                            class="text-blue-600 hover:underline">auctions.yahoo.co.jp/....</a></p>
+                    <p><strong>Kết quả:</strong> <span class="font-bold text-green-600">Thắng bởi "Nguyễn Văn A" với giá
+                            ¥25,000</span></p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold">Lịch sử Đấu giá (Nội bộ)</h4>
+                        <button
+                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-lg flex items-center shadow-sm text-xs"><i
+                                class="fas fa-file-excel mr-2"></i>Export Excel</button>
+                    </div>
+                    <div class="space-y-2 text-sm h-32 overflow-y-auto border p-2 rounded-lg bg-gray-50">
+                        <p>[14:38:10] <span class="font-semibold text-blue-600">Trần Thị B</span> đặt Max Bid: <span
+                                class="font-bold">¥25,000</span>. (Trở thành người dẫn đầu mới)</p>
+                        <p>[14:35:05] <span class="font-semibold text-gray-600">Nguyễn Văn A</span> đặt Max Bid: <span
+                                class="font-bold">¥22,000</span>.</p>
+                        <p>[14:32:15] <span class="font-semibold text-blue-600">Trần Thị B</span> đặt Max Bid: <span
+                                class="font-bold">¥20,000</span>. (Trở thành người dẫn đầu mới)</p>
+                        <p>[14:30:00] <span class="font-semibold text-gray-600">Nguyễn Văn A</span> đặt Max Bid: <span
+                                class="font-bold">¥18,000</span>.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold mb-2">Lịch sử Hoạt động của Bot</h4>
+                    <div
+                        class="space-y-2 text-sm h-32 overflow-y-auto border p-2 rounded-lg bg-gray-50 font-mono text-xs">
+                        <p><span class="text-gray-500">[14:39:00]</span> [INFO] Bot (tk: yahoo_1) đặt giá thành công:
+                            ¥25,000.</p>
+                        <p><span class="text-gray-500">[14:38:15]</span> [INFO] Nhận lệnh mới từ "Trần Thị B", cập nhật
+                            Max Bid lên ¥25,000.</p>
+                        <p><span class="text-gray-500">[14:36:00]</span> [INFO] Bot (tk: yahoo_1) đặt giá thành công:
+                            ¥22,500.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- product-category -->
+    <div id="product-category-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form id="product-category-form">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 id="product-category-modal-title" class="text-xl font-bold">Thêm Loại sản phẩm mới</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">Tên Loại sản phẩm</label><input type="text"
+                            name="category_name" placeholder="VD: Đồ điện tử" class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div><label class="font-medium text-gray-700">Mô tả</label><input type="text" name="description"
+                            placeholder="VD: Các mặt hàng điện tử, công nghệ" class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div><label class="font-medium text-gray-700">Phụ phí (%)</label><input type="number"
+                            name="surcharge" placeholder="VD: 5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- assign-category -->
+    <div id="assign-category-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <div class="p-6 border-b">
+                <h3 class="text-xl font-bold">Gán Loại sản phẩm cho Đơn hàng</h3>
+            </div>
+            <div class="p-6 space-y-4">
+                <p>Chọn loại sản phẩm phù hợp cho đơn hàng <strong id="assign-category-order-id"
+                        class="text-blue-600"></strong>.</p>
+                <select class="w-full p-2 border rounded-lg">
+                    <option>-- Chọn loại sản phẩm --</option>
+                    <option>Laptop</option>
+                    <option>Mỹ phẩm</option>
+                    <option>Quần áo</option>
+                </select>
+            </div>
+            <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                <button type="button"
+                    class="close-modal-btn bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                <button type="button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- staff -->
+    <div id="staff-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-40">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form id="staff-form">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 id="staff-modal-title" class="text-xl font-bold">Thêm Nhân viên mới</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm">
+                    <div><label class="font-medium text-gray-700">Tên Nhân viên</label><input type="text"
+                            name="staff_name" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div><label class="font-medium text-gray-700">Email</label><input type="email" name="staff_email"
+                            class="mt-1 w-full p-2 border rounded-lg"></div>
+                    <div>
+                        <label class="font-medium text-gray-700">Vai trò</label>
+                        <div class="mt-2 grid grid-cols-2 gap-2">
+                            <label class="flex items-center"><input type="checkbox" name="roles" value="admin"
+                                    class="rounded"> <span class="ml-2">Admin</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="roles" value="sales"
+                                    class="rounded"> <span class="ml-2">Sales</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="roles" value="accountant"
+                                    class="rounded"> <span class="ml-2">Kế toán</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="roles" value="warehouse"
+                                    class="rounded"> <span class="ml-2">Nhân viên kho</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pageContentArea = document.getElementById('page-content-area');
+            const pageTitle = document.getElementById('page-title');
+            const mainNavLinks = document.querySelectorAll('#main-nav .nav-item');
+
+            // --- LOGIC MODAL ---
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                const closeButtons = modal.querySelectorAll('.close-modal-btn');
+                closeButtons.forEach(btn => btn.addEventListener('click', () => modal.classList.add('hidden')));
+                modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+            });
+            function openModal(modalId) {
+                document.getElementById(modalId)?.classList.remove('hidden');
+            }
+
+            // --- HÀM TẢI VÀ HIỂN THỊ NỘI DUNG ---
+            const loadContent = async (url, title, targetTab = null) => {
+                try {
+                    pageContentArea.innerHTML = '<p class="text-center text-gray-500">Đang tải...</p>';
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status} - Could not find file ${url}`);
+                    const content = await response.text();
+                    pageContentArea.innerHTML = content;
+                    if (title) pageTitle.textContent = title;
+
+                    if (targetTab) {
+                        setTimeout(() => {
+                            const tabLink = pageContentArea.querySelector(`.tab-link[href="${targetTab}"]`);
+                            if (tabLink) {
+                                tabLink.click();
+                            }
+                        }, 0);
+                    }
+                } catch (error) {
+                    console.error('Lỗi tải trang:', error);
+                    pageContentArea.innerHTML = `<div class="text-center text-red-500"><p class="font-bold">Không thể tải nội dung.</p></div>`;
+                }
+            };
+
+            // --- XỬ LÝ CLICK MENU CHÍNH ---
+            mainNavLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    mainNavLinks.forEach(item => item.classList.remove('active-nav'));
+                    this.classList.add('active-nav');
+                    const contentUrl = this.getAttribute('href');
+                    const title = this.getAttribute('data-title');
+                    loadContent(contentUrl, title);
+                });
+            });
+
+            // --- SỬ DỤNG EVENT DELEGATION CHO TẤT CẢ HÀNH ĐỘNG BÊN TRONG CONTENT ---
+            document.addEventListener('click', function (event) {
+                const target = event.target;
+
+                const navLink = target.closest('.nav-link');
+                if (navLink && navLink.dataset.targetPage) {
+                    event.preventDefault();
+                    const targetPage = navLink.dataset.targetPage;
+                    const targetTab = navLink.dataset.targetTab;
+                    const targetTitle = navLink.dataset.targetTitle;
+
+                    mainNavLinks.forEach(item => item.classList.remove('active-nav'));
+                    const correspondingNavLink = document.querySelector(`#main-nav a[href="${targetPage}"]`);
+                    if (correspondingNavLink) correspondingNavLink.classList.add('active-nav');
+
+                    loadContent(targetPage, targetTitle, targetTab);
+                    return;
+                }
+
+                const tabLink = target.closest('.tab-link');
+                if (tabLink) {
+                    event.preventDefault();
+
+                    const tabContainer = tabLink.closest('.tab-container');
+                    const nav = tabLink.closest('nav');
+
+                    if (!tabContainer || !nav) return;
+
+                    const allTabsInGroup = nav.querySelectorAll('.tab-link');
+
+                    allTabsInGroup.forEach(link => {
+                        link.classList.remove('active-tab');
+                        link.classList.add('text-gray-500', 'border-transparent', 'hover:border-gray-300', 'hover:text-gray-700');
+
+                        const contentId = link.getAttribute('href');
+                        if (contentId && contentId.startsWith('#')) {
+                            const pane = tabContainer.querySelector(contentId);
+                            if (pane) {
+                                pane.classList.add('hidden');
+                            }
+                        }
+                    });
+
+                    tabLink.classList.add('active-tab');
+                    tabLink.classList.remove('text-gray-500', 'border-transparent', 'hover:border-gray-300', 'hover:text-gray-700');
+
+                    const targetContentId = tabLink.getAttribute('href');
+                    if (targetContentId) {
+                        const targetContent = tabContainer.querySelector(targetContentId);
+                        if (targetContent) {
+                            targetContent.classList.remove('hidden');
+                        }
+                    }
+
+                    return;
+                }
+
+                // XỬ LÝ MỞ POPUP TẠO ĐƠN
+                const createOrderBtn = target.closest('#create-order-btn');
+                if (createOrderBtn) {
+                    openModal('create-order-modal');
+                    return;
+                }
+
+                // XỬ LÝ MỞ POPUP XEM CHI TIẾT
+                const viewDetailLink = target.closest('.view-detail-link');
+                if (viewDetailLink) {
+                    event.preventDefault();
+                    const orderRow = viewDetailLink.closest('tr');
+                    if (orderRow) {
+                        const orderId = orderRow.dataset.orderId;
+                        const customerName = orderRow.dataset.customer;
+                        document.getElementById('detail-order-id').textContent = orderId || '';
+                        document.getElementById('detail-customer-name').textContent = customerName || '';
+                    }
+                    openModal('order-detail-modal');
+                    return;
+                }
+
+                // XỬ LÝ MỞ POPUP TẠO/SỬA NGÂN HÀNG
+                const bankModalTitle = document.getElementById('bank-modal-title');
+                const bankForm = document.getElementById('bank-account-form');
+
+                // Mở popup để THÊM MỚI
+                const addBankBtn = target.closest('#add-bank-account-btn');
+                if (addBankBtn) {
+                    bankModalTitle.textContent = 'Thêm tài khoản Ngân hàng mới';
+                    bankForm.reset(); // Xóa trắng form
+                    openModal('bank-account-modal');
+                    return;
+                }
+
+                // Mở popup để SỬA
+                const editBankLink = target.closest('.edit-bank-link');
+                if (editBankLink) {
+                    event.preventDefault();
+                    bankModalTitle.textContent = 'Chỉnh sửa tài khoản Ngân hàng';
+                    // Lấy dữ liệu từ data attributes và điền vào form
+                    const row = editBankLink.closest('tr');
+                    bankForm.elements['bank_name'].value = row.dataset.bankName;
+                    bankForm.elements['account_number'].value = row.dataset.accountNumber;
+                    bankForm.elements['account_name'].value = row.dataset.accountName;
+                    bankForm.elements['limit'].value = row.dataset.limit;
+                    bankForm.elements['status'].value = row.dataset.status;
+                    openModal('bank-account-modal');
+                    return;
+                }
+
+                // MỞ POPUP XEM CHI TIẾT KHÁCH HÀNG
+                const viewCustomerLink = target.closest('.view-customer-link');
+                if (viewCustomerLink) {
+                    event.preventDefault();
+                    const row = viewCustomerLink.closest('tr');
+                    document.getElementById('detail-customer-modal-name').textContent = row.dataset.customerName;
+                    openModal('customer-detail-modal');
+                    return;
+                }
+
+                // MỞ POPUP SỬA CHÍNH SÁCH
+                const editPolicyLink = target.closest('.edit-policy-link');
+                if (editPolicyLink) {
+                    event.preventDefault();
+                    const row = editPolicyLink.closest('tr');
+                    document.getElementById('policy-tier-name').textContent = row.dataset.tierName;
+                    openModal('tier-policy-modal');
+                    return;
+                }
+
+                // MỞ POPUP THÊM LOẠI KHÁCH HÀNG
+                const addTierBtn = target.closest('#add-tier-btn');
+                if (addTierBtn) {
+                    openModal('add-tier-modal');
+                    return;
+                }
+
+                // MỞ POPUP THÊM VAI TRÒ MỚI
+                const addRoleBtn = target.closest('#add-role-btn');
+                if (addRoleBtn) {
+                    openModal('add-role-modal');
+                    return;
+                }
+
+                // MỞ POPUP THÊM TÀI KHOẢN YAHOO
+                const addYahooBtn = target.closest('#add-yahoo-account-btn');
+                if (addYahooBtn) {
+                    openModal('add-yahoo-account-modal');
+                    return;
+                }
+
+                // MỞ POPUP CHI TIẾT PHIÊN ĐẤU GIÁ
+                const viewAuctionLink = target.closest('.view-auction-link');
+                if (viewAuctionLink) {
+                    event.preventDefault();
+                    openModal('auction-detail-modal');
+                    return;
+                }
+
+                // MỞ POPUP THÊM/SỬA LOẠI SẢN PHẨM
+                const productCategoryModal = document.getElementById('product-category-modal');
+                const productCategoryForm = document.getElementById('product-category-form');
+                const productCategoryModalTitle = document.getElementById('product-category-modal-title');
+
+                // Mở popup để THÊM MỚI
+                const addCategoryBtn = target.closest('#add-product-category-btn');
+                if (addCategoryBtn) {
+                    productCategoryModalTitle.textContent = 'Thêm Loại sản phẩm mới';
+                    productCategoryForm.reset();
+                    openModal('product-category-modal');
+                    return;
+                }
+
+                // Mở popup để SỬA
+                const editCategoryLink = target.closest('.edit-product-category-link');
+                if (editCategoryLink) {
+                    event.preventDefault();
+                    productCategoryModalTitle.textContent = 'Chỉnh sửa Loại sản phẩm';
+                    const row = editCategoryLink.closest('tr');
+                    // Điền dữ liệu vào form
+                    productCategoryForm.elements['category_name'].value = row.dataset.categoryName;
+                    productCategoryForm.elements['description'].value = row.dataset.description;
+                    productCategoryForm.elements['surcharge'].value = row.dataset.surcharge;
+                    openModal('product-category-modal');
+                    return;
+                }
+
+                // MỞ POPUP GÁN LOẠI SẢN PHẨM
+                const assignCategoryBtn = target.closest('.assign-category-btn');
+                if (assignCategoryBtn) {
+                    event.preventDefault();
+                    const orderId = assignCategoryBtn.closest('tr').dataset.orderId;
+                    document.getElementById('assign-category-order-id').textContent = orderId;
+                    openModal('assign-category-modal');
+                    return;
+                }
+
+
+                // --- XỬ LÝ CHO POPUP NHÂN VIÊN & VAI TRÒ ---
+                const staffModal = document.getElementById('staff-modal');
+                const staffForm = document.getElementById('staff-form');
+                const staffModalTitle = document.getElementById('staff-modal-title');
+
+                // Mở popup để THÊM MỚI NHÂN VIÊN
+                const addStaffBtn = target.closest('#add-staff-btn');
+                if (addStaffBtn) {
+                    staffModalTitle.textContent = 'Thêm Nhân viên mới';
+                    staffForm.reset();
+                    openModal('staff-modal');
+                    return;
+                }
+
+                // Mở popup để SỬA NHÂN VIÊN
+                const editStaffLink = target.closest('.edit-staff-link');
+                if (editStaffLink) {
+                    event.preventDefault();
+                    staffModalTitle.textContent = 'Chỉnh sửa Nhân viên';
+                    const row = editStaffLink.closest('tr');
+                    // Điền dữ liệu vào form
+                    staffForm.elements['staff_name'].value = row.dataset.staffName;
+                    staffForm.elements['staff_email'].value = row.dataset.staffEmail;
+                    // Reset all checkboxes before setting new ones
+                    staffForm.querySelectorAll('input[name="roles"]').forEach(checkbox => checkbox.checked = false);
+                    const roles = row.dataset.roles.split(',');
+                    roles.forEach(role => {
+                        const checkbox = staffForm.querySelector(`input[value="${role.trim()}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                    openModal('staff-modal');
+                    return;
+                }
+
+                // --- LOGIC MỚI CHO VIỆC CHỌN NHÂN VIÊN --- 
+                const staffCard = target.closest('.staff-card');
+                if (staffCard) {
+                    event.preventDefault();
+
+                    const staffListContainer = staffCard.closest('.staff-list-container');
+                    if (!staffListContainer) return;
+
+                    staffListContainer.querySelectorAll('.staff-card').forEach(card => {
+                        card.classList.remove('bg-blue-100', 'border-l-4', 'border-blue-500');
+                        card.classList.add('hover:bg-gray-100');
+                    });
+                    staffCard.classList.add('bg-blue-100', 'border-l-4', 'border-blue-500');
+                    staffCard.classList.remove('hover:bg-gray-100');
+
+                    const staffDetailContainer = document.querySelector('#staff-detail-container');
+                    if (staffDetailContainer) {
+                        const staffName = staffCard.dataset.staffName;
+                        staffDetailContainer.querySelector('#staff-detail-name').textContent = staffName;
+
+                        const detailTabContainer = staffDetailContainer.querySelector('.tab-container');
+                        if (detailTabContainer) {
+                            const allTabs = detailTabContainer.querySelectorAll('.tab-link');
+                            const allContents = detailTabContainer.querySelectorAll('.tab-content');
+
+                            allTabs.forEach(tab => tab.classList.remove('active-tab'));
+                            allContents.forEach(content => content.classList.add('hidden'));
+
+                            const firstTab = detailTabContainer.querySelector('.tab-link');
+                            if (firstTab) {
+                                firstTab.classList.add('active-tab');
+                                const firstContentId = firstTab.getAttribute('href').substring(1);
+                                const firstContent = detailTabContainer.querySelector(`#${firstContentId}`);
+                                if (firstContent) firstContent.classList.remove('hidden');
+                            }
+                        }
+                    }
+                    return;
+                }
+            });
+
+            // Tải trang mặc định
+            const defaultLink = document.querySelector('#main-nav .active-nav');
+            if (defaultLink) {
+                loadContent(defaultLink.getAttribute('href'), defaultLink.getAttribute('data-title'));
+            }
+        });
+    </script>
+</body>
+
+</html>

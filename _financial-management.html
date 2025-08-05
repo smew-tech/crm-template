@@ -1,0 +1,125 @@
+<div class="tab-container">
+    <div class="border-b border-gray-200 mb-6">
+        <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+            <a href="#deposits" class="tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-tab">
+                <i class="fas fa-arrow-down mr-2"></i> Lệnh nạp tiền
+            </a>
+            <a href="#withdrawals" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <i class="fas fa-arrow-up mr-2"></i> Yêu cầu rút tiền
+            </a>
+            <a href="#bank-settings" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <i class="fas fa-university mr-2"></i> Cài đặt Ngân hàng
+            </a>
+            <a href="#debt" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <i class="fas fa-file-invoice-dollar mr-2"></i> Công nợ & Đối soát
+            </a>
+        </nav>
+    </div>
+
+    <div id="deposits" class="tab-content">
+        <div class="bg-white rounded-lg shadow-md">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Duyệt Giao dịch Nạp tiền</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <input type="text" placeholder="Mã lệnh, Mã KH..." class="w-full px-3 py-2 border rounded-lg">
+                    <select class="w-full px-3 py-2 border rounded-lg"><option>-- Trạng thái --</option><option>Chờ xác nhận</option><option>Đã xác nhận</option><option>Đã hủy</option></select>
+                    <input type="date" class="w-full px-3 py-2 border rounded-lg text-gray-500">
+                    <button class="w-full bg-gray-700 text-white font-bold rounded-lg"><i class="fas fa-filter mr-2"></i>Lọc</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-100 text-left"><tr><th class="p-3 font-semibold">Mã Lệnh</th><th class="p-3 font-semibold">Khách hàng</th><th class="p-3 font-semibold text-right">Số tiền (VND)</th><th class="p-3 font-semibold">Thời gian tạo</th><th class="p-3 font-semibold text-center">Trạng thái</th><th class="p-3 font-semibold text-center">Hành động</th></tr></thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-3 font-medium">N-0805-1</td><td class="p-3">Nguyễn Văn A</td><td class="p-3 text-right">5,000,000</td><td class="p-3">05/08/2025 14:15</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
+                                <td class="p-3 text-center space-x-2"><button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs rounded">Xác nhận</button><button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Hủy</button></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-medium">N-0805-2</td><td class="p-3">Trần Thị B</td><td class="p-3 text-right">10,000,000</td><td class="p-3">05/08/2025 11:30</td>
+                                <td class="p-3 text-center"><span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Đã xác nhận</span></td>
+                                <td class="p-3 text-center text-gray-400">N/A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="withdrawals" class="tab-content hidden">
+         <div class="bg-white rounded-lg shadow-md"><div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Xử lý Giao dịch Rút tiền</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-100 text-left"><tr><th class="p-3 font-semibold">Mã Yêu cầu</th><th class="p-3 font-semibold">Khách hàng</th><th class="p-3 font-semibold text-right">Số tiền (VND)</th><th class="p-3 font-semibold">Tài khoản nhận</th><th class="p-3 font-semibold text-center">Trạng thái</th><th class="p-3 font-semibold text-center">Hành động</th></tr></thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="p-3 font-medium">R-0805-1</td><td class="p-3">Lê Văn C</td><td class="p-3 text-right">2,500,000</td><td class="p-3">VCB - 0123456789</td>
+                            <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ xử lý</span></td>
+                            <td class="p-3 text-center space-x-2"><button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 text-xs rounded">Đã chuyển</button><button class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 text-xs rounded">Từ chối</button></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-medium">R-0804-5</td><td class="p-3">Phạm Thị D</td><td class="p-3 text-right">1,000,000</td><td class="p-3">ACB - 9876543210</td>
+                            <td class="p-3 text-center"><span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Thành công</span></td>
+                            <td class="p-3 text-center text-gray-400">N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div></div>
+    </div>
+
+    <div id="bank-settings" class="tab-content hidden">
+        <div class="bg-white rounded-lg shadow-md"><div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Cài đặt Tài khoản Ngân hàng Công ty</h3>
+                <button id="add-bank-account-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm"><i class="fas fa-plus mr-2"></i>Thêm tài khoản</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-100 text-left"><tr><th class="p-3 font-semibold">Ngân hàng</th><th class="p-3 font-semibold">Số tài khoản</th><th class="p-3 font-semibold">Chủ tài khoản</th><th class="p-3 font-semibold text-right">Hạn mức/ngày (VND)</th><th class="p-3 font-semibold text-center">Trạng thái</th><th class="p-3 font-semibold text-center">Hành động</th></tr></thead>
+                    <tbody class="divide-y divide-gray-200">
+                         <tr data-bank-name="Vietcombank" data-account-number="0123456789" data-account-name="CTY TNHH ORDER SYSTEM" data-limit="500000000" data-status="active">
+                            <td class="p-3">Vietcombank</td><td class="p-3 font-mono">0123456789</td><td class="p-3">CTY TNHH ORDER SYSTEM</td><td class="p-3 text-right">500,000,000</td>
+                            <td class="p-3 text-center"><span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt động</span></td>
+                            <td class="p-3 text-center space-x-2"><a href="#" class="edit-bank-link text-indigo-600 hover:underline">Sửa</a> | <a href="#" class="text-red-600 hover:underline">Xóa</a></td>
+                         </tr>
+                         <tr data-bank-name="Techcombank" data-account-number="9876543210" data-account-name="CTY TNHH ORDER SYSTEM" data-limit="500000000" data-status="paused">
+                            <td class="p-3">Techcombank</td><td class="p-3 font-mono">9876543210</td><td class="p-3">CTY TNHH ORDER SYSTEM</td><td class="p-3 text-right">500,000,000</td>
+                            <td class="p-3 text-center"><span class="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded-full font-medium">Tạm dừng</span></td>
+                            <td class="p-3 text-center space-x-2"><a href="#" class="edit-bank-link text-indigo-600 hover:underline">Sửa</a> | <a href="#" class="text-red-600 hover:underline">Xóa</a></td>
+                         </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div></div>
+    </div>
+    
+    <div id="debt" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-md"><div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Quản lý Công nợ</h3>
+                <input type="text" placeholder="Tìm kiếm khách hàng..." class="w-full px-3 py-2 border rounded-lg mb-4">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100 text-left"><tr><th class="p-2 font-semibold">Khách hàng</th><th class="p-2 font-semibold text-right">Công nợ (VND)</th><th class="p-2 font-semibold text-center">Hành động</th></tr></thead>
+                        <tbody class="divide-y">
+                            <tr><td class="p-2">Nguyễn Văn A</td><td class="p-2 text-right font-bold text-red-500">6,100,000</td><td class="p-2 text-center"><a href="#" class="text-indigo-600 text-xs hover:underline">Xem chi tiết</a></td></tr>
+                            <tr><td class="p-2">Vũ Anh Dũng</td><td class="p-2 text-right font-bold text-red-500">12,500,000</td><td class="p-2 text-center"><a href="#" class="text-indigo-600 text-xs hover:underline">Xem chi tiết</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div></div>
+            <div class="bg-white rounded-lg shadow-md"><div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Đối soát Ngân hàng</h3>
+                <p class="text-sm text-gray-600 mb-4">Tải lên file sao kê (.xlsx, .csv) để hệ thống gợi ý các giao dịch khớp với lệnh nạp tiền.</p>
+                <label for="statement-upload" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center cursor-pointer">
+                    <i class="fas fa-upload mr-2"></i>
+                    <span>Tải lên Sao kê</span>
+                </label>
+                <input type="file" id="statement-upload" class="hidden">
+            </div></div>
+        </div>
+    </div>
+</div>

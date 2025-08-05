@@ -1,0 +1,40 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+     <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-800">Quản lý Phí Dịch vụ Mặc định</h2>
+        <a href="#" data-target-page="_settings.html" data-target-title="Cài đặt Hệ thống" class="nav-link text-sm text-blue-600 font-semibold"><i class="fas fa-arrow-left mr-2"></i>Quay lại Cài đặt</a>
+    </div>
+    
+    <p class="text-sm text-gray-600 mb-6">
+        Đây là các mức phí mặc định áp dụng cho toàn bộ hệ thống. Các cài đặt này có thể được ghi đè bởi "Chính sách Phân loại Khách hàng" hoặc "Cài đặt Phí riêng" cho từng người dùng.
+    </p>
+
+    <div class="space-y-6">
+        <div>
+            <h3 class="font-semibold border-b pb-2 mb-2">Phí Mua hộ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div><label class="block text-gray-600">Phí theo % giá trị đơn hàng</label><input type="number" value="5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                <div><label class="block text-gray-600">Phí cố định tối thiểu (VND)</label><input type="number" value="50000" class="mt-1 w-full p-2 border rounded-lg"></div>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="font-semibold border-b pb-2 mb-2">Phí Vận chuyển Nội địa (COD)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div><label class="block text-gray-600">Phí tại Mỹ (USD)</label><input type="number" value="5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                <div><label class="block text-gray-600">Phí tại Nhật (JPY)</label><input type="number" value="500" class="mt-1 w-full p-2 border rounded-lg"></div>
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="font-semibold border-b pb-2 mb-2">Các loại Phí khác</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div><label class="block text-gray-600">Phí thanh toán (%)</label><input type="number" value="1" class="mt-1 w-full p-2 border rounded-lg"></div>
+                <div><label class="block text-gray-600">Phí hủy đơn (VND)</label><input type="number" value="100000" class="mt-1 w-full p-2 border rounded-lg"></div>
+            </div>
+        </div>
+
+        <div class="text-right border-t pt-4 mt-6">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm">Lưu tất cả thay đổi</button>
+        </div>
+    </div>
+</div>
