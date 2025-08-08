@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Đấu giá - eShopGlobal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-item.active {
+            background-color: #f0f5ff;
+            color: #2563eb;
+            font-weight: 600;
+            border-left: 4px solid #2563eb;
+        }
+
+        .auction-tab-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .auction-tab-item.active {
+            color: #2563eb;
+            font-weight: 600;
+            border-bottom-color: #2563eb;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-white shadow-lg flex flex-col shrink-0">
+            <div class="p-4 border-b border-gray-200"><a href="#" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i
+                            class="fas fa-globe-asia"></i></div>
+                    <h1 class="text-xl font-bold text-gray-800">eShopGlobal</h1>
+                </a></div>
+            <nav class="flex-1 p-2 mt-2">
+                <a href="./_client-dashboard.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span>
+                </a>
+                <a href="./_client-account.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span>
+                </a>
+                <a href="./_client-wallet.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span>
+                </a>
+                <a href="./_client-order.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span>
+                </a>
+                <a href="./_client-auction.html"
+                    class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-gray-200"><a href="#"
+                    class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i
+                        class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng
+                        xuất</span></a></div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-3">
+                    <h2 class="text-xl font-semibold text-gray-800">Các phiên đấu giá</h2>
+                    <div class="w-1/2">
+                        <div class="relative"><i
+                                class="fas fa-paste absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i><input
+                                type="text" placeholder="Dán link sản phẩm từ Yahoo! Auctions để bắt đầu..."
+                                class="w-full border-gray-300 rounded-lg shadow-sm pl-9 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
+                <div class="bg-white rounded-t-lg shadow-md">
+                    <nav class="flex flex-wrap border-b">
+                        <button class="auction-tab-item active">Đang tham gia</button>
+                        <button class="auction-tab-item">Đã thắng</button>
+                        <button class="auction-tab-item">Đã thua</button>
+                    </nav>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <div class="bg-white rounded-lg shadow-md p-4 flex items-center gap-4">
+                        <img src="https://wing-auctions.c.yimg.jp/sim?furl=auctions.c.yimg.jp/images.auctions.yahoo.co.jp/image/dr000/auc0511/users/0/8/6/3/takataka18sei-img1200x900-1699014168w2hxnj19495.jpg&dc=1&sr.fs=20000"
+                            class="w-24 h-24 object-contain rounded-md border p-1 shrink-0">
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800 line-clamp-2">【美品】初代 Apple Watch 42mm アップルウォッチ</p>
+                            <p class="text-sm text-gray-500">Người bán: takataka18sei (Đánh giá: 521)</p>
+                            <div class="mt-2 flex items-center gap-2 text-sm"><img
+                                    src="https://s.yimg.jp/images/auct/front/images/logo_yauc.png"
+                                    class="h-4"><span>Yahoo! Auctions</span></div>
+                        </div>
+                        <div class="w-48 text-center shrink-0">
+                            <p class="text-sm text-gray-500">Giá hiện tại</p>
+                            <p class="font-bold text-xl text-gray-800">15,500 円</p>
+                            <p class="text-sm text-green-600 font-semibold mt-1">Giá của bạn: 15,500 円</p>
+                        </div>
+                        <div class="w-48 text-center shrink-0">
+                            <p class="text-sm text-gray-500">Thời gian còn lại</p>
+                            <p class="font-bold text-xl text-red-600">01:25:40</p>
+                            <span
+                                class="mt-1 bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Đang
+                                dẫn đầu</span>
+                        </div>
+                        <div class="w-32 text-center shrink-0">
+                            <a href="./_client-auction-detail.html"
+                                class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 w-full inline-block">Đặt
+                                giá</a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-4 flex items-center gap-4">
+                        <img src="https://wing-auctions.c.yimg.jp/sim?furl=auctions.c.yimg.jp/images.auctions.yahoo.co.jp/image/dr000/auc0408/users/8/4/6/4/yoshi_naka_01-img1200x1200-1692193436s0y3y02840.jpg&dc=1&sr.fs=20000"
+                            class="w-24 h-24 object-contain rounded-md border p-1 shrink-0">
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800 line-clamp-2">G-SHOCK Gショック　電波ソーラー</p>
+                            <p class="text-sm text-gray-500">Người bán: yoshi_naka_01 (Đánh giá: 102)</p>
+                            <div class="mt-2 flex items-center gap-2 text-sm"><img
+                                    src="https://s.yimg.jp/images/auct/front/images/logo_yauc.png"
+                                    class="h-4"><span>Yahoo! Auctions</span></div>
+                        </div>
+                        <div class="w-48 text-center shrink-0">
+                            <p class="text-sm text-gray-500">Giá hiện tại</p>
+                            <p class="font-bold text-xl text-gray-800">22,000 円</p>
+                            <p class="text-sm text-gray-500 mt-1">Giá của bạn: 21,500 円</p>
+                        </div>
+                        <div class="w-48 text-center shrink-0">
+                            <p class="text-sm text-gray-500">Thời gian còn lại</p>
+                            <p class="font-bold text-xl text-red-600">00:05:12</p>
+                            <span class="mt-1 bg-red-100 text-red-800 font-medium px-3 py-1 rounded-full text-sm">Bị
+                                vượt qua</span>
+                        </div>
+                        <div class="w-32 text-center shrink-0">
+                            <a href="./_client-auction-detail.html"
+                                class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 w-full inline-block">Đặt
+                                lại</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
