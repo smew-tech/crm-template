@@ -37,20 +37,41 @@
         <aside class="w-64 bg-white shadow-lg flex flex-col shrink-0">
             <div class="p-4 border-b border-gray-200">
                 <a href="#" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-globe-asia"></i></div>
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i
+                            class="fas fa-globe-asia"></i></div>
                     <h1 class="text-xl font-bold text-gray-800">eShopGlobal</h1>
                 </a>
             </div>
             <nav class="flex-1 p-2 mt-2">
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span></a>
-                <a href="#" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span></a>
+                <a href="./_client-dashboard.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span>
+                </a>
+                <a href="./_client-account.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span>
+                </a>
+                <a href="./_client-wallet.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span>
+                </a>
+                <a href="./_client-order.html"
+                    class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span>
+                </a>
+                <a href="./_client-store.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span>
+                </a>
+                <a href="./_client-auction.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span>
+                </a>
             </nav>
             <div class="p-4 border-t border-gray-200">
-                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng xuất</span></a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i
+                        class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng
+                        xuất</span></a>
             </div>
         </aside>
 
@@ -58,7 +79,9 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <h2 class="text-xl font-semibold text-gray-800">Đơn hàng của tôi</h2>
-                    <a href="./_client-create-order.html" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Tạo đơn hàng mới</a>
+                    <a href="./_client-create-order.html"
+                        class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700"><i
+                            class="fas fa-plus mr-2"></i>Tạo đơn hàng mới</a>
                 </div>
             </header>
 
@@ -78,33 +101,52 @@
                     <!-- Card: Chờ đặt cọc -->
                     <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="pending-payment">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div><p class="font-bold text-blue-600">Mã đơn: #OD88888</p><p class="text-sm text-gray-500">Ngày tạo: 08/08/2025</p></div>
-                            <span class="bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm">Chờ đặt cọc</span>
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88888</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 08/08/2025</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm">Chờ
+                                đặt cọc</span>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/81umrFEhL2L._AC_UY218_.jpg" class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow"><p class="font-semibold text-gray-800">LEGO Icons Succulents 10309, Artificial Plants Set</p></div>
+                            <img src="https://m.media-amazon.com/images/I/81umrFEhL2L._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">LEGO Icons Succulents 10309, Artificial Plants
+                                    Set</p>
+                            </div>
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tiền cọc</p>
                                 <p class="font-bold text-lg text-red-600">1,200,000 ₫</p>
-                                <a href="#" class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Thanh toán ngay <i class="fas fa-wallet ml-1"></i></a>
+                                <a href="#"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Thanh
+                                    toán ngay <i class="fas fa-wallet ml-1"></i></a>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Card: Đang mua hàng -->
                     <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="processing">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div><p class="font-bold text-blue-600">Mã đơn: #OD99001</p><p class="text-sm text-gray-500">Ngày tạo: 07/08/2025</p></div>
-                            <span class="bg-orange-100 text-orange-800 font-medium px-3 py-1 rounded-full text-sm">Đang mua hàng</span>
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD99001</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 07/08/2025</p>
+                            </div>
+                            <span class="bg-orange-100 text-orange-800 font-medium px-3 py-1 rounded-full text-sm">Đang
+                                mua hàng</span>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/61SUj2aKoCL._AC_UY218_.jpg" class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow"><p class="font-semibold text-gray-800">Anker 313 Wireless Charger (Stand)</p></div>
+                            <img src="https://m.media-amazon.com/images/I/61SUj2aKoCL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Anker 313 Wireless Charger (Stand)</p>
+                            </div>
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tổng tiền</p>
                                 <p class="font-bold text-lg">850,000 ₫</p>
-                                <a href="./_client-order-detail.html" class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>
@@ -112,19 +154,27 @@
                     <!-- Card: Đang vận chuyển -->
                     <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="shipping">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div><p class="font-bold text-blue-600">Mã đơn: #OD54321</p><p class="text-sm text-gray-500">Ngày tạo: 01/08/2025</p></div>
-                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đang vận chuyển</span>
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD54321</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 01/08/2025</p>
+                            </div>
+                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đang vận
+                                chuyển</span>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg" class="w-16 h-16 object-contain rounded-md border p-1">
+                            <img src="https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
                             <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">Kindle Paperwhite (16 GB) - Now with a 6.8" display...</p>
+                                <p class="font-semibold text-gray-800">Kindle Paperwhite (16 GB) - Now with a 6.8"
+                                    display...</p>
                                 <p class="text-sm text-gray-500">+ 2 sản phẩm khác</p>
                             </div>
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tổng tiền</p>
                                 <p class="font-bold text-lg">5,450,000 ₫</p>
-                                <a href="./_client-order-detail.html" class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>
@@ -132,16 +182,26 @@
                     <!-- Card: Hoàn thành -->
                     <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="completed">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div><p class="font-bold text-blue-600">Mã đơn: #OD12345</p><p class="text-sm text-gray-500">Ngày tạo: 15/07/2025</p></div>
-                            <span class="bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Hoàn thành</span>
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD12345</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 15/07/2025</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Hoàn
+                                thành</span>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71L5lsw6KcL._AC_UY218_.jpg" class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow"><p class="font-semibold text-gray-800">Sony WH-1000XM5 Wireless Industry Leading Headphones</p></div>
+                            <img src="https://m.media-amazon.com/images/I/71L5lsw6KcL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Sony WH-1000XM5 Wireless Industry Leading
+                                    Headphones</p>
+                            </div>
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tổng tiền</p>
                                 <p class="font-bold text-lg">8,990,000 ₫</p>
-                                <a href="./_client-order-detail.html" class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>
@@ -149,16 +209,25 @@
                     <!-- Card: Đã hủy -->
                     <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="cancelled">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div><p class="font-bold text-blue-600">Mã đơn: #OD99002</p><p class="text-sm text-gray-500">Ngày tạo: 06/08/2025</p></div>
-                            <span class="bg-gray-200 text-gray-800 font-medium px-3 py-1 rounded-full text-sm">Đã hủy</span>
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD99002</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 06/08/2025</p>
+                            </div>
+                            <span class="bg-gray-200 text-gray-800 font-medium px-3 py-1 rounded-full text-sm">Đã
+                                hủy</span>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71p-M3sPhhL._AC_UY218_.jpg" class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow"><p class="font-semibold text-gray-800">Logitech MX Master 3S Mouse</p></div>
+                            <img src="https://m.media-amazon.com/images/I/71p-M3sPhhL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Logitech MX Master 3S Mouse</p>
+                            </div>
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tổng tiền</p>
                                 <p class="font-bold text-lg">2,150,000 ₫</p>
-                                <a href="./_client-order-detail.html" class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>
@@ -193,4 +262,5 @@
         });
     </script>
 </body>
+
 </html>

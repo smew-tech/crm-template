@@ -14,12 +14,14 @@
             font-weight: 600;
             border-left: 4px solid #2563eb;
         }
+
         .site-tab {
             padding: 6px 12px;
             border: 1px solid #d1d5db;
             color: #4b5563;
             cursor: pointer;
         }
+
         .site-tab.active {
             background-color: #3b82f6;
             color: white;
@@ -34,20 +36,41 @@
         <aside class="w-64 bg-white shadow-lg flex flex-col shrink-0">
             <div class="p-4 border-b border-gray-200">
                 <a href="#" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-globe-asia"></i></div>
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i
+                            class="fas fa-globe-asia"></i></div>
                     <h1 class="text-xl font-bold text-gray-800">eShopGlobal</h1>
                 </a>
             </div>
             <nav class="flex-1 p-2 mt-2">
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span></a>
-                <a href="#" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span></a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span></a>
+                <a href="./_client-dashboard.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span>
+                </a>
+                <a href="./_client-account.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span>
+                </a>
+                <a href="./_client-wallet.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span>
+                </a>
+                <a href="./_client-order.html"
+                    class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span>
+                </a>
+                <a href="./_client-store.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span>
+                </a>
+                <a href="./_client-auction.html"
+                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
+                    <i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span>
+                </a>
             </nav>
             <div class="p-4 border-t border-gray-200">
-                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng xuất</span></a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i
+                        class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng
+                        xuất</span></a>
             </div>
         </aside>
 
@@ -56,7 +79,8 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center gap-4">
-                        <a href="./_client-order.html" class="text-gray-500 hover:text-blue-600"><i class="fas fa-arrow-left mr-2"></i> Quay lại danh sách</a>
+                        <a href="./_client-order.html" class="text-gray-500 hover:text-blue-600"><i
+                                class="fas fa-arrow-left mr-2"></i> Quay lại danh sách</a>
                         <h2 class="text-xl font-semibold text-gray-800">Tạo đơn hàng mua hộ</h2>
                     </div>
                 </div>
@@ -80,31 +104,42 @@
                                 <div class="product-form-block border rounded-lg p-4">
                                     <div class="flex justify-between items-center mb-4">
                                         <label class="font-semibold text-gray-700">Link sản phẩm #1</label>
-                                        <button class="remove-item-btn text-red-500 hover:text-red-700 hidden"><i class="fas fa-trash"></i></button>
+                                        <button class="remove-item-btn text-red-500 hover:text-red-700 hidden"><i
+                                                class="fas fa-trash"></i></button>
                                     </div>
-                                    <input type="text" placeholder="Dán link sản phẩm vào đây..." class="w-full border-gray-300 rounded-md shadow-sm mb-4">
-                                    
-                                    <label class="block text-sm font-medium text-gray-700">Tên sản phẩm <span class="text-red-500">*</span></label>
+                                    <input type="text" placeholder="Dán link sản phẩm vào đây..."
+                                        class="w-full border-gray-300 rounded-md shadow-sm mb-4">
+
+                                    <label class="block text-sm font-medium text-gray-700">Tên sản phẩm <span
+                                            class="text-red-500">*</span></label>
                                     <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
 
                                     <div class="grid grid-cols-3 gap-4 mt-4">
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700">Số lượng <span class="text-red-500">*</span></label>
-                                            <input type="number" value="1" class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                            <label class="block text-sm font-medium text-gray-700">Số lượng <span
+                                                    class="text-red-500">*</span></label>
+                                            <input type="number" value="1"
+                                                class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700">Đơn giá (¥) <span class="text-red-500">*</span></label>
-                                            <input type="number" value="0" class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                            <label class="block text-sm font-medium text-gray-700">Đơn giá (¥) <span
+                                                    class="text-red-500">*</span></label>
+                                            <input type="number" value="0"
+                                                class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700">Phụ phí (¥) <span class="text-red-500">*</span></label>
-                                            <input type="number" value="0" class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                            <label class="block text-sm font-medium text-gray-700">Phụ phí (¥) <span
+                                                    class="text-red-500">*</span></label>
+                                            <input type="number" value="0"
+                                                class="order-calc-input mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                         </div>
                                     </div>
 
                                     <div class="mt-4">
-                                        <label class="block text-sm font-medium text-gray-700">Ghi chú (màu sắc, size,...)</label>
-                                        <textarea rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+                                        <label class="block text-sm font-medium text-gray-700">Ghi chú (màu sắc,
+                                            size,...)</label>
+                                        <textarea rows="2"
+                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -117,17 +152,27 @@
                                 <div class="space-y-3 text-sm">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Danh mục</label>
-                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"><option>Thời trang</option><option>Điện tử</option><option>Gia dụng</option></select>
+                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                            <option>Thời trang</option>
+                                            <option>Điện tử</option>
+                                            <option>Gia dụng</option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Tỷ giá (JPY-VND)</label>
-                                        <input type="text" value="165" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200" readonly>
+                                        <input type="text" value="165"
+                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200"
+                                            readonly>
                                     </div>
                                     <div class="border-t pt-3 space-y-2">
-                                        <div class="flex justify-between"><span class="text-gray-600">Tổng tiền hàng (JPY):</span><span id="total-jpy" class="font-semibold">¥0</span></div>
-                                        <div class="flex justify-between"><span class="text-gray-600">Tổng tiền hàng (VND):</span><span id="total-vnd" class="font-semibold">0₫</span></div>
-                                        <div class="flex justify-between"><span class="text-gray-600">Phí mua hộ (4%):</span><span id="service-fee" class="font-semibold">0₫</span></div>
-                                        <div class="flex justify-between text-base font-bold text-blue-600"><span >Thanh toán trước (50%):</span><span id="prepayment">0₫</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-600">Tổng tiền hàng
+                                                (JPY):</span><span id="total-jpy" class="font-semibold">¥0</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-600">Tổng tiền hàng
+                                                (VND):</span><span id="total-vnd" class="font-semibold">0₫</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-600">Phí mua hộ
+                                                (4%):</span><span id="service-fee" class="font-semibold">0₫</span></div>
+                                        <div class="flex justify-between text-base font-bold text-blue-600"><span>Thanh
+                                                toán trước (50%):</span><span id="prepayment">0₫</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -136,19 +181,28 @@
 
                     <!-- Action Buttons -->
                     <div class="border-t mt-6 pt-4 flex items-center space-x-3">
-                        <button id="add-item-btn" class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i class="fas fa-plus mr-2"></i>Thêm link</button>
-                        <button class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i class="fas fa-file-excel mr-2"></i>Nhập từ Excel</button>
-                        <button class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i class="fas fa-download mr-2"></i>Tải file mẫu</button>
+                        <button id="add-item-btn"
+                            class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i
+                                class="fas fa-plus mr-2"></i>Thêm link</button>
+                        <button
+                            class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i
+                                class="fas fa-file-excel mr-2"></i>Nhập từ Excel</button>
+                        <button
+                            class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"><i
+                                class="fas fa-download mr-2"></i>Tải file mẫu</button>
                         <div class="flex-grow"></div>
-                        <button class="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700"><i class="fas fa-paper-plane mr-2"></i>Gửi đơn hàng</button>
+                        <button
+                            class="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700"><i
+                                class="fas fa-paper-plane mr-2"></i>Gửi đơn hàng</button>
                     </div>
                 </div>
             </main>
         </div>
     </div>
-    
+
     <script>
         // Script for adding new items and calculating summary
     </script>
 </body>
+
 </html>
