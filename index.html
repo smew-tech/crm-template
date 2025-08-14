@@ -39,6 +39,50 @@
         .modal-content {
             transition: transform 0.3s ease;
         }
+
+        /* CÀI ĐẶT CHO DROPDOWN */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none; /* Mặc định ẩn đi */
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 50;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Class .show sẽ được thêm/xóa bằng JavaScript để hiển thị/ẩn dropdown */
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #374151;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f3f4f6;
+        }
+        .dropdown-content a i {
+            margin-right: 12px;
+            width: 16px;
+            text-align: center;
+            color: #6b7280;
+        }
     </style>
 </head>
 
@@ -86,15 +130,58 @@
             <header
                 class="sticky top-0 bg-white/80 backdrop-blur-sm z-20 flex justify-between items-center p-6 border-b">
                 <h1 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h1>
-                <div class="relative"><button class="flex items-center space-x-2">
+
+                <div class="dropdown">
+                    <button id="profile-btn" class="flex items-center space-x-2 cursor-pointer">
                         <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
                             <i class="fas fa-user"></i>
                         </div>
-                    </button></div>
+                    </button>
+                    <div id="profile-dropdown" class="dropdown-content">
+                        <a href="#" class="nav-link" data-target-page="_my-profile.html" data-target-title="My Profile">
+                            <i class="fas fa-user-circle"></i>My Profile
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-sign-out-alt"></i>Logout
+                        </a>
+                    </div>
+                </div>
             </header>
 
             <main id="page-content-area" class="p-6">
             </main>
+        </div>
+    </div>
+
+    <!-- rejection-reason -->
+    <div id="rejection-reason-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <form id="rejection-reason-form">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 id="rejection-modal-title" class="text-xl font-bold">Lý do Hủy/Từ chối</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-sm">Vui lòng nhập lý do <span id="rejection-action-text"></span> cho giao dịch
+                        <strong id="rejection-transaction-id" class="text-blue-600"></strong>.
+                    </p>
+                    <div>
+                        <label for="rejection_reason" class="block text-sm font-medium text-gray-700">Lý do</label>
+                        <textarea id="rejection_reason" name="rejection_reason" rows="4" required
+                            class="mt-1 w-full p-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="VD: Thông tin chuyển khoản không khớp..."></textarea>
+                    </div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy
+                        bỏ</button>
+                    <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Xác nhận</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -245,6 +332,48 @@
                         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Phân quyền Quản lý -->
+    <div id="assign-permission-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 id="permission-modal-title" class="text-xl font-bold">Phân quyền Quản lý</h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 text-left">
+                <p class="text-sm text-gray-600 mb-4">Chọn các Admin được phép quản lý tài chính cho tài khoản <strong
+                        id="permission-modal-bank-info" class="font-mono text-blue-700"></strong>.</p>
+                <div class="space-y-3 max-h-60 overflow-y-auto p-2 border rounded-md bg-gray-50">
+                    <label class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-gray-800">admin@yourcompany.com (Super Admin)</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                            checked>
+                        <span class="text-gray-800">ketoan.1@yourcompany.com</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-gray-800">ketoan.2@yourcompany.com</span>
+                    </label>
+                    <label class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                            checked>
+                        <span class="text-gray-800">quanly.td@yourcompany.com</span>
+                    </label>
+                </div>
+            </div>
+            <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                <button
+                    class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy</button>
+                <button id="save-permissions-btn"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Lưu thay
+                    đổi</button>
+            </div>
         </div>
     </div>
 
@@ -782,6 +911,24 @@
                 });
             });
 
+            // --- LOGIC CHO PROFILE DROPDOWN ---
+            const profileBtn = document.getElementById('profile-btn');
+            const profileDropdown = document.getElementById('profile-dropdown');
+
+            profileBtn.addEventListener('click', function (event) {
+                event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+                profileDropdown.classList.toggle('show');
+            });
+
+            // Đóng dropdown khi click ra ngoài
+            window.addEventListener('click', function (event) {
+                if (!profileBtn.contains(event.target)) {
+                    if (profileDropdown.classList.contains('show')) {
+                        profileDropdown.classList.remove('show');
+                    }
+                }
+            });
+
             // --- SỬ DỤNG EVENT DELEGATION CHO TẤT CẢ HÀNH ĐỘNG BÊN TRONG CONTENT ---
             document.addEventListener('click', function (event) {
                 const target = event.target;
@@ -887,6 +1034,46 @@
                     bankForm.elements['limit'].value = row.dataset.limit;
                     bankForm.elements['status'].value = row.dataset.status;
                     openModal('bank-account-modal');
+                    return;
+                }
+
+                const assignPermissionLink = target.closest('.assign-permission-link');
+                if (assignPermissionLink) {
+                    event.preventDefault();
+                    const row = assignPermissionLink.closest('tr');
+                    const bankName = row.dataset.bankName;
+                    const accountNumber = row.dataset.accountNumber;
+
+                    document.getElementById('permission-modal-bank-info').textContent = `${bankName} - ${accountNumber}`;
+                    openModal('assign-permission-modal');
+                    return;
+                }
+
+                // XỬ LÝ MỞ DIALOG NHẬP LÝ DO KHI HỦY LỆNH NẠP TIỀN
+                const cancelDepositBtn = target.closest('.cancel-deposit-btn');
+                if (cancelDepositBtn) {
+                    event.preventDefault();
+                    const transactionId = cancelDepositBtn.closest('tr').dataset.transactionId;
+
+                    document.getElementById('rejection-action-text').textContent = 'hủy';
+                    document.getElementById('rejection-transaction-id').textContent = transactionId;
+                    document.getElementById('rejection-reason-form').reset();
+
+                    openModal('rejection-reason-modal');
+                    return;
+                }
+
+                // XỬ LÝ MỞ DIALOG NHẬP LÝ DO KHI TỪ CHỐI LỆNH RÚT TIỀN
+                const rejectWithdrawalBtn = target.closest('.reject-withdrawal-btn');
+                if (rejectWithdrawalBtn) {
+                    event.preventDefault();
+                    const transactionId = rejectWithdrawalBtn.closest('tr').dataset.transactionId;
+
+                    document.getElementById('rejection-action-text').textContent = 'từ chối';
+                    document.getElementById('rejection-transaction-id').textContent = transactionId;
+                    document.getElementById('rejection-reason-form').reset();
+
+                    openModal('rejection-reason-modal');
                     return;
                 }
 

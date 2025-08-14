@@ -30,10 +30,13 @@
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-100 text-left"><tr><th class="p-3 font-semibold">Mã Lệnh</th><th class="p-3 font-semibold">Khách hàng</th><th class="p-3 font-semibold text-right">Số tiền (VND)</th><th class="p-3 font-semibold">Thời gian tạo</th><th class="p-3 font-semibold text-center">Trạng thái</th><th class="p-3 font-semibold text-center">Hành động</th></tr></thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr>
+                            <tr data-transaction-id="N-0805-1">
                                 <td class="p-3 font-medium">N-0805-1</td><td class="p-3">Nguyễn Văn A</td><td class="p-3 text-right">5,000,000</td><td class="p-3">05/08/2025 14:15</td>
                                 <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
-                                <td class="p-3 text-center space-x-2"><button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs rounded">Xác nhận</button><button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Hủy</button></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs rounded">Xác nhận</button>
+                                    <button class="cancel-deposit-btn bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Hủy</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="p-3 font-medium">N-0805-2</td><td class="p-3">Trần Thị B</td><td class="p-3 text-right">10,000,000</td><td class="p-3">05/08/2025 11:30</td>
@@ -54,10 +57,13 @@
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-100 text-left"><tr><th class="p-3 font-semibold">Mã Yêu cầu</th><th class="p-3 font-semibold">Khách hàng</th><th class="p-3 font-semibold text-right">Số tiền (VND)</th><th class="p-3 font-semibold">Tài khoản nhận</th><th class="p-3 font-semibold text-center">Trạng thái</th><th class="p-3 font-semibold text-center">Hành động</th></tr></thead>
                     <tbody class="divide-y divide-gray-200">
-                        <tr>
+                        <tr data-transaction-id="R-0805-1">
                             <td class="p-3 font-medium">R-0805-1</td><td class="p-3">Lê Văn C</td><td class="p-3 text-right">2,500,000</td><td class="p-3">VCB - 0123456789</td>
                             <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ xử lý</span></td>
-                            <td class="p-3 text-center space-x-2"><button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 text-xs rounded">Đã chuyển</button><button class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 text-xs rounded">Từ chối</button></td>
+                            <td class="p-3 text-center space-x-2">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 text-xs rounded">Đã chuyển</button>
+                                <button class="reject-withdrawal-btn bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 text-xs rounded">Từ chối</button>
+                            </td>
                         </tr>
                         <tr>
                             <td class="p-3 font-medium">R-0804-5</td><td class="p-3">Phạm Thị D</td><td class="p-3 text-right">1,000,000</td><td class="p-3">ACB - 9876543210</td>
@@ -83,12 +89,20 @@
                          <tr data-bank-name="Vietcombank" data-account-number="0123456789" data-account-name="CTY TNHH ORDER SYSTEM" data-limit="500000000" data-status="active">
                             <td class="p-3">Vietcombank</td><td class="p-3 font-mono">0123456789</td><td class="p-3">CTY TNHH ORDER SYSTEM</td><td class="p-3 text-right">500,000,000</td>
                             <td class="p-3 text-center"><span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt động</span></td>
-                            <td class="p-3 text-center space-x-2"><a href="#" class="edit-bank-link text-indigo-600 hover:underline">Sửa</a> | <a href="#" class="text-red-600 hover:underline">Xóa</a></td>
+                            <td class="p-3 text-center space-x-2">
+                                <a href="#" class="edit-bank-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                <a href="#" class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán quyền</a> |
+                                <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
+                            </td>
                          </tr>
                          <tr data-bank-name="Techcombank" data-account-number="9876543210" data-account-name="CTY TNHH ORDER SYSTEM" data-limit="500000000" data-status="paused">
                             <td class="p-3">Techcombank</td><td class="p-3 font-mono">9876543210</td><td class="p-3">CTY TNHH ORDER SYSTEM</td><td class="p-3 text-right">500,000,000</td>
                             <td class="p-3 text-center"><span class="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded-full font-medium">Tạm dừng</span></td>
-                            <td class="p-3 text-center space-x-2"><a href="#" class="edit-bank-link text-indigo-600 hover:underline">Sửa</a> | <a href="#" class="text-red-600 hover:underline">Xóa</a></td>
+                            <td class="p-3 text-center space-x-2">
+                                <a href="#" class="edit-bank-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                <a href="#" class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán quyền</a> |
+                                <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
+                            </td>
                          </tr>
                     </tbody>
                 </table>

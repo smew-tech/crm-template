@@ -1,0 +1,97 @@
+<div class="bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+    <div class="p-6 border-b">
+        <h2 class="text-2xl font-bold text-gray-800">Thông tin Cá nhân</h2>
+        <p class="text-sm text-gray-600 mt-1">Quản lý thông tin, mật khẩu và quyền hạn tài khoản của bạn.</p>
+    </div>
+    
+    <form>
+        <div class="p-6 space-y-8">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Thông tin cơ bản</h3>
+                <div class="flex items-center space-x-5">
+                    <img class="w-20 h-20 rounded-full object-cover" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
+                    <div>
+                        <button type="button" class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50">
+                            Thay đổi ảnh đại diện
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">JPG, GIF hoặc PNG. Tối đa 2MB.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700">Họ và tên</label>
+                        <input type="text" id="fullName" value="Admin" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Địa chỉ email</label>
+                        <input type="email" id="email" value="admin@yourcompany.com" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Vai trò & Quyền hạn</h3>
+                <div class="p-4 bg-gray-50 rounded-lg">
+                    <p class="mb-4">
+                        <span class="text-sm font-medium text-gray-700">Vai trò hiện tại của bạn là:</span>
+                        <span class="font-bold text-blue-600 text-base ml-2">Super Administrator</span>
+                    </p>
+                    <h4 class="font-semibold mb-2 text-sm">Các quyền đi kèm:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+                        <div class="space-y-2">
+                            <p class="font-medium text-gray-600">Quản lý Đơn hàng</p>
+                            <div class="space-y-2 pl-4">
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Xem tất cả đơn hàng</span></label>
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Tạo/Sửa/Hủy đơn hàng</span></label>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="font-medium text-gray-600">Quản lý Tài chính</p>
+                            <div class="space-y-2 pl-4">
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Duyệt lệnh nạp/rút tiền</span></label>
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Quản lý công nợ & đối soát</span></label>
+                            </div>
+                        </div>
+                         <div class="space-y-2">
+                            <p class="font-medium text-gray-600">Quản lý Người dùng</p>
+                            <div class="space-y-2 pl-4">
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Quản lý khách hàng</span></label>
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Quản lý nhân viên & vai trò</span></label>
+                            </div>
+                        </div>
+                         <div class="space-y-2">
+                            <p class="font-medium text-gray-600">Cài đặt hệ thống</p>
+                            <div class="space-y-2 pl-4">
+                                <label class="flex items-center text-gray-500"><input type="checkbox" class="rounded" checked disabled> <span class="ml-2">Toàn quyền cài đặt</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                 <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Đổi mật khẩu</h3>
+                 <div class="space-y-4 max-w-md">
+                    <div>
+                        <label for="current_password" class="block text-sm font-medium text-gray-700">Mật khẩu hiện tại</label>
+                        <input type="password" id="current_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label for="new_password" class="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
+                        <input type="password" id="new_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirm_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    </div>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="p-6 bg-gray-50 rounded-b-lg text-right">
+            <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Lưu tất cả thay đổi
+            </button>
+        </div>
+    </form>
+</div>
