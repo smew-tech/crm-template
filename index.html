@@ -104,6 +104,10 @@
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
                         class="fas fa-shopping-cart w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Đơn
                         hàng</span></a>
+                <a href="_package-management.html" data-title="Quản lý Kho & Vận hành"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-warehouse w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Kho & Vận
+                        hành</span></a>
                 <a href="_financial-management.html" data-title="Quản lý Tài chính"
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
                         class="fas fa-wallet w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Tài
@@ -990,6 +994,62 @@
         </div>
     </div>
 
+    <!-- Quản lý kho và vận hành chi tiết -->
+   <div id="item-detail-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-gray-50 rounded-lg shadow-xl w-full max-w-5xl max-h-[95vh] flex flex-col transform scale-95">
+            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="text-xl font-bold">Chi tiết Sản phẩm: <span id="item-detail-stt" class="text-blue-600 font-mono"></span></h3><button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button></div>
+            <div class="p-6 overflow-y-auto space-y-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Thông tin Vận hành & Logistics</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                        <div><label class="font-medium text-gray-600">Ngày TT</label><input type="text" placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Ngày về</label><input type="text" placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Mã Kiện</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div class="col-span-full"><label class="font-medium text-gray-600">Mã Tracking</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div class="col-span-full"><label class="font-medium text-gray-600">Link sản phẩm</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Chi phí Gốc</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        <div><label class="font-medium text-gray-600">Giá Mua (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Ship (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Phí DV (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Phụ Phí (VND)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                     <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Tổng kết & Thanh toán</h4>
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 text-sm">
+                        <div class="text-blue-700"><label class="font-bold">Tổng Chi Phí</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-blue-50 rounded-lg font-bold" readonly></div>
+                        <div class="text-yellow-700"><label class="font-bold">Cần Cọc</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-yellow-50 rounded-lg font-bold" readonly></div>
+                        <div class="text-red-700"><label class="font-bold">Công Nợ</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-red-50 rounded-lg font-bold" readonly></div>
+                        <div></div>
+                        <div class="col-span-full border-t mt-2 pt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div><label class="font-medium text-green-600">Cọc đã TT</label><input type="number" class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
+                            <div><label class="font-medium text-green-600">Thanh toán sau cọc</label><input type="number" class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
+                        </div>
+                     </div>
+                </div>
+                 <div class="bg-white p-4 rounded-lg shadow-sm border">
+                     <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Kiểm duyệt & Ghi chú</h4>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="font-medium text-gray-600">Ghi chú vận hành</label>
+                            <textarea rows="3" class="mt-1 w-full p-2 border rounded-lg text-sm"></textarea>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="font-medium text-gray-600">Checklist Kiểm duyệt</label>
+                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span class="ml-2 text-sm">Đối Kiểm</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span class="ml-2 text-sm">Yêu Cầu Ảnh</span></label>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            <div class="p-4 bg-gray-100 border-t text-right sticky bottom-0"><button class="bg-blue-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 shadow-sm">Lưu Thay Đổi</button></div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const pageContentArea = document.getElementById('page-content-area');
@@ -1416,6 +1476,34 @@
                             }
                         }
                     }
+                    return;
+                }
+
+                // --- LOGIC CHO TRANG QUẢN LÝ KHO & VẬN HÀNH ---
+
+                // Thêm dòng mới
+                const saveNewItemBtn = target.closest('#save-new-item-btn');
+                if (saveNewItemBtn) {
+                    const form = document.getElementById('add-item-form');
+                    const tableBody = document.getElementById('item-ledger-tbody');
+                    if (form && tableBody) {
+                        const stt = form.querySelector('#new-stt').value.trim() || 'N/A';
+                        const ma_kh = form.querySelector('#new-ma-kh').value.trim() || 'N/A';
+                        const san_pham = form.querySelector('#new-san-pham').value.trim() || 'Chưa có tên';
+                        const ma_kien = form.querySelector('#new-ma-kien').value.trim() || '-';
+                        const newRowHTML = `<tr class="hover:bg-gray-50 bg-yellow-50"><td class="p-2 font-mono font-medium">${stt}</td><td class="p-2">${san_pham}</td><td class="p-2 font-mono">${ma_kien}</td><td class="p-2 font-semibold">${ma_kh}</td><td class="p-2 text-right font-semibold">0 ₫</td><td class="p-2 text-right font-bold text-red-500">0 ₫</td><td class="p-2 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Mới</span></td><td class="p-2 text-center"><button class="view-item-detail-btn text-indigo-600 font-medium text-xs">Xem & Sửa</button></td></tr>`;
+                        tableBody.insertAdjacentHTML('afterbegin', newRowHTML);
+                        form.querySelectorAll('input').forEach(input => input.value = '');
+                        form.querySelector('#new-stt').focus();
+                    }
+                    return;
+                }
+                
+                const viewDetailBtn = target.closest('.view-item-detail-btn');
+                if (viewDetailBtn) {
+                    const stt = viewDetailBtn.closest('tr').querySelector('td:first-child').textContent;
+                    document.getElementById('item-detail-stt').textContent = stt;
+                    openModal('item-detail-modal');
                     return;
                 }
             });
