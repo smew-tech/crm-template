@@ -106,7 +106,7 @@
                         hàng</span></a>
                 <a href="_package-management.html" data-title="Quản lý Kho & Vận hành"
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
-                        class="fas fa-warehouse w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Kho & Vận
+                        class="fas fa-warehouse w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Vận
                         hành</span></a>
                 <a href="_financial-management.html" data-title="Quản lý Tài chính"
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
@@ -209,6 +209,37 @@
                         bỏ</button>
                     <button type="submit"
                         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Xác nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- reason-modal -->
+    <div id="reason-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md transform scale-95">
+            <form id="reason-form">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 id="reason-modal-title" class="text-xl font-bold"></h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-sm">Vui lòng nhập lý do <span id="reason-action-text" class="font-semibold"></span>
+                        cho giao dịch <strong id="reason-transaction-id" class="text-blue-600 font-mono"></strong>.</p>
+                    <div>
+                        <label for="reason_text" class="block text-sm font-medium text-gray-700">Lý do</label>
+                        <textarea id="reason_text" name="reason_text" rows="4" required
+                            class="mt-1 w-full p-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Nhập lý do..."></textarea>
+                    </div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy
+                        bỏ</button>
+                    <button type="submit" id="reason-submit-btn" class="text-white font-bold py-2 px-4 rounded-lg">Xác
+                        nhận</button>
                 </div>
             </form>
         </div>
@@ -995,58 +1026,134 @@
     </div>
 
     <!-- Quản lý kho và vận hành chi tiết -->
-   <div id="item-detail-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-        <div class="modal-content bg-gray-50 rounded-lg shadow-xl w-full max-w-5xl max-h-[95vh] flex flex-col transform scale-95">
-            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10"><h3 class="text-xl font-bold">Chi tiết Sản phẩm: <span id="item-detail-stt" class="text-blue-600 font-mono"></span></h3><button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button></div>
+    <div id="item-detail-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div
+            class="modal-content bg-gray-50 rounded-lg shadow-xl w-full max-w-5xl max-h-[95vh] flex flex-col transform scale-95">
+            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 class="text-xl font-bold">Chi tiết Sản phẩm: <span id="item-detail-stt"
+                        class="text-blue-600 font-mono"></span></h3><button
+                    class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
             <div class="p-6 overflow-y-auto space-y-6">
                 <div class="bg-white p-4 rounded-lg shadow-sm border">
-                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Thông tin Vận hành & Logistics</h4>
+                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Thông tin Vận hành & Logistics
+                    </h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                        <div><label class="font-medium text-gray-600">Ngày TT</label><input type="text" placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="font-medium text-gray-600">Ngày về</label><input type="text" placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="font-medium text-gray-600">Mã Kiện</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div class="col-span-full"><label class="font-medium text-gray-600">Mã Tracking</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div class="col-span-full"><label class="font-medium text-gray-600">Link sản phẩm</label><input type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Ngày TT</label><input type="text"
+                                placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Ngày về</label><input type="text"
+                                placeholder="dd/mm" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Mã Kiện</label><input type="text"
+                                class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div class="col-span-full"><label class="font-medium text-gray-600">Mã Tracking</label><input
+                                type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div class="col-span-full"><label class="font-medium text-gray-600">Link sản phẩm</label><input
+                                type="text" class="mt-1 w-full p-2 border rounded-lg"></div>
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-sm border">
                     <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Chi phí Gốc</h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div><label class="font-medium text-gray-600">Giá Mua (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="font-medium text-gray-600">Ship (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="font-medium text-gray-600">Phí DV (¥)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="font-medium text-gray-600">Phụ Phí (VND)</label><input type="number" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Giá Mua (¥)</label><input type="number"
+                                class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Ship (¥)</label><input type="number"
+                                class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Phí DV (¥)</label><input type="number"
+                                class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="font-medium text-gray-600">Phụ Phí (VND)</label><input type="number"
+                                class="mt-1 w-full p-2 border rounded-lg"></div>
                     </div>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-sm border">
-                     <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Tổng kết & Thanh toán</h4>
-                     <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 text-sm">
-                        <div class="text-blue-700"><label class="font-bold">Tổng Chi Phí</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-blue-50 rounded-lg font-bold" readonly></div>
-                        <div class="text-yellow-700"><label class="font-bold">Cần Cọc</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-yellow-50 rounded-lg font-bold" readonly></div>
-                        <div class="text-red-700"><label class="font-bold">Công Nợ</label><input type="text" value="0" class="mt-1 w-full p-2 border bg-red-50 rounded-lg font-bold" readonly></div>
+                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Tổng kết & Thanh toán</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 text-sm">
+                        <div class="text-blue-700"><label class="font-bold">Tổng Chi Phí</label><input type="text"
+                                value="0" class="mt-1 w-full p-2 border bg-blue-50 rounded-lg font-bold" readonly></div>
+                        <div class="text-yellow-700"><label class="font-bold">Cần Cọc</label><input type="text"
+                                value="0" class="mt-1 w-full p-2 border bg-yellow-50 rounded-lg font-bold" readonly>
+                        </div>
+                        <div class="text-red-700"><label class="font-bold">Công Nợ</label><input type="text" value="0"
+                                class="mt-1 w-full p-2 border bg-red-50 rounded-lg font-bold" readonly></div>
                         <div></div>
                         <div class="col-span-full border-t mt-2 pt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div><label class="font-medium text-green-600">Cọc đã TT</label><input type="number" class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
-                            <div><label class="font-medium text-green-600">Thanh toán sau cọc</label><input type="number" class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
+                            <div><label class="font-medium text-green-600">Cọc đã TT</label><input type="number"
+                                    class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
+                            <div><label class="font-medium text-green-600">Thanh toán sau cọc</label><input
+                                    type="number" class="mt-1 w-full p-2 border rounded-lg text-green-600"></div>
                         </div>
-                     </div>
+                    </div>
                 </div>
-                 <div class="bg-white p-4 rounded-lg shadow-sm border">
-                     <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Kiểm duyệt & Ghi chú</h4>
-                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 class="font-semibold text-base mb-4 border-b pb-2 text-gray-700">Kiểm duyệt & Ghi chú</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="font-medium text-gray-600">Ghi chú vận hành</label>
                             <textarea rows="3" class="mt-1 w-full p-2 border rounded-lg text-sm"></textarea>
                         </div>
                         <div class="space-y-3">
                             <label class="font-medium text-gray-600">Checklist Kiểm duyệt</label>
-                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span class="ml-2 text-sm">Đối Kiểm</span></label>
-                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span class="ml-2 text-sm">Yêu Cầu Ảnh</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span
+                                    class="ml-2 text-sm">Đối Kiểm</span></label>
+                            <label class="flex items-center"><input type="checkbox" class="rounded h-4 w-4"> <span
+                                    class="ml-2 text-sm">Yêu Cầu Ảnh</span></label>
                         </div>
-                     </div>
+                    </div>
                 </div>
             </div>
-            <div class="p-4 bg-gray-100 border-t text-right sticky bottom-0"><button class="bg-blue-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 shadow-sm">Lưu Thay Đổi</button></div>
+            <div class="p-4 bg-gray-100 border-t text-right sticky bottom-0"><button
+                    class="bg-blue-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 shadow-sm">Lưu Thay
+                    Đổi</button></div>
+        </div>
+    </div>
+
+    <!-- Modal for Manual Deposit -->
+    <div id="manual-deposit-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <form>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Nạp tiền Thủ công cho User</h3>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tìm kiếm Khách hàng</label>
+                        <input type="text" placeholder="Nhập UserID, Tên, hoặc Email..."
+                            class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Số tiền nạp (VND)</label>
+                        <input type="number" placeholder="VD: 5000000" class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tài khoản công ty đã nhận</label>
+                        <select class="mt-1 w-full p-2 border rounded-lg">
+                            <option>Vietcombank - 0123456789</option>
+                            <option>Techcombank - 9876543210</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mã giao dịch (từ sao kê)</label>
+                        <input type="text" placeholder="VD: FT240814..." class="mt-1 w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lý do nạp tiền <span
+                                class="text-red-500">*</span></label>
+                        <textarea rows="3" required class="mt-1 w-full p-2 border rounded-lg"
+                            placeholder="VD: Khách chuyển khoản sai cú pháp, đã đối soát và nạp tay."></textarea>
+                    </div>
+                </div>
+                <div class="p-6 border-t bg-gray-50 text-right space-x-2">
+                    <button type="button"
+                        class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Hủy
+                        bỏ</button>
+                    <button type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Xác nhận Nạp
+                        tiền</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1284,6 +1391,38 @@
                     return;
                 }
 
+                // --- LOGIC MỚI CHO DIALOG NHẬP LÝ DO (DÙNG CHUNG) ---
+                const cancelBtn = target.closest('.cancel-deposit-btn');
+                const rejectBtn = target.closest('.reject-withdrawal-btn');
+                const restoreBtn = target.closest('.restore-btn');
+
+                if (cancelBtn || rejectBtn || restoreBtn) {
+                    event.preventDefault();
+                    const row = target.closest('tr');
+                    const transactionId = row.dataset.transactionId;
+
+                    const modalTitleEl = document.getElementById('reason-modal-title');
+                    const actionTextEl = document.getElementById('reason-action-text');
+                    const submitBtn = document.getElementById('reason-submit-btn');
+
+                    if (cancelBtn || rejectBtn) {
+                        modalTitleEl.textContent = 'Lý do Hủy/Từ chối';
+                        actionTextEl.textContent = cancelBtn ? 'hủy' : 'từ chối';
+                        submitBtn.className = 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg';
+                        submitBtn.textContent = 'Xác nhận';
+                    } else if (restoreBtn) {
+                        modalTitleEl.textContent = 'Lý do Khôi phục';
+                        actionTextEl.textContent = 'khôi phục';
+                        submitBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg';
+                        submitBtn.textContent = 'Xác nhận Khôi phục';
+                    }
+
+                    document.getElementById('reason-transaction-id').textContent = transactionId;
+                    document.getElementById('reason-form').reset();
+                    openModal('reason-modal');
+                    return;
+                }
+
                 // XỬ LÝ MỞ DIALOG XEM LỊCH SỬ
                 const viewHistoryBtn = target.closest('.view-history-btn');
                 if (viewHistoryBtn) {
@@ -1498,7 +1637,7 @@
                     }
                     return;
                 }
-                
+
                 const viewDetailBtn = target.closest('.view-item-detail-btn');
                 if (viewDetailBtn) {
                     const stt = viewDetailBtn.closest('tr').querySelector('td:first-child').textContent;
@@ -1506,6 +1645,14 @@
                     openModal('item-detail-modal');
                     return;
                 }
+
+                // MỞ DIALOG NẠP TIỀN THỦ CÔNG
+                const manualDepositBtn = target.closest('#manual-deposit-btn');
+                if (manualDepositBtn) {
+                    openModal('manual-deposit-modal');
+                    return;
+                }
+
             });
 
             // Tải trang mặc định
