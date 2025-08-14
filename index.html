@@ -453,32 +453,115 @@
                     </nav>
                 </div>
                 <div id="detail-fees" class="tab-content hidden">
-                    <div class="bg-white rounded-lg shadow-sm p-4">
-                        <h4 class="font-bold text-base mb-2">Cài đặt Phí riêng cho Khách hàng</h4>
-                        <p class="text-sm text-gray-600 mb-4">Gán các mức phí dịch vụ đặc biệt cho khách hàng này. Nếu
-                            không cài đặt, hệ thống sẽ áp dụng mức phí mặc định.</p>
-                        <div class="space-y-3">
-                            <div class="grid grid-cols-3 items-center gap-4">
-                                <label class="font-semibold">Laptop</label>
-                                <select class="col-span-2 p-2 border rounded-lg text-sm">
-                                    <option>Mặc định</option>
-                                    <option selected>Phí 0%</option>
-                                    <option>Phí 1%</option>
-                                    <option>Phí 2%</option>
-                                </select>
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h4 class="font-bold text-xl mb-2 text-gray-800">Cài đặt Phí & Vận chuyển Riêng</h4>
+                        <p class="text-sm text-gray-600 mb-6">Gán các mức phí dịch vụ đặc biệt cho khách hàng này. Các
+                            cài đặt này sẽ **ghi đè** lên chính sách mặc định của hệ thống.</p>
+
+                        <div class="space-y-6">
+
+                            <div class="border rounded-lg">
+                                <div class="p-3 bg-gray-50 border-b flex justify-between items-center">
+                                    <h4 class="font-bold text-gray-800">
+                                        <i class="fas fa-tags fa-fw mr-2"></i>Chính sách Phí theo Loại Hàng Hóa
+                                    </h4>
+                                    <button
+                                        class="text-sm bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg flex items-center shadow-sm">
+                                        <i class="fas fa-plus mr-2"></i>Thêm
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-xs text-gray-500 mb-4">Áp dụng mức phí dịch vụ khác nhau cho từng
+                                        loại mặt hàng mà khách kinh doanh.</p>
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full text-sm">
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    <th class="p-2 font-semibold text-left">Loại Hàng Hóa</th>
+                                                    <th class="p-2 font-semibold text-left">Mức Phí Áp Dụng</th>
+                                                    <th class="p-2 font-semibold text-center">Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y">
+                                                <tr>
+                                                    <td class="p-2"><input type="text" value="Máy tính"
+                                                            class="w-full p-1 border rounded"></td>
+                                                    <td class="p-2">
+                                                        <select class="w-full p-1 border rounded">
+                                                            <option>Mặc định (3%)</option>
+                                                            <option selected>Phí 2%</option>
+                                                            <option>Phí 1%</option>
+                                                            <option>Phí 0%</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="p-2 text-center">
+                                                        <button class="text-red-500 hover:text-red-700"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="p-2"><input type="text" value="Audio"
+                                                            class="w-full p-1 border rounded"></td>
+                                                    <td class="p-2">
+                                                        <select class="w-full p-1 border rounded">
+                                                            <option selected>Mặc định (3%)</option>
+                                                            <option>Phí 2%</option>
+                                                            <option>Phí 1%</option>
+                                                            <option>Phí 0%</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="p-2 text-center">
+                                                        <button class="text-red-500 hover:text-red-700"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="grid grid-cols-3 items-center gap-4">
-                                <label class="font-semibold">Mỹ phẩm</label>
-                                <select class="col-span-2 p-2 border rounded-lg text-sm">
-                                    <option selected>Mặc định</option>
-                                    <option>Phí 0%</option>
-                                    <option>Phí 2%</option>
-                                </select>
+
+                            <div class="border rounded-lg">
+                                <h4 class="font-bold p-3 bg-blue-50 border-b text-blue-800">
+                                    <i class="fas fa-plane fa-fw mr-2"></i>Chính sách Vận chuyển AIR
+                                </h4>
+                                <div class="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                    <div><label class="font-semibold text-gray-600">Phí Dịch vụ</label><input
+                                            type="text" value="3%" class="w-full p-2 border rounded mt-1"
+                                            placeholder="Mặc định"></div>
+                                    <div><label class="font-semibold text-gray-600">Giá Vận chuyển</label><input
+                                            type="text" value="180.000" class="w-full p-2 border rounded mt-1"></div>
+                                    <div><label class="font-semibold text-gray-600">Phụ Phí</label><input type="text"
+                                            value="60.000" class="w-full p-2 border rounded mt-1"></div>
+                                    <div><label class="font-semibold text-gray-600">Tỷ lệ cọc</label><input type="text"
+                                            value="100%" class="w-full p-2 border rounded mt-1"></div>
+                                </div>
+                            </div>
+
+                            <div class="border rounded-lg">
+                                <h4 class="font-bold p-3 bg-green-50 border-b text-green-800">
+                                    <i class="fas fa-ship fa-fw mr-2"></i>Chính sách Vận chuyển SEA
+                                </h4>
+                                <div class="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                    <div><label class="font-semibold text-gray-600">Phí Dịch vụ</label><input
+                                            type="text" value="2%" class="w-full p-2 border rounded mt-1"
+                                            placeholder="Mặc định"></div>
+                                    <div><label class="font-semibold text-gray-600">Giá Vận chuyển</label><input
+                                            type="text" value="90.000" class="w-full p-2 border rounded mt-1"></div>
+                                    <div><label class="font-semibold text-gray-600">Phụ Phí</label><input type="text"
+                                            value="100.000" class="w-full p-2 border rounded mt-1"></div>
+                                    <div><label class="font-semibold text-gray-600">Tỷ lệ cọc</label><input type="text"
+                                            value="100%" class="w-full p-2 border rounded mt-1"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-right mt-4"><button
-                                class="text-sm bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Lưu Cài đặt
-                                Phí</button></div>
+
+                        <div class="text-right mt-6 border-t pt-4">
+                            <button
+                                class="bg-blue-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-blue-700 shadow-sm">
+                                Lưu Tất Cả Cài Đặt
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -502,7 +585,8 @@
                             <div class="bg-white p-4 rounded-lg shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
                                     <h4 class="font-bold">Sổ địa chỉ</h4><button
-                                        class="text-sm text-blue-600 font-semibold">+ Thêm địa chỉ</button>
+                                        class="text-sm text-blue-600 font-semibold">+
+                                        Thêm địa chỉ</button>
                                 </div>
                                 <div class="border-t pt-2">
                                     <p class="font-semibold">Nhà riêng</p>
@@ -575,6 +659,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="detail-transactions" class="tab-content hidden">
                     <div class="bg-white rounded-lg shadow-sm p-4">
                         <div class="grid grid-cols-3 gap-4 mb-4">
@@ -612,6 +697,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="detail-notes" class="tab-content hidden">
                     <div class="bg-white rounded-lg shadow-sm p-4">
                         <h4 class="font-bold text-base mb-2">Thêm Ghi chú mới</h4>
