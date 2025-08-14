@@ -47,18 +47,19 @@
         }
 
         .dropdown-content {
-            display: none; /* Mặc định ẩn đi */
+            display: none;
+            /* Mặc định ẩn đi */
             position: absolute;
             right: 0;
             background-color: white;
             min-width: 180px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
             z-index: 50;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid #e5e7eb;
         }
-        
+
         /* Class .show sẽ được thêm/xóa bằng JavaScript để hiển thị/ẩn dropdown */
         .dropdown-content.show {
             display: block;
@@ -77,6 +78,7 @@
         .dropdown-content a:hover {
             background-color: #f3f4f6;
         }
+
         .dropdown-content a i {
             margin-right: 12px;
             width: 16px;
@@ -153,6 +155,29 @@
         </div>
     </div>
 
+    <!-- view-reason -->
+    <div id="view-reason-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Chi tiết Lý do Hủy/Từ chối</h3>
+                <button type="button"
+                    class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p class="text-sm">Lý do được cung cấp cho giao dịch <strong id="view-reason-transaction-id"
+                        class="text-blue-600 font-mono"></strong>:</p>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 min-h-[80px]">
+                    <p id="view-reason-text" class="whitespace-pre-wrap"></p>
+                </div>
+            </div>
+            <div class="p-6 border-t bg-gray-50 text-right">
+                <button type="button"
+                    class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <!-- rejection-reason -->
     <div id="rejection-reason-modal"
         class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
@@ -182,6 +207,27 @@
                         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Xác nhận</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div id="transaction-history-modal"
+        class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl transform scale-95">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Lịch sử Giao dịch: <span id="history-transaction-id"
+                        class="text-blue-600 font-mono"></span></h3>
+                <button type="button"
+                    class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 max-h-[60vh] overflow-y-auto">
+                <div id="history-timeline-container" class="space-y-6 border-l-2 border-gray-200 ml-3 pl-6">
+                </div>
+            </div>
+            <div class="p-6 border-t bg-gray-50 text-right">
+                <button type="button"
+                    class="close-modal-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Đóng</button>
+            </div>
         </div>
     </div>
 
@@ -1049,6 +1095,21 @@
                     return;
                 }
 
+                // XỬ LÝ MỞ DIALOG XEM LÝ DO
+                const viewReasonBtn = target.closest('.view-reason-btn');
+                if (viewReasonBtn) {
+                    event.preventDefault();
+                    const row = viewReasonBtn.closest('tr');
+                    const transactionId = row.dataset.transactionId;
+                    const reason = row.dataset.rejectionReason;
+
+                    document.getElementById('view-reason-transaction-id').textContent = transactionId;
+                    document.getElementById('view-reason-text').textContent = reason || 'Không có lý do được cung cấp.';
+
+                    openModal('view-reason-modal');
+                    return;
+                }
+
                 // XỬ LÝ MỞ DIALOG NHẬP LÝ DO KHI HỦY LỆNH NẠP TIỀN
                 const cancelDepositBtn = target.closest('.cancel-deposit-btn');
                 if (cancelDepositBtn) {
@@ -1074,6 +1135,39 @@
                     document.getElementById('rejection-reason-form').reset();
 
                     openModal('rejection-reason-modal');
+                    return;
+                }
+
+                // XỬ LÝ MỞ DIALOG XEM LỊCH SỬ
+                const viewHistoryBtn = target.closest('.view-history-btn');
+                if (viewHistoryBtn) {
+                    event.preventDefault();
+                    const row = viewHistoryBtn.closest('tr');
+                    const transactionId = row.dataset.transactionId;
+                    const historyData = JSON.parse(row.dataset.history || '[]');
+
+                    document.getElementById('history-transaction-id').textContent = transactionId;
+
+                    const timelineContainer = document.getElementById('history-timeline-container');
+                    timelineContainer.innerHTML = ''; // Xóa lịch sử cũ
+
+                    if (historyData.length > 0) {
+                        historyData.forEach(item => {
+                            const actionColor = item.action.includes('Hủy') || item.action.includes('Từ chối') ? 'red' : 'blue';
+                            const historyItem = `
+                                <div class="relative">
+                                    <div class="absolute -left-[31px] top-1 w-4 h-4 bg-${actionColor}-500 rounded-full border-2 border-white"></div>
+                                    <p class="font-medium text-gray-800">${item.action} <span class="text-gray-500 font-normal text-sm">- ${item.timestamp}</span></p>
+                                    <p class="text-sm text-gray-600 mt-1"><strong>Người thực hiện:</strong> ${item.performer}</p>
+                                    ${item.reason ? `<div class="mt-2 p-2 bg-gray-100 rounded-md text-sm"><strong class="text-gray-700">Ghi chú/Lý do:</strong><p class='mt-1 text-gray-600'>${item.reason}</p></div>` : ''}
+                                </div>`;
+                            timelineContainer.insertAdjacentHTML('beforeend', historyItem);
+                        });
+                    } else {
+                        timelineContainer.innerHTML = '<p class="text-gray-500">Không có lịch sử cho giao dịch này.</p>';
+                    }
+
+                    openModal('transaction-history-modal');
                     return;
                 }
 

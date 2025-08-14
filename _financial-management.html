@@ -40,19 +40,24 @@
                         <thead class="bg-gray-100 text-left">
                             <tr>
                                 <th class="p-3 font-semibold">Mã Lệnh</th>
-                                <th class="p-3 font-semibold">Khách hàng</th>
+                                <th class="p-3 font-semibold">Khách hàng (UserID)</th>
                                 <th class="p-3 font-semibold text-right">Số tiền (VND)</th>
-                                <th class="p-3 font-semibold">Thời gian tạo</th>
+                                <th class="p-3 font-semibold">Ngày tạo</th>
+                                <th class="p-3 font-semibold">Người xử lý</th>
+                                <th class="p-3 font-semibold">Ngày xử lý</th>
                                 <th class="p-3 font-semibold text-center">Trạng thái</th>
                                 <th class="p-3 font-semibold text-center">Hành động</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr data-transaction-id="N-0805-1">
+                            <tr data-transaction-id="N-0805-1"
+                                data-history='[{"action": "Tạo lệnh", "performer": "Nguyễn Văn A (KH)", "timestamp": "2025-08-05 14:15:00", "reason": ""}]'>
                                 <td class="p-3 font-medium">N-0805-1</td>
-                                <td class="p-3">Nguyễn Văn A</td>
+                                <td class="p-3">Nguyễn Văn A (KH001)</td>
                                 <td class="p-3 text-right">5,000,000</td>
                                 <td class="p-3">05/08/2025 14:15</td>
+                                <td class="p-3 text-gray-500">-</td>
+                                <td class="p-3 text-gray-500">-</td>
                                 <td class="p-3 text-center"><span
                                         class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ
                                         xác nhận</span></td>
@@ -61,18 +66,42 @@
                                         class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 text-xs rounded">Xác
                                         nhận</button>
                                     <button
-                                        class="cancel-deposit-btn bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Hủy</button>
+                                        class="cancel-deposit-btn bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-xs rounded">Hủy Lệnh</button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr data-transaction-id="N-0805-2"
+                                data-history='[{"action": "Xác nhận", "performer": "Admin", "timestamp": "2025-08-05 11:35:12", "reason": "Giao dịch hợp lệ."}, {"action": "Tạo lệnh", "performer": "Trần Thị B (KH)", "timestamp": "2025-08-05 11:30:00", "reason": ""}]'>
                                 <td class="p-3 font-medium">N-0805-2</td>
-                                <td class="p-3">Trần Thị B</td>
+                                <td class="p-3">Trần Thị B (KH002)</td>
                                 <td class="p-3 text-right">10,000,000</td>
                                 <td class="p-3">05/08/2025 11:30</td>
+                                <td class="p-3">Admin</td>
+                                <td class="p-3">05/08/2025 11:35</td>
                                 <td class="p-3 text-center"><span
                                         class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Đã
                                         xác nhận</span></td>
-                                <td class="p-3 text-center text-gray-400">N/A</td>
+                                <td class="p-3 text-center"><button
+                                        class="view-history-btn text-indigo-600 text-xs hover:underline">Xem lịch
+                                        sử</button></td>
+                            </tr>
+                            <tr data-transaction-id="N-0804-3"
+                                data-history='[{"action": "Hủy lệnh", "performer": "ketoan.1", "timestamp": "2025-08-04 10:00:25", "reason": "Khách hàng yêu cầu hủy lệnh nạp do tạo nhầm số tiền."}, {"action": "Tạo lệnh", "performer": "Vũ Anh Dũng (KH)", "timestamp": "2025-08-04 09:45:00", "reason": ""}]'>
+                                <td class="p-3 font-medium">N-0804-3</td>
+                                <td class="p-3">Vũ Anh Dũng (KH003)</td>
+                                <td class="p-3 text-right">2,000,000</td>
+                                <td class="p-3">04/08/2025 09:45</td>
+                                <td class="p-3">ketoan.1</td>
+                                <td class="p-3">04/08/2025 10:00</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Đã
+                                        hủy</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <button
+                                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 text-xs rounded">Khôi
+                                        phục</button>
+                                    <button class="view-history-btn text-indigo-600 text-xs hover:underline">Xem lịch
+                                        sử</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,9 +131,11 @@
                         <thead class="bg-gray-100 text-left">
                             <tr>
                                 <th class="p-3 font-semibold">Mã Yêu cầu</th>
-                                <th class="p-3 font-semibold">Khách hàng</th>
+                                <th class="p-3 font-semibold">Khách hàng (UserID)</th>
                                 <th class="p-3 font-semibold text-right">Số tiền (VND)</th>
-                                <th class="p-3 font-semibold">Tài khoản nhận</th>
+                                <th class="p-3 font-semibold">Ngày tạo</th>
+                                <th class="p-3 font-semibold">Người xử lý</th>
+                                <th class="p-3 font-semibold">Ngày xử lý</th>
                                 <th class="p-3 font-semibold text-center">Trạng thái</th>
                                 <th class="p-3 font-semibold text-center">Hành động</th>
                             </tr>
@@ -112,9 +143,11 @@
                         <tbody class="divide-y divide-gray-200">
                             <tr data-transaction-id="R-0805-1">
                                 <td class="p-3 font-medium">R-0805-1</td>
-                                <td class="p-3">Lê Văn C</td>
+                                <td class="p-3">Lê Văn C (KH004)</td>
                                 <td class="p-3 text-right">2,500,000</td>
-                                <td class="p-3">VCB - 0123456789</td>
+                                <td class="p-3">05/08/2025 10:20</td>
+                                <td class="p-3 text-gray-500">-</td>
+                                <td class="p-3 text-gray-500">-</td>
                                 <td class="p-3 text-center"><span
                                         class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chờ
                                         xử lý</span></td>
@@ -127,15 +160,34 @@
                                         chối</button>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr data-transaction-id="R-0804-5">
                                 <td class="p-3 font-medium">R-0804-5</td>
-                                <td class="p-3">Phạm Thị D</td>
+                                <td class="p-3">Phạm Thị D (KH005)</td>
                                 <td class="p-3 text-right">1,000,000</td>
-                                <td class="p-3">ACB - 9876543210</td>
+                                <td class="p-3">04/08/2025 16:00</td>
+                                <td class="p-3">Admin</td>
+                                <td class="p-3">04/08/2025 16:05</td>
                                 <td class="p-3 text-center"><span
                                         class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Thành
                                         công</span></td>
-                                <td class="p-3 text-center text-gray-400">N/A</td>
+                                <td class="p-3 text-center"><button
+                                        class="view-history-btn text-indigo-600 text-xs hover:underline">Xem lịch
+                                        sử</button></td>
+                            </tr>
+                            <tr data-transaction-id="R-0803-2"
+                                data-history='[{"action": "Từ chối", "performer": "Admin", "timestamp": "2025-08-03 11:10:30", "reason": "Thông tin tài khoản nhận không chính xác. Tên chủ tài khoản không khớp với tên đăng ký trên hệ thống."}, {"action": "Tạo yêu cầu", "performer": "Hoàng Văn E (KH)", "timestamp": "2025-08-03 11:00:00", "reason": ""}]'>
+                                <td class="p-3 font-medium">R-0803-2</td>
+                                <td class="p-3">Hoàng Văn E (KH006)</td>
+                                <td class="p-3 text-right">5,000,000</td>
+                                <td class="p-3">03/08/2025 11:00</td>
+                                <td class="p-3">Admin</td>
+                                <td class="p-3">03/08/2025 11:10</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Bị từ
+                                        chối</span></td>
+                                <td class="p-3 text-center"><button
+                                        class="view-history-btn text-indigo-600 text-xs hover:underline">Xem lịch
+                                        sử</button></td>
                             </tr>
                         </tbody>
                     </table>

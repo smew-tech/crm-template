@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch sử Đơn hàng - eShopGlobal</title>
+    <title>Quản lý Ví tiền - eShopGlobal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -14,20 +14,21 @@
             font-weight: 600;
             border-left: 4px solid #2563eb;
         }
-
-        .order-tab-item {
-            padding: 10px 16px;
+        .wallet-tab-item {
+            padding: 8px 16px;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
+            border-bottom: 2px solid transparent;
             color: #6b7280;
-            font-weight: 500;
-            transition: color 0.2s, border-color 0.2s;
         }
-
-        .order-tab-item.active {
+        .wallet-tab-item.active {
             color: #2563eb;
             font-weight: 600;
             border-bottom-color: #2563eb;
+        }
+        .qr-code-placeholder {
+            width: 200px;
+            height: 200px;
+            background: repeating-linear-gradient(45deg, #f3f4f6, #f3f4f6 10px, #e5e7eb 10px, #e5e7eb 20px);
         }
     </style>
 </head>
@@ -43,224 +44,244 @@
                 </a>
             </div>
             <nav class="flex-1 p-2 mt-2">
-                <a href="./_client-dashboard.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span>
-                </a>
-                <a href="./_client-account.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span>
-                </a>
-                <a href="./_client-wallet.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span>
-                </a>
-                <a href="./_client-order.html"
-                    class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span>
-                </a>
-                <a href="./_client-store.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span>
-                </a>
-                <a href="./_client-auction.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span>
-                </a>
+                <a href="./_client-dashboard.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span></a>
+                <a href="./_client-account.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span></a>
+                <a href="./_client-wallet.html" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span></a>
+                <a href="./_client-order.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span></a>
+                <a href="./_client-store.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span></a>
+                <a href="./_client-auction.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span></a>
             </nav>
             <div class="p-4 border-t border-gray-200">
-                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i
-                        class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng
-                        xuất</span></a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng xuất</span></a>
             </div>
         </aside>
 
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
-                    <h2 class="text-xl font-semibold text-gray-800">Đơn hàng của tôi</h2>
-                    <a href="./_client-create-order.html"
-                        class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700"><i
-                            class="fas fa-plus mr-2"></i>Tạo đơn hàng mới</a>
+                    <h2 class="text-xl font-semibold text-gray-800">Quản lý Ví tiền</h2>
+                    <div class="flex items-center space-x-3">
+                        <img class="w-9 h-9 rounded-full object-cover" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
+                        <div>
+                            <div class="text-sm font-medium text-gray-800">John Doe</div>
+                            <div class="text-xs text-gray-500">Premium Member</div>
+                        </div>
+                    </div>
                 </div>
             </header>
 
             <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
-                <div class="bg-white rounded-t-lg shadow-md">
-                    <nav id="order-nav" class="flex flex-wrap border-b">
-                        <button data-status="all" class="order-tab-item active">Tất cả</button>
-                        <button data-status="pending-payment" class="order-tab-item">Chờ đặt cọc</button>
-                        <button data-status="processing" class="order-tab-item">Đang mua hàng</button>
-                        <button data-status="shipping" class="order-tab-item">Đang vận chuyển</button>
-                        <button data-status="completed" class="order-tab-item">Hoàn thành</button>
-                        <button data-status="cancelled" class="order-tab-item">Đã hủy</button>
-                    </nav>
+                <div class="bg-white rounded-xl shadow-md p-2 mb-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x">
+                        <div class="py-4 md:px-4">
+                            <p class="text-sm text-gray-500">Số dư khả dụng</p>
+                            <p class="text-2xl font-bold text-green-600 mt-1">15,750,000 ₫</p>
+                        </div>
+                        <div class="py-4 md:px-4">
+                            <p class="text-sm text-gray-500">Đang đóng băng (chờ thanh toán)</p>
+                            <p class="text-2xl font-bold text-yellow-600 mt-1">2,500,000 ₫</p>
+                        </div>
+                        <div class="py-4 md:px-4 flex items-center justify-center space-x-3">
+                            <button id="btn-show-deposit" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Nạp tiền</button>
+                            <button id="btn-show-withdrawal" class="w-full bg-gray-200 text-gray-800 font-semibold py-2.5 rounded-lg hover:bg-gray-300"><i class="fas fa-arrow-up mr-2"></i>Rút tiền</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="order-list-container" class="space-y-4 pt-4">
-                    <!-- Card: Chờ đặt cọc -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="pending-payment">
-                        <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD88888</p>
-                                <p class="text-sm text-gray-500">Ngày tạo: 08/08/2025</p>
-                            </div>
-                            <span class="bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm">Chờ
-                                đặt cọc</span>
+                <div class="bg-white rounded-xl shadow-md">
+                    <div class="border-b px-6">
+                        <nav id="wallet-nav" class="flex space-x-4">
+                            <button data-target="history" class="wallet-tab-item active">Lịch sử giao dịch</button>
+                            <button data-target="deposit" class="wallet-tab-item">Nạp tiền</button>
+                            <button data-target="withdrawal" class="wallet-tab-item">Rút tiền</button>
+                        </nav>
+                    </div>
+
+                    <div id="history-content" class="wallet-content p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 p-4 border rounded-lg bg-gray-50">
+                            <input type="text" placeholder="Mã giao dịch..." class="md:col-span-2 w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option>-- Loại giao dịch --</option>
+                                <option>Nạp tiền</option>
+                                <option>Rút tiền</option>
+                                <option>Thanh toán</option>
+                            </select>
+                             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option>-- Trạng thái --</option>
+                                <option>Hoàn thành</option>
+                                <option>Đang xử lý</option>
+                                <option>Bị từ chối</option>
+                            </select>
+                            <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-500">
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/81umrFEhL2L._AC_UY218_.jpg"
-                                class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">LEGO Icons Succulents 10309, Artificial Plants
-                                    Set</p>
+                        <div class="overflow-x-auto">
+                           <table class="min-w-full divide-y divide-gray-200">
+                               <thead class="bg-gray-50">
+                                   <tr>
+                                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã GD</th>
+                                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Thời gian</th>
+                                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loại</th>
+                                       <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Số tiền</th>
+                                       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mô tả</th>
+                                       <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+                                   </tr>
+                               </thead>
+                               <tbody class="bg-white divide-y divide-gray-200">
+                                   <tr><td class="px-6 py-4 text-sm font-medium text-gray-900">DP12345678</td><td class="px-6 py-4 text-sm text-gray-500">08/08/2025 10:30</td><td class="px-6 py-4 text-sm text-gray-500">Nạp tiền</td><td class="px-6 py-4 text-sm text-green-600 font-semibold text-right">+5,000,000 ₫</td><td class="px-6 py-4 text-sm text-gray-500">Nạp tiền qua Vietcombank</td><td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Hoàn thành</span></td></tr>
+                                   <tr><td class="px-6 py-4 text-sm font-medium text-gray-900">PAY98765</td><td class="px-6 py-4 text-sm text-gray-500">07/08/2025 15:12</td><td class="px-6 py-4 text-sm text-gray-500">Thanh toán</td><td class="px-6 py-4 text-sm text-red-600 font-semibold text-right">-2,500,000 ₫</td><td class="px-6 py-4 text-sm text-gray-500">Đặt cọc đơn hàng #OD54321</td><td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Hoàn thành</span></td></tr>
+                                   <tr class="bg-red-50"><td class="px-6 py-4 text-sm font-medium text-gray-900">WD112230</td><td class="px-6 py-4 text-sm text-gray-500">05/08/2025 11:00</td><td class="px-6 py-4 text-sm text-gray-500">Rút tiền</td><td class="px-6 py-4 text-sm text-red-600 font-semibold text-right">-5,000,000 ₫</td><td class="px-6 py-4 text-sm text-gray-500">Từ chối: Tên tài khoản không khớp</td><td class="px-6 py-4 text-center"><span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Bị từ chối</span></td></tr>
+                               </tbody>
+                           </table>
+                       </div>
+                    </div>
+
+                    <div id="deposit-content" class="wallet-content p-6 hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-1">Tạo lệnh nạp tiền</h3>
+                                    <p class="text-sm text-gray-500 mb-4">Nhập số tiền và nhấn "Tạo lệnh" để lấy thông tin chuyển khoản.</p>
+                                    <div class="mb-4">
+                                        <label for="amount" class="block text-sm font-medium text-gray-700">Số tiền (VND)</label>
+                                        <input type="number" id="amount" placeholder="Ví dụ: 2000000" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div class="flex space-x-2 mb-6">
+                                        <button class="amount-suggestion px-4 py-2 border rounded-full text-sm hover:bg-gray-100" data-amount="500000">500,000</button>
+                                        <button class="amount-suggestion px-4 py-2 border rounded-full text-sm hover:bg-gray-100" data-amount="1000000">1,000,000</button>
+                                        <button class="amount-suggestion px-4 py-2 border rounded-full text-sm hover:bg-gray-100" data-amount="2000000">2,000,000</button>
+                                    </div>
+                                    <button id="btn-create-deposit" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-blue-700">Tạo lệnh & Lấy thông tin CK</button>
+                                </div>
+                                <div class="border-t pt-6">
+                                    <h3 class="text-lg font-semibold mb-4">Các lệnh đang chờ xử lý</h3>
+                                    <div id="pending-list" class="space-y-3 max-h-60 overflow-y-auto pr-2">
+                                        </div>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-gray-500 text-sm">Tiền cọc</p>
-                                <p class="font-bold text-lg text-red-600">1,200,000 ₫</p>
-                                <a href="#"
-                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Thanh
-                                    toán ngay <i class="fas fa-wallet ml-1"></i></a>
+                            <div id="deposit-info-placeholder" class="border-l pl-8 flex items-center justify-center text-center text-gray-500">
+                                <div>
+                                    <i class="fas fa-qrcode text-6xl text-gray-300"></i>
+                                    <p class="mt-4">Thông tin chuyển khoản và mã QR sẽ hiện ở đây sau khi bạn tạo lệnh.</p>
+                                </div>
+                            </div>
+                            <div id="deposit-info-content" class="border-l pl-8 hidden">
+                                <h3 class="text-lg font-semibold mb-2">Hướng dẫn chuyển khoản</h3>
+                                <div class="flex flex-col items-center gap-4">
+                                    <div class="qr-code-placeholder rounded-lg flex items-center justify-center font-bold text-gray-400">QR Code</div>
+                                    <div class="space-y-2 w-full">
+                                        <div class="p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-500">Ngân hàng</p><p class="font-semibold text-sm">Vietcombank (VCB) - CTY TNHH ESHOPGLOBAL</p></div>
+                                        <div class="p-2 bg-gray-50 rounded-lg"><p class="text-xs text-gray-500">Số tài khoản</p><p class="font-semibold">0123456789</p></div>
+                                        <div class="p-2 bg-red-50 border border-red-200 rounded-lg">
+                                            <p class="text-xs text-red-700">Nội dung chuyển khoản (bắt buộc)</p>
+                                            <div class="flex items-center justify-between"><p id="deposit-code" class="font-bold text-lg text-red-800"></p><button class="text-gray-600 hover:text-blue-600 text-xs"><i class="fas fa-copy mr-1"></i>Copy</button></div>
+                                        </div>
+                                         <button id="btn-confirm-transfer" class="w-full bg-green-600 text-white font-semibold py-2.5 rounded-lg hover:bg-green-700 mt-2">Tôi đã chuyển khoản</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Card: Đang mua hàng -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="processing">
-                        <div class="flex justify-between items-center border-b pb-3 mb-3">
+                    <div id="withdrawal-content" class="wallet-content p-6 hidden">
+                        <h3 class="text-lg font-semibold mb-1">Tạo yêu cầu rút tiền</h3>
+                        <p class="text-sm text-gray-500 mb-6">Tiền sẽ được chuyển vào tài khoản ngân hàng của bạn trong vòng 24 giờ.</p>
+                        <form class="space-y-4 max-w-lg">
                             <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD99001</p>
-                                <p class="text-sm text-gray-500">Ngày tạo: 07/08/2025</p>
+                                <label class="block text-sm font-medium text-gray-700">Số tiền muốn rút</label>
+                                <input type="number" placeholder="Nhập số tiền" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                <p class="text-xs text-gray-500 mt-1">Số dư khả dụng: <span class="font-semibold">15,750,000 ₫</span></p>
                             </div>
-                            <span class="bg-orange-100 text-orange-800 font-medium px-3 py-1 rounded-full text-sm">Đang
-                                mua hàng</span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/61SUj2aKoCL._AC_UY218_.jpg"
-                                class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">Anker 313 Wireless Charger (Stand)</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-gray-500 text-sm">Tổng tiền</p>
-                                <p class="font-bold text-lg">850,000 ₫</p>
-                                <a href="./_client-order-detail.html"
-                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
-                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card: Đang vận chuyển -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="shipping">
-                        <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD54321</p>
-                                <p class="text-sm text-gray-500">Ngày tạo: 01/08/2025</p>
+                                <label class="block text-sm font-medium text-gray-700">Tài khoản nhận tiền</label>
+                                <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"><option>Vietcombank - **** **** **** 1234</option><option>Techcombank - **** **** **** 5678</option></select>
+                                <a href="./_client-account.html" class="text-xs text-blue-600 hover:underline mt-1">Quản lý tài khoản ngân hàng</a>
                             </div>
-                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đang vận
-                                chuyển</span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg"
-                                class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">Kindle Paperwhite (16 GB) - Now with a 6.8"
-                                    display...</p>
-                                <p class="text-sm text-gray-500">+ 2 sản phẩm khác</p>
+                            <div class="pt-2">
+                                <button type="submit" class="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-blue-700">Gửi yêu cầu</button>
                             </div>
-                            <div class="text-right">
-                                <p class="text-gray-500 text-sm">Tổng tiền</p>
-                                <p class="font-bold text-lg">5,450,000 ₫</p>
-                                <a href="./_client-order-detail.html"
-                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
-                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card: Hoàn thành -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="completed">
-                        <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD12345</p>
-                                <p class="text-sm text-gray-500">Ngày tạo: 15/07/2025</p>
-                            </div>
-                            <span class="bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Hoàn
-                                thành</span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71L5lsw6KcL._AC_UY218_.jpg"
-                                class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">Sony WH-1000XM5 Wireless Industry Leading
-                                    Headphones</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-gray-500 text-sm">Tổng tiền</p>
-                                <p class="font-bold text-lg">8,990,000 ₫</p>
-                                <a href="./_client-order-detail.html"
-                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
-                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card: Đã hủy -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="cancelled">
-                        <div class="flex justify-between items-center border-b pb-3 mb-3">
-                            <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD99002</p>
-                                <p class="text-sm text-gray-500">Ngày tạo: 06/08/2025</p>
-                            </div>
-                            <span class="bg-gray-200 text-gray-800 font-medium px-3 py-1 rounded-full text-sm">Đã
-                                hủy</span>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <img src="https://m.media-amazon.com/images/I/71p-M3sPhhL._AC_UY218_.jpg"
-                                class="w-16 h-16 object-contain rounded-md border p-1">
-                            <div class="flex-grow">
-                                <p class="font-semibold text-gray-800">Logitech MX Master 3S Mouse</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-gray-500 text-sm">Tổng tiền</p>
-                                <p class="font-bold text-lg">2,150,000 ₫</p>
-                                <a href="./_client-order-detail.html"
-                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
-                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </main>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const navButtons = document.querySelectorAll('#order-nav .order-tab-item');
-            const orderCards = document.querySelectorAll('#order-list-container .order-card');
+            const mainNavButtons = document.querySelectorAll('#wallet-nav .wallet-tab-item');
+            const mainContentPanels = document.querySelectorAll('.bg-white.rounded-xl.shadow-md > .wallet-content');
 
-            navButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Update active tab style
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
+            function switchMainTab(targetId) {
+                mainNavButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-target') === targetId));
+                mainContentPanels.forEach(panel => panel.classList.toggle('hidden', panel.id !== `${targetId}-content`));
+            }
 
-                    const targetStatus = this.getAttribute('data-status');
+            mainNavButtons.forEach(button => button.addEventListener('click', () => switchMainTab(button.getAttribute('data-target'))));
+            document.getElementById('btn-show-deposit').addEventListener('click', () => switchMainTab('deposit'));
+            document.getElementById('btn-show-withdrawal').addEventListener('click', () => switchMainTab('withdrawal'));
 
-                    // Filter cards
-                    orderCards.forEach(card => {
-                        const cardStatus = card.getAttribute('data-status-val');
-                        if (targetStatus === 'all' || targetStatus === cardStatus) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
+            // Deposit creation logic
+            const createDepositBtn = document.getElementById('btn-create-deposit');
+            const placeholder = document.getElementById('deposit-info-placeholder');
+            const depositInfoPanel = document.getElementById('deposit-info-content');
+            const amountInput = document.getElementById('amount');
+            const amountSuggestions = document.querySelectorAll('.amount-suggestion');
+            const depositCodeEl = document.getElementById('deposit-code');
+            const pendingListContainer = document.getElementById('pending-list');
+
+            amountSuggestions.forEach(btn => btn.addEventListener('click', () => amountInput.value = btn.dataset.amount));
+
+            createDepositBtn.addEventListener('click', () => {
+                const amountValue = parseInt(amountInput.value, 10);
+                if (isNaN(amountValue) || amountValue <= 0) {
+                    alert('Vui lòng nhập số tiền hợp lệ.');
+                    return;
+                }
+                
+                const randomCode = `ESHOP${Math.floor(10000000 + Math.random() * 90000000)}`;
+                depositCodeEl.textContent = randomCode;
+                
+                placeholder.classList.add('hidden');
+                depositInfoPanel.classList.remove('hidden');
+
+                const now = new Date();
+                const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                const pendingItemHTML = `
+                <div class="p-3 bg-gray-50 rounded-lg flex justify-between items-center" data-code="${randomCode}">
+                    <div>
+                        <p class="font-mono text-sm">${randomCode}</p>
+                        <p class="font-semibold text-gray-700">${amountValue.toLocaleString('vi-VN')} ₫</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500">${formattedDate}</p>
+                        <div>
+                            <button class="confirm-transfer-btn text-xs text-green-600 font-semibold hover:underline">Đã chuyển</button>
+                            <span class="text-gray-300 mx-1">|</span>
+                            <button class="text-xs text-red-600 font-semibold hover:underline">Hủy</button>
+                        </div>
+                    </div>
+                </div>`;
+                pendingListContainer.insertAdjacentHTML('beforeend', pendingItemHTML);
+                amountInput.value = '';
+            });
+
+            // Event delegation for confirm/cancel buttons in the pending list
+            pendingListContainer.addEventListener('click', function(event) {
+                const target = event.target;
+                const pendingItem = target.closest('[data-code]');
+                if (!pendingItem) return;
+
+                if (target.classList.contains('confirm-transfer-btn')) {
+                    alert(`Đã gửi yêu cầu xác nhận cho lệnh ${pendingItem.dataset.code}. Vui lòng chờ hệ thống xử lý.`);
+                    pendingItem.remove();
+                } else if (target.textContent === 'Hủy') {
+                    if (confirm('Bạn có chắc muốn hủy lệnh nạp tiền này không?')) {
+                        pendingItem.remove();
+                    }
+                }
             });
         });
     </script>
 </body>
-
 </html>

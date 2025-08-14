@@ -11,7 +11,6 @@
         .sidebar-item.active,
         .account-nav-item.active {
             background-color: #f0f5ff;
-            /* Lighter blue for active state */
             color: #2563eb;
             font-weight: 600;
         }
@@ -37,6 +36,10 @@
         .account-nav-item.active {
             border-color: #dbeafe;
         }
+        
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #2563eb;
+        }
     </style>
 </head>
 
@@ -51,39 +54,16 @@
                     <h1 class="text-xl font-bold text-gray-800">eShopGlobal</h1>
                 </a>
             </div>
-
             <nav class="flex-1 p-2 mt-2">
-                <a href="./_client-dashboard.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span>
-                </a>
-                <a href="./_client-account.html"
-                    class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span>
-                </a>
-                <a href="./_client-wallet.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span>
-                </a>
-                <a href="./_client-order.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span>
-                </a>
-                <a href="./_client-store.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span>
-                </a>
-                <a href="./_client-auction.html"
-                    class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1">
-                    <i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span>
-                </a>
+                <a href="./_client-dashboard.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-home mr-3 w-5 text-center"></i><span class="font-medium">Dashboard</span></a>
+                <a href="./_client-account.html" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-user mr-3 w-5 text-center"></i><span class="font-medium">Tài khoản</span></a>
+                <a href="./_client-wallet.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-wallet mr-3 w-5 text-center"></i><span class="font-medium">Ví tiền</span></a>
+                <a href="./_client-order.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-shopping-bag mr-3 w-5 text-center"></i><span class="font-medium">Đơn hàng</span></a>
+                <a href="./_client-store.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-warehouse mr-3 w-5 text-center"></i><span class="font-medium">Kho hàng</span></a>
+                <a href="./_client-auction.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100 mb-1"><i class="fas fa-gavel mr-3 w-5 text-center"></i><span class="font-medium">Đấu giá</span></a>
             </nav>
-
             <div class="p-4 border-t border-gray-200">
-                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100">
-                    <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
-                    <span class="font-medium">Đăng xuất</span>
-                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-100"><i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i><span class="font-medium">Đăng xuất</span></a>
             </div>
         </aside>
 
@@ -91,24 +71,11 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <h2 class="text-xl font-semibold text-gray-800">Cài đặt tài khoản</h2>
-
-                    <div class="flex items-center space-x-5">
-                        <button class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <button class="text-gray-500 hover:text-gray-700 relative">
-                            <i class="fas fa-bell"></i>
-                            <span
-                                class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">3</span>
-                        </button>
-
-                        <div class="flex items-center space-x-3">
-                            <img class="w-9 h-9 rounded-full object-cover"
-                                src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
-                            <div>
-                                <div class="text-sm font-medium text-gray-800">John Doe</div>
-                                <div class="text-xs text-gray-500">Premium Member</div>
-                            </div>
+                    <div class="flex items-center space-x-3">
+                        <img class="w-9 h-9 rounded-full object-cover" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
+                        <div>
+                            <div class="text-sm font-medium text-gray-800">John Doe</div>
+                            <div class="text-xs text-gray-500">Premium Member</div>
                         </div>
                     </div>
                 </div>
@@ -117,23 +84,13 @@
             <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div class="lg:col-span-1">
-                        <div class="bg-white rounded-xl shadow-md p-4">
+                        <div class="bg-white rounded-xl shadow-md p-4 sticky top-6">
                             <nav id="account-nav" class="space-y-1">
-                                <a href="#" data-target="profile" class="account-nav-item active">
-                                    <i class="fas fa-user-circle w-5 mr-3"></i> Hồ sơ
-                                </a>
-                                <a href="#" data-target="address" class="account-nav-item">
-                                    <i class="fas fa-map-marker-alt w-5 mr-3"></i> Sổ địa chỉ
-                                </a>
-                                <a href="#" data-target="bank" class="account-nav-item">
-                                    <i class="fas fa-university w-5 mr-3"></i> Tài khoản ngân hàng
-                                </a>
-                                <a href="#" data-target="password" class="account-nav-item">
-                                    <i class="fas fa-lock w-5 mr-3"></i> Đổi mật khẩu
-                                </a>
-                                <a href="#" data-target="notifications" class="account-nav-item">
-                                    <i class="fas fa-bell w-5 mr-3"></i> Cài đặt thông báo
-                                </a>
+                                <a href="#" data-target="profile" class="account-nav-item active"><i class="fas fa-user-circle w-5 mr-3"></i> Hồ sơ</a>
+                                <a href="#" data-target="address" class="account-nav-item"><i class="fas fa-map-marker-alt w-5 mr-3"></i> Sổ địa chỉ</a>
+                                <a href="#" data-target="bank" class="account-nav-item"><i class="fas fa-university w-5 mr-3"></i> Tài khoản ngân hàng</a>
+                                <a href="#" data-target="password" class="account-nav-item"><i class="fas fa-lock w-5 mr-3"></i> Đổi mật khẩu</a>
+                                <a href="#" data-target="notifications" class="account-nav-item"><i class="fas fa-bell w-5 mr-3"></i> Cài đặt thông báo</a>
                             </nav>
                         </div>
                     </div>
@@ -142,53 +99,37 @@
                         <div id="profile" class="account-content bg-white rounded-xl shadow-md">
                             <div class="p-6 border-b">
                                 <h3 class="text-lg font-semibold">Thông tin hồ sơ</h3>
-                                <p class="text-sm text-gray-500 mt-1">Cập nhật ảnh đại diện và thông tin cá nhân của
-                                    bạn.</p>
+                                <p class="text-sm text-gray-500 mt-1">Cập nhật ảnh đại diện và thông tin cá nhân của bạn.</p>
                             </div>
                             <form class="p-6 space-y-6">
                                 <div class="flex items-center space-x-4">
-                                    <img class="w-16 h-16 rounded-full object-cover"
-                                        src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
+                                    <img class="w-16 h-16 rounded-full object-cover" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User avatar">
                                     <div>
-                                        <button type="button"
-                                            class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50">Tải
-                                            ảnh lên</button>
-                                        <p class="text-xs text-gray-500 mt-2">Cho phép JPG, GIF hoặc PNG. Tối đa 2MB.
-                                        </p>
+                                        <button type="button" class="px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-50">Tải ảnh lên</button>
+                                        <p class="text-xs text-gray-500 mt-2">Cho phép JPG, GIF hoặc PNG. Tối đa 2MB.</p>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="fullName" class="block text-sm font-medium text-gray-700">Họ và
-                                            tên</label>
-                                        <input type="text" id="fullName" value="John Doe"
-                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <label for="fullName" class="block text-sm font-medium text-gray-700">Họ và tên</label>
+                                        <input type="text" id="fullName" value="John Doe" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
-                                        <label for="email" class="block text-sm font-medium text-gray-700">Địa chỉ
-                                            email</label>
-                                        <input type="email" id="email" value="john.doe@example.com"
-                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
-                                            readonly>
+                                        <label for="email" class="block text-sm font-medium text-gray-700">Địa chỉ email</label>
+                                        <input type="email" id="email" value="john.doe@example.com" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed" readonly>
                                     </div>
                                     <div>
-                                        <label for="phone" class="block text-sm font-medium text-gray-700">Số điện
-                                            thoại</label>
-                                        <input type="tel" id="phone" value="+84 123 456 789"
-                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <label for="phone" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                                        <input type="tel" id="phone" value="+84 123 456 789" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     <div>
-                                        <label for="dob" class="block text-sm font-medium text-gray-700">Ngày
-                                            sinh</label>
-                                        <input type="date" id="dob" value="1990-05-25"
-                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <label for="dob" class="block text-sm font-medium text-gray-700">Ngày sinh</label>
+                                        <input type="date" id="dob" value="1990-05-25" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                 </div>
                             </form>
                             <div class="p-6 bg-gray-50 rounded-b-xl text-right">
-                                <button type="submit"
-                                    class="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Lưu
-                                    thay đổi</button>
+                                <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Lưu thay đổi</button>
                             </div>
                         </div>
 
@@ -198,31 +139,14 @@
                                     <h3 class="text-lg font-semibold">Sổ địa chỉ</h3>
                                     <p class="text-sm text-gray-500 mt-1">Quản lý địa chỉ giao hàng của bạn.</p>
                                 </div>
-                                <button
-                                    class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"><i
-                                        class="fas fa-plus mr-2"></i>Thêm địa chỉ</button>
+                                <button id="add-address-btn" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Thêm địa chỉ</button>
                             </div>
                             <div class="p-6 space-y-4">
                                 <div class="border rounded-lg p-4 flex justify-between items-start">
                                     <div>
-                                        <div class="font-semibold text-gray-800">John Doe <span
-                                                class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Mặc
-                                                định</span></div>
-                                        <p class="text-gray-600 text-sm mt-1">123 Đường ABC, Phường 1, Quận 1, TP. Hồ
-                                            Chí Minh</p>
+                                        <div class="font-semibold text-gray-800">John Doe <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Mặc định</span></div>
+                                        <p class="text-gray-600 text-sm mt-1">123 Đường ABC, Phường 1, Quận 1, TP. Hồ Chí Minh</p>
                                         <p class="text-gray-600 text-sm">Điện thoại: (+84) 123 456 789</p>
-                                    </div>
-                                    <div class="flex space-x-3 text-gray-500">
-                                        <button class="hover:text-blue-600"><i class="fas fa-edit"></i></button>
-                                        <button class="hover:text-red-600"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </div>
-                                <div class="border rounded-lg p-4 flex justify-between items-start">
-                                    <div>
-                                        <div class="font-semibold text-gray-800">Văn phòng công ty</div>
-                                        <p class="text-gray-600 text-sm mt-1">Tòa nhà Bitexco, 2 Hải Triều, Bến Nghé,
-                                            Quận 1, TP. Hồ Chí Minh</p>
-                                        <p class="text-gray-600 text-sm">Điện thoại: (+84) 987 654 321</p>
                                     </div>
                                     <div class="flex space-x-3 text-gray-500">
                                         <button class="hover:text-blue-600"><i class="fas fa-edit"></i></button>
@@ -233,18 +157,122 @@
                         </div>
 
                         <div id="bank" class="account-content bg-white rounded-xl shadow-md hidden">
+                            <div class="p-6 border-b flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg font-semibold">Tài khoản ngân hàng</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Quản lý tài khoản ngân hàng để rút tiền.</p>
+                                </div>
+                                <button id="add-bank-btn" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"><i class="fas fa-plus mr-2"></i>Thêm tài khoản</button>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="border rounded-lg p-4 flex justify-between items-start">
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Vietcombank <span class="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Đã xác thực</span></div>
+                                        <p class="text-gray-600 text-sm mt-1 font-mono">**** **** **** 1234</p>
+                                        <p class="text-gray-600 text-sm">Chủ tài khoản: NGUYEN VAN A</p>
+                                    </div>
+                                    <div class="flex space-x-3 text-gray-500">
+                                        <button class="hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div id="password" class="account-content bg-white rounded-xl shadow-md hidden">
+                             <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold">Đổi mật khẩu</h3>
+                                <p class="text-sm text-gray-500 mt-1">Để bảo mật, vui lòng không chia sẻ mật khẩu cho người khác.</p>
+                            </div>
+                            <form class="p-6 space-y-6 max-w-lg">
+                                <div>
+                                    <label for="current_password" class="block text-sm font-medium text-gray-700">Mật khẩu hiện tại</label>
+                                    <input type="password" id="current_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="new_password" class="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
+                                    <input type="password" id="new_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                 <div>
+                                    <label for="confirm_password" class="block text-sm font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                                    <input type="password" id="confirm_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            </form>
+                            <div class="p-6 bg-gray-50 rounded-b-xl text-right">
+                                <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">Cập nhật mật khẩu</button>
+                            </div>
                         </div>
 
                         <div id="notifications" class="account-content bg-white rounded-xl shadow-md hidden">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold">Cài đặt thông báo</h3>
+                                <p class="text-sm text-gray-500 mt-1">Lựa chọn cách thức bạn muốn nhận thông báo từ chúng tôi.</p>
+                            </div>
+                            <div class="p-6 divide-y">
+                                <div class="py-4">
+                                    <h4 class="font-semibold text-gray-800">Cập nhật đơn hàng</h4>
+                                    <p class="text-sm text-gray-500 mb-3">Thông báo về trạng thái đơn hàng, giao hàng và kiện hàng.</p>
+                                    <div class="flex items-center justify-between">
+                                        <span>Nhận qua Email</span>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer" checked>
+                                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:bg-blue-600"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                 <div class="py-4">
+                                    <h4 class="font-semibold text-gray-800">Khuyến mãi & Tin tức</h4>
+                                    <p class="text-sm text-gray-500 mb-3">Nhận thông tin về các chương trình khuyến mãi và bản tin cập nhật.</p>
+                                    <div class="flex items-center justify-between">
+                                        <span>Nhận qua Email</span>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:bg-blue-600"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="p-6 bg-gray-50 rounded-b-xl text-right">
+                                <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">Lưu cài đặt</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
+    
+    <div id="add-address-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            </div>
+    </div>
+
+    <div id="add-bank-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold">Thêm tài khoản ngân hàng</h3>
+                <button class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <form class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ngân hàng</label>
+                    <select class="mt-1 w-full p-2 border rounded-lg"><option>Vietcombank (VCB)</option><option>Techcombank (TCB)</option><option>Asia Commercial Bank (ACB)</option></select>
+                </div>
+                 <div>
+                    <label class="block text-sm font-medium text-gray-700">Số tài khoản</label>
+                    <input type="text" placeholder="Nhập số tài khoản" class="mt-1 w-full p-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tên chủ tài khoản</label>
+                    <input type="text" placeholder="Tên in trên thẻ, không dấu" class="mt-1 w-full p-2 border rounded-lg">
+                </div>
+            </form>
+            <div class="p-6 bg-gray-50 flex justify-end space-x-3">
+                <button class="close-modal-btn px-4 py-2 border rounded-lg text-sm font-medium">Hủy</button>
+                <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">Xác nhận & Thêm</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -254,43 +282,35 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
-
-                    // Update active state for nav links
                     navLinks.forEach(item => item.classList.remove('active'));
                     this.classList.add('active');
-
                     const targetId = this.getAttribute('data-target');
-
-                    // Hide all content panels
                     contentPanels.forEach(panel => {
-                        panel.classList.add('hidden');
+                        panel.classList.toggle('hidden', panel.id !== targetId);
                     });
-
-                    // Show the target content panel
-                    const targetPanel = document.getElementById(targetId);
-                    if (targetPanel) {
-                        targetPanel.classList.remove('hidden');
-                    }
                 });
             });
 
-            // Handle sidebar dropdowns
-            document.querySelectorAll('.sidebar-item > div').forEach(header => {
-                header.addEventListener('click', function () {
-                    const parent = this.parentElement;
-                    const submenu = this.nextElementSibling;
-                    const chevron = this.querySelector('.fa-chevron-down');
+            // LOGIC CHO CÁC DIALOG
+            const addAddressModal = document.getElementById('add-address-modal');
+            const addBankModal = document.getElementById('add-bank-modal');
+            const addAddressBtn = document.getElementById('add-address-btn');
+            const addBankBtn = document.getElementById('add-bank-btn');
+            const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+            
+            addAddressBtn.addEventListener('click', () => addAddressModal.classList.remove('hidden'));
+            addBankBtn.addEventListener('click', () => addBankModal.classList.remove('hidden'));
 
-                    if (submenu) {
-                        // Toggle active class on the parent wrapper for styling
-                        parent.classList.toggle('active-dropdown');
-                        submenu.classList.toggle('hidden');
-                        chevron.classList.toggle('rotate-180');
-                    }
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => btn.closest('.fixed').classList.add('hidden'));
+            });
+
+            [addAddressModal, addBankModal].forEach(modal => {
+                 modal.addEventListener('click', (e) => {
+                    if(e.target === modal) modal.classList.add('hidden');
                 });
             });
         });
     </script>
 </body>
-
 </html>
