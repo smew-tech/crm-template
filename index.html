@@ -1230,6 +1230,39 @@
                 document.getElementById(modalId)?.classList.remove('hidden');
             }
 
+            // Initialize tabs on page load
+            function initializeTabs() {
+                // Simple tab initialization - just ensure active tabs show their content
+                document.querySelectorAll('.tab-container').forEach(container => {
+                    const navs = container.querySelectorAll('nav');
+                    navs.forEach(nav => {
+                        const activeTab = nav.querySelector('.tab-link.active-tab');
+                        if (activeTab) {
+                            const targetId = activeTab.getAttribute('href');
+                            if (targetId && targetId.startsWith('#')) {
+                                // Find all tab links in this nav and their corresponding content
+                                const allLinks = nav.querySelectorAll('.tab-link');
+                                allLinks.forEach(link => {
+                                    const linkTarget = link.getAttribute('href');
+                                    if (linkTarget && linkTarget.startsWith('#')) {
+                                        const content = document.querySelector(linkTarget);
+                                        if (content) {
+                                            if (linkTarget === targetId) {
+                                                // Show active content
+                                                content.classList.remove('hidden');
+                                            } else {
+                                                // Hide inactive content
+                                                content.classList.add('hidden');
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+
             // --- HÀM TẢI VÀ HIỂN THỊ NỘI DUNG ---
             const loadContent = async (url, title, targetTab = null) => {
                 try {
@@ -1240,14 +1273,17 @@
                     pageContentArea.innerHTML = content;
                     if (title) pageTitle.textContent = title;
 
-                    if (targetTab) {
-                        setTimeout(() => {
+                    // Initialize tabs for the new content
+                    setTimeout(() => {
+                        initializeTabs();
+                        
+                        if (targetTab) {
                             const tabLink = pageContentArea.querySelector(`.tab-link[href="${targetTab}"]`);
                             if (tabLink) {
                                 tabLink.click();
                             }
-                        }, 0);
-                    }
+                        }
+                    }, 50);
                 } catch (error) {
                     console.error('Lỗi tải trang:', error);
                     pageContentArea.innerHTML = `<div class="text-center text-red-500"><p class="font-bold">Không thể tải nội dung.</p></div>`;
@@ -1859,6 +1895,140 @@ Noi dung: Rut tien ${withdrawalId}`;
             if (defaultLink) {
                 loadContent(defaultLink.getAttribute('href'), defaultLink.getAttribute('data-title'));
             }
+
+            // Tab functionality for all pages
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tab-link') || e.target.closest('.tab-link')) {
+                    e.preventDefault();
+                    const tabLink = e.target.classList.contains('tab-link') ? e.target : e.target.closest('.tab-link');
+                    const targetId = tabLink.getAttribute('href');
+                    
+                    if (targetId && targetId.startsWith('#')) {
+                        // Find the tab container (either closest .tab-container or parent element)
+                        const tabContainer = tabLink.closest('.tab-container') || tabLink.closest('[class*="tab"]') || document;
+                        
+                        // Remove active class from all tabs in the same nav container
+                        const navContainer = tabLink.closest('nav');
+                        if (navContainer) {
+                            navContainer.querySelectorAll('.tab-link').forEach(tab => {
+                                tab.classList.remove('active-tab');
+                                tab.classList.add('border-transparent', 'text-gray-500');
+                                // Ensure border-b-2 class is managed properly
+                                if (!tab.classList.contains('border-b-2')) {
+                                    tab.classList.add('border-b-2');
+                                }
+                            });
+                            
+                            // Add active class to clicked tab
+                            tabLink.classList.add('active-tab');
+                            tabLink.classList.remove('border-transparent', 'text-gray-500');
+                            tabLink.classList.add('border-b-2');
+                        }
+                        
+                        // Hide all tab contents in the same container
+                        tabContainer.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.add('hidden');
+                        });
+                        
+                        // Show target tab content
+                        const targetContent = tabContainer.querySelector(targetId);
+                        if (targetContent) {
+                            targetContent.classList.remove('hidden');
+                        }
+                    }
+                }
+            });
+
+
+            // Handle product category surcharge actions
+            document.addEventListener('click', function(e) {
+                // Add product type
+                if (e.target.id === 'add-product-type-btn' || e.target.closest('#add-product-type-btn')) {
+                    e.preventDefault();
+                    openModal('add-product-type-modal');
+                }
+                
+                // Add Japan surcharge
+                if (e.target.id === 'add-japan-surcharge-btn' || e.target.closest('#add-japan-surcharge-btn')) {
+                    e.preventDefault();
+                    openModal('add-surcharge-modal');
+                }
+                
+                // Add US surcharge
+                if (e.target.id === 'add-us-surcharge-btn' || e.target.closest('#add-us-surcharge-btn')) {
+                    e.preventDefault();
+                    openModal('add-surcharge-modal');
+                }
+                
+                // Edit surcharge
+                if (e.target.classList.contains('edit-surcharge-btn')) {
+                    e.preventDefault();
+                    openModal('edit-surcharge-modal');
+                }
+                
+                // Add custom fee
+                if (e.target.id === 'add-custom-fee-btn' || e.target.closest('#add-custom-fee-btn')) {
+                    e.preventDefault();
+                    openModal('add-custom-fee-modal');
+                }
+                
+                // Add insurance
+                if (e.target.id === 'add-insurance-btn' || e.target.closest('#add-insurance-btn')) {
+                    e.preventDefault();
+                    openModal('add-insurance-modal');
+                }
+
+                // Add commission tier
+                if (e.target.id === 'add-commission-tier-btn' || e.target.closest('#add-commission-tier-btn')) {
+                    e.preventDefault();
+                    openModal('add-commission-tier-modal');
+                }
+            });
+
+            // Handle COD fee settings (only when product is in Vietnam warehouse)
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('set-cod-fee-btn')) {
+                    e.preventDefault();
+                    
+                    const productStatus = e.target.getAttribute('data-status');
+                    const productId = e.target.getAttribute('data-product-id');
+                    
+                    if (productStatus === 'arrived_vietnam') {
+                        // Product has arrived in Vietnam warehouse, allow COD fee setting
+                        openModal('set-cod-fee-modal');
+                        document.getElementById('cod-product-id').textContent = productId;
+                    } else {
+                        // Product not in Vietnam warehouse yet
+                        alert('Chỉ có thể thiết lập phí COD khi sản phẩm đã về kho Việt Nam');
+                    }
+                }
+
+                // Handle view item detail 
+                if (e.target.classList.contains('view-item-detail-btn')) {
+                    e.preventDefault();
+                    const row = e.target.closest('tr');
+                    const productId = row.querySelector('td:first-child').textContent.trim();
+                    const productName = row.querySelector('td:nth-child(2)').textContent.trim();
+                    const status = row.querySelector('.rounded-full').textContent.trim();
+                    
+                    // Set modal content
+                    document.getElementById('detail-product-id').textContent = productId;
+                    document.getElementById('detail-product-name').textContent = productName;
+                    document.getElementById('detail-product-status').textContent = status;
+                    
+                    // Show/hide COD button based on status
+                    const codButton = document.getElementById('cod-fee-btn');
+                    if (status === 'Về kho VN') {
+                        codButton.style.display = 'inline-block';
+                        codButton.setAttribute('data-status', 'arrived_vietnam');
+                        codButton.setAttribute('data-product-id', productId);
+                    } else {
+                        codButton.style.display = 'none';
+                    }
+                    
+                    openModal('product-detail-modal');
+                }
+            });
         });
     </script>
 
@@ -1959,6 +2129,545 @@ Noi dung: Rut tien ${withdrawalId}`;
             </div>
         </div>
     </div>
+
+    <!-- Add Product Type Modal -->
+    <div id="add-product-type-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm Loại sản phẩm mới</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tên loại sản phẩm</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Ví dụ: Thiết bị y tế">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="fas fa-laptop">💻 Laptop</option>
+                            <option value="fas fa-tshirt">👕 Quần áo</option>
+                            <option value="fas fa-palette">🎨 Mỹ phẩm</option>
+                            <option value="fas fa-gamepad">🎮 Game</option>
+                            <option value="fas fa-utensils">🍴 Đồ gia dụng</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả</label>
+                        <textarea class="w-full p-3 border border-gray-300 rounded-lg" rows="3" placeholder="Mô tả ngắn về loại sản phẩm"></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Thêm loại sản phẩm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Surcharge Modal -->
+    <div id="add-surcharge-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm Phụ thu mới</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Quốc gia</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="japan">🇯🇵 Nhật Bản (Japan)</option>
+                            <option value="us">🇺🇸 Hoa Kỳ (US)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Loại sản phẩm</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="electronics">Điện tử</option>
+                            <option value="clothing">Quần áo</option>
+                            <option value="cosmetics">Mỹ phẩm</option>
+                            <option value="fashion">Thời trang</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Điều kiện giá</label>
+                        <select id="price-condition" class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="gte">Lớn hơn hoặc bằng (≥)</option>
+                            <option value="range">Khoảng (từ - đến)</option>
+                            <option value="lt">Nhỏ hơn (<)</option>
+                        </select>
+                    </div>
+                    
+                    <div id="price-inputs" class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Từ giá</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="0">
+                        </div>
+                        <div id="to-price-container" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Đến giá</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phụ thu (%)</label>
+                        <input type="number" step="0.1" min="0" max="100" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="5.0">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Thêm phụ thu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Surcharge Modal -->
+    <div id="edit-surcharge-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Chỉnh sửa Phụ thu</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Quốc gia</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="japan" selected>🇯🇵 Nhật Bản (Japan)</option>
+                            <option value="us">🇺🇸 Hoa Kỳ (US)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Loại sản phẩm</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="electronics" selected>Điện tử</option>
+                            <option value="clothing">Quần áo</option>
+                            <option value="cosmetics">Mỹ phẩm</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Điều kiện giá</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="gte" selected>Lớn hơn hoặc bằng (≥)</option>
+                            <option value="range">Khoảng (từ - đến)</option>
+                            <option value="lt">Nhỏ hơn (<)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Từ giá (JPY)</label>
+                            <input type="number" value="50000" class="w-full p-3 border border-gray-300 rounded-lg">
+                        </div>
+                        <div class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Đến giá (JPY)</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phụ thu (%)</label>
+                        <input type="number" value="5" step="0.1" min="0" max="100" class="w-full p-3 border border-gray-300 rounded-lg">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Custom Fee Modal -->
+    <div id="add-custom-fee-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm Cài đặt Phí riêng</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Loại phí</label>
+                        <select id="fee-type" class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="purchase">Phí mua hộ</option>
+                            <option value="payment">Phí thanh toán</option>
+                            <option value="cancellation">Phí hủy đơn</option>
+                            <option value="insurance">Bảo hiểm</option>
+                        </select>
+                    </div>
+                    
+                    <div id="purchase-fee-options" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí theo % giá trị đơn hàng</label>
+                            <input type="number" step="0.1" min="0" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="3.0">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí tối thiểu (VND)</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="30000">
+                        </div>
+                    </div>
+                    
+                    <div id="payment-fee-options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí cố định (JPY)</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="150">
+                        </div>
+                    </div>
+                    
+                    <div id="cancellation-fee-options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí cố định (VND)</label>
+                            <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="50000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí theo % giá trị đơn</label>
+                            <input type="number" step="0.1" min="0" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="1.0">
+                        </div>
+                    </div>
+                    
+                    <div id="insurance-fee-options" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Gói bảo hiểm</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg">
+                                <option value="basic">Bảo hiểm cơ bản (2%)</option>
+                                <option value="comprehensive">Bảo hiểm toàn diện (5%)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí bảo hiểm riêng (%)</label>
+                            <input type="number" step="0.1" min="0" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="3.0">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ngày bắt đầu áp dụng</label>
+                        <input type="date" class="w-full p-3 border border-gray-300 rounded-lg">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Thêm cài đặt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Insurance Modal -->
+    <div id="add-insurance-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm Gói bảo hiểm mới</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tên gói bảo hiểm</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Ví dụ: Bảo hiểm VIP">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả</label>
+                        <textarea class="w-full p-3 border border-gray-300 rounded-lg" rows="3" placeholder="Mô tả chi tiết về phạm vi bảo hiểm"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí bảo hiểm (%)</label>
+                        <input type="number" step="0.1" min="0" max="100" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="2.5">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Giá trị tối đa bảo hiểm (VND)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="20000000">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Thêm gói bảo hiểm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Commission Tier Modal -->
+    <div id="add-commission-tier-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thêm Mức hoa hồng mới</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Doanh thu từ (VND)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="200000001">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Doanh thu đến (VND)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="300000000">
+                        <p class="text-sm text-gray-500 mt-1">Để trống nếu không giới hạn trên</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tỷ lệ hoa hồng (%)</label>
+                        <input type="number" step="0.1" min="0" max="100" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="12.0">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Thêm mức hoa hồng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- COD Fee Setting Modal -->
+    <div id="set-cod-fee-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-60 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-lg w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Thiết lập Phí COD nội địa</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-yellow-50 p-4 rounded-lg mb-4 border-l-4 border-yellow-400">
+                    <p class="font-medium text-yellow-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Lưu ý:</p>
+                    <p class="text-yellow-700 text-sm">Phí COD chỉ được thiết lập sau khi sản phẩm <span id="cod-product-id" class="font-mono bg-yellow-200 px-1 rounded">S8T22</span> đã về kho Việt Nam và có hóa đơn thực tế từ đơn vị vận chuyển.</p>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Quốc gia xuất phát</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg" disabled>
+                            <option>Nhật Bản (Japan)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí vận chuyển COD thực tế</label>
+                        <div class="flex">
+                            <input type="number" class="flex-1 p-3 border border-gray-300 rounded-l-lg" placeholder="500">
+                            <span class="bg-gray-100 px-3 py-3 border border-l-0 border-gray-300 rounded-r-lg text-gray-600">JPY</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Số hóa đơn/biên lai</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Mã số hóa đơn từ đơn vị vận chuyển">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
+                        <textarea class="w-full p-3 border border-gray-300 rounded-lg" rows="2" placeholder="Ghi chú thêm về phí COD này..."></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Lưu phí COD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-detail-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg max-w-2xl w-full mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Chi tiết Sản phẩm</h3>
+                    <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Product Information -->
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-3 text-gray-700">Thông tin Sản phẩm</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Mã sản phẩm:</span>
+                                    <span id="detail-product-id" class="font-mono font-medium">S8T22</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tên sản phẩm:</span>
+                                    <span id="detail-product-name" class="font-medium">loa bluetooth</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Trạng thái:</span>
+                                    <span id="detail-product-status" class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Về kho VN</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Khách hàng:</span>
+                                    <span class="font-medium">SC231</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fee Information -->
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-3 text-gray-700">Chi phí & Phí dịch vụ</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Giá mua:</span>
+                                    <span class="font-medium">65,000 JPY</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Phí mua hộ:</span>
+                                    <span class="font-medium">195,000 VND (3%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Phí vận chuyển quốc tế:</span>
+                                    <span class="font-medium">450,000 VND</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Phí COD nội địa:</span>
+                                    <span class="font-medium text-orange-600">Chưa thiết lập</span>
+                                </div>
+                                <div class="border-t pt-2 flex justify-between font-bold">
+                                    <span>Tổng chi phí:</span>
+                                    <span class="text-blue-600">1,850,000 VND</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col gap-2">
+                            <button id="cod-fee-btn" class="set-cod-fee-btn bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded text-sm" data-status="arrived_vietnam" data-product-id="S8T22">
+                                <i class="fas fa-truck mr-2"></i>Thiết lập Phí COD nội địa
+                            </button>
+                            <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm">
+                                <i class="fas fa-edit mr-2"></i>Chỉnh sửa thông tin
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Shipping Timeline -->
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-3 text-gray-700">Lịch trình Vận chuyển</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                    <div class="text-sm">
+                                        <div class="font-medium">Đã mua hàng</div>
+                                        <div class="text-gray-500 text-xs">25/07/2025 10:30</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                    <div class="text-sm">
+                                        <div class="font-medium">Đã về kho Japan</div>
+                                        <div class="text-gray-500 text-xs">28/07/2025 14:20</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                    <div class="text-sm">
+                                        <div class="font-medium">Đang vận chuyển quốc tế</div>
+                                        <div class="text-gray-500 text-xs">30/07/2025 09:15</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                                    <div class="text-sm">
+                                        <div class="font-medium text-blue-600">Đã về kho Việt Nam</div>
+                                        <div class="text-gray-500 text-xs">05/08/2025 16:45</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-gray-300 rounded-full mr-3"></div>
+                                    <div class="text-sm">
+                                        <div class="font-medium text-gray-500">Giao hàng cho khách</div>
+                                        <div class="text-gray-500 text-xs">Chờ xử lý</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- COD Fee Notice -->
+                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                            <h4 class="font-semibold mb-2 text-yellow-800">Thông báo về Phí COD</h4>
+                            <div class="text-yellow-700 text-sm space-y-1">
+                                <p>✅ Sản phẩm đã về kho Việt Nam</p>
+                                <p>⚠️ Cần thiết lập phí COD nội địa để hoàn tất tính toán chi phí</p>
+                                <p>📋 Phí COD sẽ được tính dựa trên hóa đơn thực tế từ đơn vị vận chuyển</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle dynamic form options in modals
+        document.addEventListener('change', function(e) {
+            // Handle price condition change in surcharge modal
+            if (e.target.id === 'price-condition') {
+                const toPriceContainer = document.getElementById('to-price-container');
+                if (e.target.value === 'range') {
+                    toPriceContainer.classList.remove('hidden');
+                } else {
+                    toPriceContainer.classList.add('hidden');
+                }
+            }
+            
+            // Handle fee type change in custom fee modal
+            if (e.target.id === 'fee-type') {
+                const purchaseOptions = document.getElementById('purchase-fee-options');
+                const paymentOptions = document.getElementById('payment-fee-options');
+                const cancellationOptions = document.getElementById('cancellation-fee-options');
+                const insuranceOptions = document.getElementById('insurance-fee-options');
+                
+                // Hide all options
+                [purchaseOptions, paymentOptions, cancellationOptions, insuranceOptions].forEach(el => {
+                    el.classList.add('hidden');
+                });
+                
+                // Show relevant option
+                switch(e.target.value) {
+                    case 'purchase':
+                        purchaseOptions.classList.remove('hidden');
+                        break;
+                    case 'payment':
+                        paymentOptions.classList.remove('hidden');
+                        break;
+                    case 'cancellation':
+                        cancellationOptions.classList.remove('hidden');
+                        break;
+                    case 'insurance':
+                        insuranceOptions.classList.remove('hidden');
+                        break;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

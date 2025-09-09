@@ -45,8 +45,8 @@
                                     </select></td>
                                 <td class="p-3">Trần Thị Bích</td>
                                 <td class="p-3 text-right font-bold text-red-500">6,100,000</td>
-                                <td class="p-3 text-center"><a href="#"
-                                        class="view-customer-link text-indigo-600 font-medium">Xem chi tiết 360°</a>
+                                <td class="p-3 text-center">
+                                    <a href="#" data-target-page="_customer-detail-360.html" data-target-title="Chi tiết Khách hàng" class="nav-link view-customer-link text-indigo-600 font-medium">Xem chi tiết 360°</a>
                                 </td>
                             </tr>
                             <tr data-customer-name="Lê Thị D" data-customer-tier="Bạc" data-sales="Nguyễn Văn An"
@@ -60,8 +60,8 @@
                                     </select></td>
                                 <td class="p-3">Nguyễn Văn An</td>
                                 <td class="p-3 text-right">0</td>
-                                <td class="p-3 text-center"><a href="#"
-                                        class="view-customer-link text-indigo-600 font-medium">Xem chi tiết 360°</a>
+                                <td class="p-3 text-center">
+                                    <a href="#" data-target-page="_customer-detail-360.html" data-target-title="Chi tiết Khách hàng" class="nav-link view-customer-link text-indigo-600 font-medium">Xem chi tiết 360°</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -120,18 +120,99 @@
                                 <p class="text-lg font-bold text-green-600">7.5M đ</p>
                             </div>
                         </div>
-                        <div>
-                            <h4 class="font-semibold text-sm">Cài đặt Hoa hồng</h4>
-                            <div class="text-sm mt-1 pl-2 flex items-center"><strong>Tỷ lệ:</strong><input type="number"
-                                    value="5" class="w-20 p-1 border rounded-md ml-2">%</div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-sm mb-3 text-blue-800">Cài đặt Hoa hồng theo Doanh số</h4>
+                            
+                            <!-- Commission Tiers Table -->
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full text-xs">
+                                    <thead class="bg-white">
+                                        <tr>
+                                            <th class="p-2 text-left font-semibold">Mức doanh thu (VND)</th>
+                                            <th class="p-2 text-center font-semibold">Tỷ lệ hoa hồng (%)</th>
+                                            <th class="p-2 text-center font-semibold">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="p-2">0 - 50,000,000</td>
+                                            <td class="p-2 text-center">
+                                                <input type="number" value="3" class="w-16 p-1 border rounded text-center">%
+                                            </td>
+                                            <td class="p-2 text-center">
+                                                <button class="text-red-500 hover:text-red-700 text-xs">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2">50,000,001 - 100,000,000</td>
+                                            <td class="p-2 text-center">
+                                                <input type="number" value="5" class="w-16 p-1 border rounded text-center">%
+                                            </td>
+                                            <td class="p-2 text-center">
+                                                <button class="text-red-500 hover:text-red-700 text-xs">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2">100,000,001 - 200,000,000</td>
+                                            <td class="p-2 text-center">
+                                                <input type="number" value="7" class="w-16 p-1 border rounded text-center">%
+                                            </td>
+                                            <td class="p-2 text-center">
+                                                <button class="text-red-500 hover:text-red-700 text-xs">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2">Trên 200,000,000</td>
+                                            <td class="p-2 text-center">
+                                                <input type="number" value="10" class="w-16 p-1 border rounded text-center">%
+                                            </td>
+                                            <td class="p-2 text-center">
+                                                <button class="text-red-500 hover:text-red-700 text-xs">Xóa</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <button id="add-commission-tier-btn" class="text-xs bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                    <i class="fas fa-plus mr-1"></i>Thêm mức
+                                </button>
+                                <button class="text-xs bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                                    Lưu cài đặt hoa hồng
+                                </button>
+                            </div>
                         </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-sm mb-3 text-green-800">Chi tiết Doanh thu & Hoa hồng tháng này</h4>
+                            <div class="grid grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <p class="text-gray-600">Doanh thu 0-50M:</p>
+                                    <p class="font-bold">50,000,000 đ × 3% = <span class="text-green-600">1,500,000 đ</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Doanh thu 50M-100M:</p>
+                                    <p class="font-bold">50,000,000 đ × 5% = <span class="text-green-600">2,500,000 đ</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Doanh thu 100M-150M:</p>
+                                    <p class="font-bold">50,000,000 đ × 7% = <span class="text-green-600">3,500,000 đ</span></p>
+                                </div>
+                                <div class="col-span-2 border-t pt-2">
+                                    <p class="font-bold text-green-800">Tổng hoa hồng: 7,500,000 đ</p>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="border-t pt-4">
                             <h4 class="font-semibold text-sm mb-2">Hành động</h4>
-                            <div class="flex gap-2"><button
-                                    class="text-xs bg-blue-500 text-white px-3 py-1 rounded">Chốt kỳ
-                                    lương</button><button class="text-xs bg-gray-200 px-3 py-1 rounded">Reset Mật
-                                    khẩu</button><button class="text-xs bg-red-500 text-white px-3 py-1 rounded">Khóa
-                                    tài khoản</button></div>
+                            <div class="flex gap-2">
+                                <button class="text-xs bg-blue-500 text-white px-3 py-1 rounded">Chốt kỳ lương</button>
+                                <button class="text-xs bg-gray-200 px-3 py-1 rounded">Reset Mật khẩu</button>
+                                <button class="text-xs bg-red-500 text-white px-3 py-1 rounded">Khóa tài khoản</button>
+                            </div>
                         </div>
                     </div>
                     <div id="staff-customers" class="tab-content hidden space-y-4">

@@ -1,0 +1,451 @@
+<div class="space-y-6">
+    <!-- Customer Header -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-blue-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Nguyễn Văn A</h1>
+                    <div class="flex items-center space-x-4 text-sm text-gray-600 mt-2">
+                        <span>ID: KH001</span>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium">VIP</span>
+                        <span>Sales: Trần Thị Bích</span>
+                        <span>Ngày gia nhập: 15/03/2024</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-edit mr-2"></i>Chỉnh sửa thông tin
+                </button>
+                <a href="#" data-target-page="_user-management.html" data-target-title="Quản lý Người dùng" class="nav-link text-sm text-gray-600 hover:text-gray-800 px-4 py-2 border rounded-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                </a>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-gray-50 p-4 rounded-lg text-center">
+                <p class="text-2xl font-bold text-blue-600">147</p>
+                <p class="text-sm text-gray-600">Tổng đơn hàng</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg text-center">
+                <p class="text-2xl font-bold text-green-600">89.2M đ</p>
+                <p class="text-sm text-gray-600">Tổng chi tiêu</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg text-center">
+                <p class="text-2xl font-bold text-red-600">2.1M đ</p>
+                <p class="text-sm text-gray-600">Công nợ hiện tại</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg text-center">
+                <p class="text-2xl font-bold text-purple-600">4.5M đ</p>
+                <p class="text-sm text-gray-600">Số dư ví</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabbed Content -->
+    <div class="bg-white rounded-lg shadow-md tab-container">
+        <div class="border-b border-gray-200">
+            <nav class="flex flex-wrap -mb-px px-6" aria-label="Tabs">
+                <a href="#customer-info" class="tab-link shrink-0 border-b-2 px-3 py-4 text-sm font-medium active-tab">
+                    <i class="fas fa-user mr-2"></i>Thông tin cơ bản
+                </a>
+                <a href="#custom-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-money-bill-wave mr-2"></i>Cài đặt Phí riêng
+                </a>
+                <a href="#order-history" class="tab-link shrink-0 border-b-2 border-transparent px-3 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-history mr-2"></i>Lịch sử đơn hàng
+                </a>
+                <a href="#financial-history" class="tab-link shrink-0 border-b-2 border-transparent px-3 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-chart-line mr-2"></i>Lịch sử tài chính
+                </a>
+                <a href="#support-tickets" class="tab-link shrink-0 border-b-2 border-transparent px-3 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-headset mr-2"></i>Thêm Ghi chú mới
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-6">
+            <!-- Basic Customer Information Tab -->
+            <div id="customer-info" class="tab-content">
+                                <div id="detail-overview" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <div class="lg:col-span-2 space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Sổ địa chỉ</h4><button
+                                        class="text-sm text-blue-600 font-semibold">+
+                                        Thêm địa chỉ</button>
+                                </div>
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold">Nhà riêng</p>
+                                    <p class="text-sm text-gray-600">123 Đường ABC, Phường 4, Quận 5, TP. Hồ Chí Minh
+                                    </p>
+                                    <p class="text-sm text-gray-600">0987 654 321</p><span
+                                        class="text-xs bg-gray-200 px-2 py-0.5 rounded-full">Mặc định</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Tài khoản ngân hàng</h4><button
+                                        class="text-sm text-blue-600 font-semibold">+ Thêm tài khoản</button>
+                                </div>
+                                <div class="border-t pt-2">
+                                    <p class="font-semibold">Vietcombank</p>
+                                    <p class="text-sm text-gray-600">STK: 0123456789</p>
+                                    <p class="text-sm text-gray-600">Chủ TK: NGUYEN VAN AN</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold mb-2">Thông tin liên hệ</h4>
+                                <p class="text-sm text-gray-600">an.nguyen@email.com</p>
+                                <p class="text-sm text-gray-600">0987 654 321</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold">Nhân viên phụ trách</h4><button
+                                        class="text-sm text-blue-600 font-semibold">Thay đổi</button>
+                                </div>
+                                <p class="text-sm font-semibold">John Doe</p>
+                                <p class="text-xs text-gray-500">Sales Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Fees Settings Tab -->
+            <div id="custom-fees" class="tab-content hidden">
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-gray-800">Cài đặt Phí riêng cho Khách hàng</h3>
+                        <button id="add-custom-fee-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
+                            <i class="fas fa-plus mr-2"></i>Thêm cài đặt phí mới
+                        </button>
+                    </div>
+
+                    <!-- Fee Categories -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Purchase Fee -->
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-semibold text-blue-800">
+                                    <i class="fas fa-shopping-cart mr-2"></i>Phí Mua hộ
+                                </h4>
+                                <button class="text-blue-600 hover:text-blue-800 text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="text-sm space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Phí theo %:</span>
+                                    <span class="font-medium">3% (thay vì 5% mặc định)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Phí tối thiểu:</span>
+                                    <span class="font-medium">30,000 VND</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Trạng thái:</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Fee -->
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-semibold text-purple-800">
+                                    <i class="fas fa-credit-card mr-2"></i>Phí Thanh toán
+                                </h4>
+                                <button class="text-purple-600 hover:text-purple-800 text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="text-sm space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Phí cố định:</span>
+                                    <span class="font-medium">150 JPY/giao dịch</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Trạng thái:</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cancellation Fee -->
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-semibold text-red-800">
+                                    <i class="fas fa-times-circle mr-2"></i>Phí Hủy đơn
+                                </h4>
+                                <button class="text-red-600 hover:text-red-800 text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="text-sm space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Phí cố định:</span>
+                                    <span class="font-medium">50,000 VND</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Phí theo %:</span>
+                                    <span class="font-medium">1% giá trị đơn</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Trạng thái:</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insurance Settings -->
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-semibold text-green-800">
+                                    <i class="fas fa-shield-alt mr-2"></i>Bảo hiểm mặc định
+                                </h4>
+                                <button class="text-green-600 hover:text-green-800 text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="text-sm space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Gói bảo hiểm:</span>
+                                    <span class="font-medium">Bảo hiểm toàn diện</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Phí bảo hiểm:</span>
+                                    <span class="font-medium">3% (thay vì 5% mặc định)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Trạng thái:</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Category Surcharges -->
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-gray-800">Phụ thu theo Loại sản phẩm</h4>
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
+                                <i class="fas fa-plus mr-2"></i>Thêm phụ thu
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-3 text-left font-semibold">Quốc gia</th>
+                                        <th class="p-3 text-left font-semibold">Loại sản phẩm</th>
+                                        <th class="p-3 text-left font-semibold">Điều kiện giá</th>
+                                        <th class="p-3 text-center font-semibold">Phụ thu riêng</th>
+                                        <th class="p-3 text-center font-semibold">Phụ thu mặc định</th>
+                                        <th class="p-3 text-center font-semibold">Trạng thái</th>
+                                        <th class="p-3 text-center font-semibold">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="p-3">
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Japan</span>
+                                        </td>
+                                        <td class="p-3">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-laptop text-gray-500 mr-2"></i>
+                                                Điện tử
+                                            </div>
+                                        </td>
+                                        <td class="p-3">≥ 50,000 JPY</td>
+                                        <td class="p-3 text-center font-bold text-green-600">3%</td>
+                                        <td class="p-3 text-center text-gray-500">5%</td>
+                                        <td class="p-3 text-center">
+                                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Đang áp dụng</span>
+                                        </td>
+                                        <td class="p-3 text-center space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
+                                            <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">
+                                            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">US</span>
+                                        </td>
+                                        <td class="p-3">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-tshirt text-gray-500 mr-2"></i>
+                                                Thời trang
+                                            </div>
+                                        </td>
+                                        <td class="p-3">50 - 150 USD</td>
+                                        <td class="p-3 text-center font-bold text-green-600">2%</td>
+                                        <td class="p-3 text-center text-gray-500">3%</td>
+                                        <td class="p-3 text-center">
+                                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Đang áp dụng</span>
+                                        </td>
+                                        <td class="p-3 text-center space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
+                                            <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Fee History -->
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-4">Lịch sử Thay đổi Cài đặt Phí</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
+                                    <div>
+                                        <strong>08/08/2025 14:30</strong> - Admin cập nhật phí mua hộ
+                                        <div class="text-gray-600">Thay đổi từ 5% thành 3% cho khách hàng VIP</div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Phí mua hộ</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
+                                    <div>
+                                        <strong>25/07/2025 09:15</strong> - Trần Thị Bích cập nhật phí thanh toán
+                                        <div class="text-gray-600">Giảm phí từ 200 JPY xuống 150 JPY</div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">Phí thanh toán</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <strong>10/07/2025 16:45</strong> - Admin thêm phụ thu riêng cho điện tử
+                                        <div class="text-gray-600">Áp dụng phụ thu 3% thay vì 5% mặc định</div>
+                                    </div>
+                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Phụ thu</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order History Tab -->
+            <div id="order-history" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Lịch sử Đơn hàng</h3>
+                    <div class="flex space-x-2">
+                        <input type="text" placeholder="Tìm theo mã đơn..." class="px-3 py-2 border rounded-lg text-sm">
+                        <select class="px-3 py-2 border rounded-lg text-sm">
+                            <option>Tất cả trạng thái</option>
+                            <option>Hoàn thành</option>
+                            <option>Đang xử lý</option>
+                            <option>Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-3 text-left font-semibold">Mã đơn hàng</th>
+                                <th class="p-3 text-left font-semibold">Ngày tạo</th>
+                                <th class="p-3 text-right font-semibold">Giá trị</th>
+                                <th class="p-3 text-center font-semibold">Trạng thái</th>
+                                <th class="p-3 text-center font-semibold">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-3 font-medium">DH-2025-001</td>
+                                <td class="p-3">05/08/2025</td>
+                                <td class="p-3 text-right">2,450,000 VND</td>
+                                <td class="p-3 text-center">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoàn thành</span>
+                                </td>
+                                <td class="p-3 text-center">
+                                    <button class="text-blue-600 hover:text-blue-800">Xem chi tiết</button>
+                                </td>
+                            </tr>
+                            <!-- More order rows... -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Financial History Tab -->
+            <div id="financial-history" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Lịch sử Nạp/Rút tiền</h3>
+                        <!-- Financial history content -->
+                        <div class="space-y-3">
+                            <div class="border rounded-lg p-3">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <strong>N-0805-123</strong>
+                                        <div class="text-sm text-gray-600">05/08/2025 14:30</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-bold text-green-600">+5,000,000 VND</div>
+                                        <div class="text-xs">Nạp tiền</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Thống kê Chi tiêu</h3>
+                        <!-- Spending statistics -->
+                        <div class="space-y-3">
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <div class="text-sm text-blue-600">Tháng này</div>
+                                <div class="text-xl font-bold text-blue-800">12.5M VND</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Tickets Tab -->
+            <div id="support-tickets" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h4 class="font-bold text-base mb-2">Thêm Ghi chú mới</h4>
+                        <textarea rows="3" class="w-full p-2 border rounded-lg text-sm"
+                            placeholder="Nhân viên thêm ghi chú về khách hàng tại đây..."></textarea>
+                        <div class="text-right mt-2"><button
+                                class="text-sm bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Lưu ghi
+                                chú</button></div>
+                        <hr class="my-4">
+                        <h4 class="font-bold text-base mb-2">Lịch sử Ghi chú</h4>
+                        <div class="space-y-6 border-l-2 border-gray-200 ml-3 pl-6">
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[30px] top-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white">
+                                </div>
+                                <p class="font-medium">John Doe <span class="text-gray-500 font-normal text-sm">-
+                                        2025-08-01 14:20</span></p>
+                                <p class="text-gray-700 mt-1">Đã liên hệ khách hàng tư vấn về chính sách VIP. Khách hàng
+                                    rất quan tâm.</p>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[30px] top-1 w-4 h-4 bg-gray-400 rounded-full border-2 border-white">
+                                </div>
+                                <p class="font-medium">Jane Smith <span class="text-gray-500 font-normal text-sm">-
+                                        2025-07-25 09:00</span></p>
+                                <p class="text-gray-700 mt-1">Khách hàng hỏi về tình trạng đơn hàng #OD2240, đã báo hàng
+                                    đang trên đường về VN.</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
