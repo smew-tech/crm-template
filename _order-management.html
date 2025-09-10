@@ -11,6 +11,7 @@
             <input type="text" placeholder="Mã đơn, Mã kiện, Tên KH..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">-- Trạng thái --</option>
+                <option value="pending-confirmation">Chờ xác nhận</option>
                 <option value="deposit-paid">Đã đặt cọc</option>
                 <option value="confirmed">Xác nhận</option>
                 <option value="purchased">Đã mua</option>
@@ -44,15 +45,36 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     <tr>
+                        <td class="p-3 font-medium text-blue-600">#DH-0810-1</td>
+                        <td class="p-3">Nguyễn Văn A (SC244)</td>
+                        <td class="p-3">10/08/2025</td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
+                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium text-blue-600">#DH-0809-1</td>
+                        <td class="p-3">Trần Thị B (SC231)</td>
+                        <td class="p-3">09/08/2025</td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
+                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium text-blue-600">#DH-0808-1</td>
+                        <td class="p-3">Lê Văn C (SC144)</td>
+                        <td class="p-3">08/08/2025</td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
+                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    </tr>
+                    <tr>
                         <td class="p-3 font-medium text-blue-600">#DH-0806-1</td>
-                        <td class="p-3">Nguyễn Văn A</td>
+                        <td class="p-3">Nguyễn Văn A (SC244)</td>
                         <td class="p-3">06/08/2025</td>
                         <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Đã đặt cọc</span></td>
                         <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
                     </tr>
                     <tr>
                         <td class="p-3 font-medium text-blue-600">#DH-0805-1</td>
-                        <td class="p-3">Trần Thị B</td>
+                        <td class="p-3">Trần Thị B (SC231)</td>
                         <td class="p-3">05/08/2025</td>
                         <td class="p-3 text-center"><span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Đang vận chuyển về Việt Nam</span></td>
                         <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
@@ -60,5 +82,170 @@
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+<!-- Modal Tạo Đơn hàng cho Khách -->
+<div id="admin-create-order-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Tạo Đơn hàng cho Khách hàng</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="admin-create-order-form" class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Left Column -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2">Thông tin Sản phẩm</h4>
+                    
+                    <!-- Link sản phẩm -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Link Sản phẩm *</label>
+                        <input type="url" id="product-link" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://...">
+                    </div>
+                    
+                    <!-- Tên sản phẩm -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tên Sản phẩm *</label>
+                        <input type="text" id="product-name" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="VD: iPhone 15 Pro Max...">
+                    </div>
+                    
+                    <!-- Loại sản phẩm -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Loại Sản phẩm *</label>
+                        <select id="product-category" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">-- Chọn loại sản phẩm --</option>
+                            <option value="electronics">Điện tử</option>
+                            <option value="fashion">Thời trang</option>
+                            <option value="cosmetics">Mỹ phẩm</option>
+                            <option value="toys">Đồ chơi</option>
+                            <option value="books">Sách</option>
+                            <option value="home">Đồ gia dụng</option>
+                            <option value="food">Thực phẩm</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Phương thức mua -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phương thức *</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="purchase-method" value="direct" class="mr-3">
+                                <div>
+                                    <div class="font-medium">Mua thẳng</div>
+                                    <div class="text-xs text-gray-500">Giá cố định</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="purchase-method" value="auction" class="mr-3">
+                                <div>
+                                    <div class="font-medium">Đấu giá</div>
+                                    <div class="text-xs text-gray-500">Giá linh hoạt</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Giá sản phẩm -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá (¥) *</label>
+                            <input type="number" id="product-price-yen" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá (VND)</label>
+                            <input type="text" id="product-price-vnd" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" placeholder="Tự động tính">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2">Thông tin Đơn hàng</h4>
+                    
+                    <!-- Khách hàng -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Khách hàng *</label>
+                        <div class="relative">
+                            <input type="text" id="customer-search" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Tìm khách hàng theo mã hoặc tên...">
+                            <div id="customer-dropdown" class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-48 overflow-y-auto hidden">
+                                <!-- Customer list will be populated here -->
+                            </div>
+                            <input type="hidden" id="selected-customer-id" name="customer-id">
+                        </div>
+                    </div>
+                    
+                    <!-- Phí dịch vụ -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí DV (¥)</label>
+                            <input type="number" id="service-fee-yen" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0" value="500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phí DV (VND)</label>
+                            <input type="text" id="service-fee-vnd" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" placeholder="Tự động tính">
+                        </div>
+                    </div>
+                    
+                    <!-- Tiền cọc -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tiền cọc (VND) *</label>
+                            <input type="number" id="deposit-amount" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">% Cọc</label>
+                            <input type="text" id="deposit-percentage" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" placeholder="Tự động tính">
+                        </div>
+                    </div>
+                    
+                    <!-- Ghi chú -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
+                        <textarea id="order-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Ghi chú thêm về đơn hàng..."></textarea>
+                    </div>
+                    
+                    <!-- Tổng kết -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-semibold text-gray-700 mb-2">Tổng kết Đơn hàng</h5>
+                        <div class="space-y-1 text-sm">
+                            <div class="flex justify-between">
+                                <span>Giá sản phẩm:</span>
+                                <span id="summary-product-price">0 ₫</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Phí dịch vụ:</span>
+                                <span id="summary-service-fee">0 ₫</span>
+                            </div>
+                            <div class="flex justify-between font-semibold text-lg border-t pt-2">
+                                <span>Tổng cộng:</span>
+                                <span id="summary-total">0 ₫</span>
+                            </div>
+                            <div class="flex justify-between text-green-600">
+                                <span>Tiền cọc:</span>
+                                <span id="summary-deposit">0 ₫</span>
+                            </div>
+                            <div class="flex justify-between text-orange-600">
+                                <span>Còn lại:</span>
+                                <span id="summary-remaining">0 ₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Tạo Đơn hàng</button>
+            </div>
+        </form>
     </div>
 </div>

@@ -1458,6 +1458,19 @@
             document.addEventListener('click', function (event) {
                 const target = event.target;
 
+                // XỬ LÝ ADMIN ORDER CREATION
+                if (target.closest('#create-order-btn')) {
+                    event.preventDefault();
+                    openCreateOrderModal();
+                    return;
+                }
+
+                if (target.closest('.close-modal-btn') && target.closest('#admin-create-order-modal')) {
+                    event.preventDefault();
+                    closeCreateOrderModal();
+                    return;
+                }
+
                 const navLink = target.closest('.nav-link');
                 if (navLink && navLink.dataset.targetPage) {
                     event.preventDefault();
@@ -2141,6 +2154,14 @@ Noi dung: Rut tien ${withdrawalId}`;
                 }
             });
 
+
+            // Handle admin order form submission separately
+            document.addEventListener('submit', function(e) {
+                if (e.target.id === 'admin-create-order-form') {
+                    submitAdminOrder(e);
+                    return;
+                }
+            });
 
             // Handle product category surcharge actions
             document.addEventListener('click', function(e) {
@@ -2828,8 +2849,194 @@ Noi dung: Rut tien ${withdrawalId}`;
     </div>
 
     <script>
+        // Admin Order Creation Functions
+        window.exchangeRate = 186; // JPY to VND
+        
+        // Customer data for search
+        window.customerData = [
+            { id: "SC244", name: "Nguyễn Văn A", phone: "0901234567", email: "nguyenvana@email.com" },
+            { id: "SC231", name: "Trần Thị B", phone: "0901234568", email: "tranthib@email.com" },
+            { id: "SC144", name: "Lê Văn C", phone: "0901234569", email: "levanc@email.com" },
+            { id: "SC155", name: "Phạm Thị D", phone: "0901234570", email: "phamthid@email.com" },
+            { id: "SC267", name: "Hoàng Văn E", phone: "0901234571", email: "hoangvane@email.com" },
+            { id: "SC198", name: "Ngô Thị F", phone: "0901234572", email: "ngothif@email.com" },
+            { id: "SC223", name: "Vũ Văn G", phone: "0901234573", email: "vuvang@email.com" },
+            { id: "SC189", name: "Đỗ Thị H", phone: "0901234574", email: "dothih@email.com" },
+            { id: "SC276", name: "Bùi Văn I", phone: "0901234575", email: "buivani@email.com" },
+            { id: "SC134", name: "Lý Thị K", phone: "0901234576", email: "lythik@email.com" }
+        ];
+        
+        function initCustomerSearch() {
+            const searchInput = document.getElementById('customer-search');
+            const dropdown = document.getElementById('customer-dropdown');
+            const hiddenInput = document.getElementById('selected-customer-id');
+            
+            if (!searchInput || !dropdown) return;
+            
+            function showDropdown(customers) {
+                if (customers.length === 0) {
+                    dropdown.innerHTML = '<div class="p-3 text-gray-500">Không tìm thấy khách hàng</div>';
+                } else {
+                    dropdown.innerHTML = customers.map(customer => `
+                        <div class="p-3 hover:bg-gray-50 cursor-pointer customer-option" data-customer-id="${customer.id}">
+                            <div class="font-medium">${customer.id} - ${customer.name}</div>
+                            <div class="text-sm text-gray-500">${customer.phone} • ${customer.email}</div>
+                        </div>
+                    `).join('');
+                }
+                dropdown.classList.remove('hidden');
+            }
+            
+            function hideDropdown() {
+                dropdown.classList.add('hidden');
+            }
+            
+            function filterCustomers(query) {
+                if (!query) return window.customerData.slice(0, 5);
+                return window.customerData.filter(customer => 
+                    customer.id.toLowerCase().includes(query.toLowerCase()) ||
+                    customer.name.toLowerCase().includes(query.toLowerCase()) ||
+                    customer.phone.includes(query) ||
+                    customer.email.toLowerCase().includes(query.toLowerCase())
+                ).slice(0, 10);
+            }
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                const filtered = filterCustomers(query);
+                showDropdown(filtered);
+            });
+            
+            searchInput.addEventListener('focus', function() {
+                const query = this.value.trim();
+                const filtered = filterCustomers(query);
+                showDropdown(filtered);
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('customer-option') || e.target.closest('.customer-option')) {
+                    const option = e.target.classList.contains('customer-option') ? e.target : e.target.closest('.customer-option');
+                    const customerId = option.dataset.customerId;
+                    const customer = window.customerData.find(c => c.id === customerId);
+                    
+                    if (customer) {
+                        searchInput.value = `${customer.id} - ${customer.name}`;
+                        hiddenInput.value = customerId;
+                        hideDropdown();
+                    }
+                } else if (!e.target.closest('#customer-search') && !e.target.closest('#customer-dropdown')) {
+                    hideDropdown();
+                }
+            });
+        }
+        
+        function openCreateOrderModal() {
+            const modal = document.getElementById('admin-create-order-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                // Initialize customer search after modal opens
+                setTimeout(() => {
+                    initCustomerSearch();
+                }, 100);
+            }
+        }
+        
+        function closeCreateOrderModal() {
+            const modal = document.getElementById('admin-create-order-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.getElementById('admin-create-order-form').reset();
+                updateOrderSummary();
+            }
+        }
+        
+        function updateOrderSummary() {
+            const productPriceYen = parseFloat(document.getElementById('product-price-yen')?.value) || 0;
+            const serviceFeeYen = parseFloat(document.getElementById('service-fee-yen')?.value) || 0;
+            const depositAmount = parseFloat(document.getElementById('deposit-amount')?.value) || 0;
+            
+            const productPriceVnd = productPriceYen * window.exchangeRate;
+            const serviceFeeVnd = serviceFeeYen * window.exchangeRate;
+            const totalVnd = productPriceVnd + serviceFeeVnd;
+            const remainingVnd = totalVnd - depositAmount;
+            const depositPercentage = totalVnd > 0 ? ((depositAmount / totalVnd) * 100).toFixed(1) : 0;
+            
+            // Update VND fields
+            if (document.getElementById('product-price-vnd')) {
+                document.getElementById('product-price-vnd').value = productPriceVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('service-fee-vnd')) {
+                document.getElementById('service-fee-vnd').value = serviceFeeVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('deposit-percentage')) {
+                document.getElementById('deposit-percentage').value = depositPercentage + '%';
+            }
+            
+            // Update summary
+            if (document.getElementById('summary-product-price')) {
+                document.getElementById('summary-product-price').textContent = productPriceVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('summary-service-fee')) {
+                document.getElementById('summary-service-fee').textContent = serviceFeeVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('summary-total')) {
+                document.getElementById('summary-total').textContent = totalVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('summary-deposit')) {
+                document.getElementById('summary-deposit').textContent = depositAmount.toLocaleString('vi-VN') + ' ₫';
+            }
+            if (document.getElementById('summary-remaining')) {
+                document.getElementById('summary-remaining').textContent = remainingVnd.toLocaleString('vi-VN') + ' ₫';
+            }
+        }
+        
+        function generateOrderId() {
+            const now = new Date();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const orderCount = Math.floor(Math.random() * 99) + 1; // Random number for demo
+            return `#DH-${month}${day}-${orderCount}`;
+        }
+        
+        function submitAdminOrder(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(document.getElementById('admin-create-order-form'));
+            const selectedCustomerId = document.getElementById('selected-customer-id').value;
+            const selectedCustomer = window.customerData.find(c => c.id === selectedCustomerId);
+            
+            if (!selectedCustomerId || !selectedCustomer) {
+                alert('Vui lòng chọn khách hàng!');
+                return;
+            }
+            
+            const orderData = {
+                productLink: document.getElementById('product-link').value,
+                productName: document.getElementById('product-name').value,
+                productCategory: document.getElementById('product-category').value,
+                purchaseMethod: document.querySelector('input[name="purchase-method"]:checked')?.value,
+                priceYen: parseFloat(document.getElementById('product-price-yen').value),
+                serviceFeeYen: parseFloat(document.getElementById('service-fee-yen').value),
+                customer: selectedCustomer,
+                depositAmount: parseFloat(document.getElementById('deposit-amount').value),
+                notes: document.getElementById('order-notes').value,
+                createdAt: new Date().toISOString(),
+                status: 'pending-confirmation',
+                orderId: generateOrderId()
+            };
+            
+            console.log('Order created by admin:', orderData);
+            alert('Đơn hàng đã được tạo và gửi đến khách hàng để xác nhận!');
+            closeCreateOrderModal();
+        }
+
         // Handle dynamic form options in modals
         document.addEventListener('change', function(e) {
+            // Handle admin order form field changes
+            if (e.target.id === 'product-price-yen' || e.target.id === 'service-fee-yen' || e.target.id === 'deposit-amount') {
+                updateOrderSummary();
+            }
+            
             // Handle price condition change in surcharge modal
             if (e.target.id === 'price-condition') {
                 const toPriceContainer = document.getElementById('to-price-container');
