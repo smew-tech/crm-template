@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví tiền - eShopGlobal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        .notification-dot { 
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile menu overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 z-40 lg:hidden hidden bg-black bg-opacity-50"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition">
+        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">eShopGlobal</span>
+            </div>
+            <button id="close-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-3">
+                <a href="dashboard.html" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-home w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="orders.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-shopping-cart w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đơn hàng</span>
+                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">5</span>
+                </a>
+                <a href="auction.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-gavel w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đấu giá</span>
+                    <span class="ml-auto bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">3</span>
+                </a>
+                <a href="warehouse.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-warehouse w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Kho hàng</span>
+                    <span class="ml-auto bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="wallet.html" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
+                    <i class="fas fa-wallet w-5 h-5 text-blue-600"></i>
+                    <span class="ml-3">Ví tiền</span>
+                </a>
+                <a href="account.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-user w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Tài khoản</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 px-3 pt-6 border-t border-gray-200">
+                <button class="flex items-center w-full px-3 py-2 text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors group">
+                    <i class="fas fa-sign-out-alt w-5 h-5 text-gray-400 group-hover:text-red-600"></i>
+                    <span class="ml-3">Đăng xuất</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="lg:pl-64">
+        <!-- Top header -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+            <div class="flex items-center justify-between h-16 px-6">
+                <div class="flex items-center">
+                    <button id="open-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-xl font-semibold text-gray-900">Ví tiền</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search bar -->
+                    <div class="hidden md:block">
+                        <div class="relative">
+                            <input type="text" id="global-search" placeholder="Tìm kiếm sản phẩm, URL..." 
+                                   class="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="relative text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full notification-dot"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- User menu -->
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&background=3b82f6&color=fff" 
+                                 alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block font-medium">Nguyễn Văn A</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cài đặt</a>
+                            <hr class="my-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page content -->
+        <main class="p-6">
+            <!-- Wallet Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Available Balance -->
+                <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Số dư khả dụng</p>
+                            <p class="text-3xl font-bold" id="available-balance">15,750,000 ₫</p>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-full p-3">
+                            <i class="fas fa-wallet text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <i class="fas fa-arrow-up text-green-300 text-sm mr-1"></i>
+                        <span class="text-sm">Có thể sử dụng</span>
+                    </div>
+                </div>
+
+                <!-- Frozen Balance -->
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Số dư đóng băng</p>
+                            <p class="text-3xl font-bold">2,500,000 ₫</p>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-full p-3">
+                            <i class="fas fa-lock text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <i class="fas fa-clock text-orange-300 text-sm mr-1"></i>
+                        <span class="text-sm">Chờ giải tỏa</span>
+                    </div>
+                </div>
+
+                <!-- Total Balance -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Tổng số dư</p>
+                            <p class="text-3xl font-bold">18,250,000 ₫</p>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-full p-3">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <i class="fas fa-plus text-blue-300 text-sm mr-1"></i>
+                        <span class="text-sm">Tổng tài sản</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Tab navigation -->
+            <div class="bg-white rounded-lg shadow-sm mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex space-x-8 px-6">
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600" data-tab="history">
+                            <i class="fas fa-history mr-2"></i>Lịch sử giao dịch
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="deposit">
+                            <i class="fas fa-arrow-down mr-2"></i>Nạp tiền
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="withdraw">
+                            <i class="fas fa-arrow-up mr-2"></i>Rút tiền
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="history-tab" class="tab-content active">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <!-- Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                        <div>
+                            <input type="text" placeholder="Mã giao dịch" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                <option value="">Tất cả loại</option>
+                                <option value="deposit">Nạp tiền</option>
+                                <option value="withdraw">Rút tiền</option>
+                                <option value="payment">Thanh toán</option>
+                                <option value="refund">Hoàn tiền</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="pending">Đang xử lý</option>
+                                <option value="failed">Thất bại</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                                <i class="fas fa-search mr-2"></i>Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã GD</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loại</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Số tiền</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200" id="transaction-table">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001240</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-arrow-down text-green-500 mr-2"></i>
+                                            Nạp tiền
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-green-600 font-medium">+5,000,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Đang xử lý</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">25/12/2024 16:30</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Chờ admin xác nhận</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001239</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-undo text-orange-500 mr-2"></i>
+                                            Hoàn tiền
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-green-600 font-medium">+75,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">25/12/2024 14:20</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Hoàn tiền đấu giá hủy</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001238</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-arrow-up text-red-500 mr-2"></i>
+                                            Rút tiền
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-1,500,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Thất bại</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">25/12/2024 10:45</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Thông tin tài khoản không hợp lệ</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001237</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-crown text-yellow-500 mr-2"></i>
+                                            VIP Package
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-2,000,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">24/12/2024 16:15</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Kích hoạt VIP 2 - 30 ngày</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001236</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-shipping-fast text-blue-500 mr-2"></i>
+                                            Phí vận chuyển
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-45,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">24/12/2024 13:22</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Đơn hàng #ORD001236</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001235</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-times text-red-500 mr-2"></i>
+                                            Phí hủy
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-500,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">24/12/2024 11:30</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Hủy đấu giá #AUC001235</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001234</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-arrow-down text-green-500 mr-2"></i>
+                                            Nạp tiền
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-green-600 font-medium">+2,000,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">24/12/2024 09:15</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Chuyển khoản Vietcombank</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001233</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-shopping-cart text-blue-500 mr-2"></i>
+                                            Thanh toán đơn hàng
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-850,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">23/12/2024 14:30</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Đơn hàng #ORD001233</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001232</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-gavel text-purple-500 mr-2"></i>
+                                            Đấu giá
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-120,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Đang xử lý</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">23/12/2024 11:45</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Tiền cọc đấu giá</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001231</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-arrow-up text-red-500 mr-2"></i>
+                                            Rút tiền
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-800,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">22/12/2024 15:10</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Techcombank - **** 5678</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">#TXN001230</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                                            Phạt vi phạm
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-red-600 font-medium">-200,000 ₫</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Hoàn thành</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">22/12/2024 09:45</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">Không thanh toán đúng hạn</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-6">
+                        <div class="text-sm text-gray-700">
+                            Hiển thị <span class="font-medium">1</span> đến <span class="font-medium">10</span> trong <span class="font-medium">97</span> kết quả
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">Trước</button>
+                            <button class="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg">1</button>
+                            <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">2</button>
+                            <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">3</button>
+                            <button class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">Sau</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deposit Tab -->
+            <div id="deposit-tab" class="tab-content">
+                <div class="space-y-6">
+                    <!-- Create New Deposit -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                            <i class="fas fa-plus-circle text-green-600 mr-3"></i>
+                            Tạo lệnh nạp tiền mới
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <!-- Amount Selection -->
+                            <div class="lg:col-span-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn số tiền nạp</label>
+                                <input type="number" id="deposit-amount-new" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="0" min="10000">
+                                
+                                <div class="grid grid-cols-2 gap-2 mt-3">
+                                    <button type="button" class="deposit-quick-amount-new bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 text-sm py-2 px-3 rounded-lg transition-colors" data-amount="500000">
+                                        <div class="font-semibold">500K</div>
+                                    </button>
+                                    <button type="button" class="deposit-quick-amount-new bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 text-sm py-2 px-3 rounded-lg transition-colors" data-amount="1000000">
+                                        <div class="font-semibold">1M</div>
+                                    </button>
+                                    <button type="button" class="deposit-quick-amount-new bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 text-sm py-2 px-3 rounded-lg transition-colors" data-amount="2000000">
+                                        <div class="font-semibold">2M</div>
+                                    </button>
+                                    <button type="button" class="deposit-quick-amount-new bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 text-sm py-2 px-3 rounded-lg transition-colors" data-amount="5000000">
+                                        <div class="font-semibold">5M</div>
+                                    </button>
+                                </div>
+                                
+                                <button onclick="createDepositOrder()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg mt-4 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>Tạo lệnh nạp
+                                </button>
+                            </div>
+                            
+                            <!-- Bank Info & QR -->
+                            <div class="lg:col-span-2">
+                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <h4 class="text-base font-medium text-gray-800 mb-3 flex items-center">
+                                        <i class="fas fa-university text-gray-600 mr-2"></i>
+                                        Thông tin chuyển khoản
+                                    </h4>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="space-y-4">
+                                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-sm text-gray-600">Ngân hàng</span>
+                                                    <i class="fas fa-copy text-gray-400 cursor-pointer hover:text-blue-600" onclick="copyToClipboard('Vietcombank')"></i>
+                                                </div>
+                                                <p class="text-gray-900">Vietcombank</p>
+                                            </div>
+                                            
+                                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-sm text-gray-600">Số tài khoản</span>
+                                                    <i class="fas fa-copy text-gray-400 cursor-pointer hover:text-blue-600" onclick="copyToClipboard('1234567890')"></i>
+                                                </div>
+                                                <p class="text-gray-900 font-mono">1234567890</p>
+                                            </div>
+                                            
+                                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-sm text-gray-600">Chủ tài khoản</span>
+                                                    <i class="fas fa-copy text-gray-400 cursor-pointer hover:text-blue-600" onclick="copyToClipboard('CONG TY TNHH ESHOPGLOBAL')"></i>
+                                                </div>
+                                                <p class="text-gray-900">CONG TY TNHH ESHOPGLOBAL</p>
+                                            </div>
+                                            
+                                            <div class="bg-yellow-100 rounded-xl p-4 border-2 border-yellow-200">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <span class="text-sm text-yellow-700">Nội dung chuyển khoản</span>
+                                                    <i class="fas fa-copy text-yellow-600 cursor-pointer hover:text-yellow-800" onclick="copyTransferContent()"></i>
+                                                </div>
+                                                <p class="font-bold text-yellow-900" id="transfer-content">NAP 0123456789 0</p>
+                                                <p class="text-xs text-yellow-600 mt-1">*Bắt buộc nhập đúng nội dung để được duyệt tự động</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- QR Code -->
+                                        <div class="text-center">
+                                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                                <h5 class="font-semibold text-gray-900 mb-4">QR Code chuyển khoản</h5>
+                                                <div class="w-48 h-48 mx-auto mb-4 border-2 border-gray-200 rounded-xl flex items-center justify-center" id="qr-code-container">
+                                                    <div class="text-center">
+                                                        <i class="fas fa-qrcode text-6xl text-gray-300 mb-2"></i>
+                                                        <p class="text-sm text-gray-500">Nhập số tiền để tạo QR</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-xs text-gray-600">Quét mã QR để chuyển khoản nhanh</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Deposits List -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                            <i class="fas fa-clock text-orange-600 mr-3"></i>
+                            Lệnh nạp tiền của bạn
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- New Order -->
+                            <div class="border border-gray-300 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="text-sm font-semibold text-gray-800">#DEP001235</span>
+                                            <span class="px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded-full">Mới tạo</span>
+                                        </div>
+                                        <p class="text-lg font-bold text-gray-900">1,000,000 ₫</p>
+                                        <p class="text-xs text-gray-600">30/12/2024 10:30</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="bg-white rounded p-2 border border-gray-200">
+                                            <p class="text-xs text-gray-600 mb-1">Nội dung CK</p>
+                                            <p class="font-mono text-xs font-semibold text-gray-800">NAP 0123456789 1000000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    <button onclick="confirmDeposit('DEP001235')" class="bg-gray-600 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded transition-colors">
+                                        <i class="fas fa-check mr-1"></i>Xác nhận
+                                    </button>
+                                    <button onclick="cancelDeposit('DEP001235')" class="bg-red-600 hover:bg-red-700 text-white text-sm px-3 py-1 rounded transition-colors">
+                                        <i class="fas fa-times mr-1"></i>Hủy
+                                    </button>
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded transition-colors">
+                                        <i class="fas fa-eye mr-1"></i>Chi tiết
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Confirmed Order -->
+                            <div class="border border-gray-300 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="text-sm font-semibold text-gray-800">#DEP001234</span>
+                                            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Đã xác nhận</span>
+                                        </div>
+                                        <p class="text-lg font-bold text-gray-900">2,000,000 ₫</p>
+                                        <p class="text-xs text-gray-600">29/12/2024 15:45 - 16:20</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-clock text-gray-600 text-sm"></i>
+                                        </div>
+                                        <p class="text-xs text-gray-600 mt-1">Chờ duyệt</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-blue-50 rounded p-2">
+                                    <p class="text-xs text-blue-800">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Đang chờ admin xử lý (15-30 phút)
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Successful Order -->
+                            <div class="border border-gray-300 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="text-sm font-semibold text-gray-800">#DEP001233</span>
+                                            <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Thành công</span>
+                                        </div>
+                                        <p class="text-lg font-bold text-gray-900">500,000 ₫</p>
+                                        <p class="text-xs text-gray-600">29/12/2024 09:15</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-check text-green-600 text-sm"></i>
+                                        </div>
+                                        <p class="text-xs text-green-600 mt-1">Hoàn tất</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rejected Order -->
+                            <div class="border border-gray-300 bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-1">
+                                            <span class="text-sm font-semibold text-gray-800">#DEP001232</span>
+                                            <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Bị từ chối</span>
+                                        </div>
+                                        <p class="text-lg font-bold text-gray-900">300,000 ₫</p>
+                                        <p class="text-xs text-gray-600">28/12/2024 11:30</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-times text-red-600 text-sm"></i>
+                                        </div>
+                                        <p class="text-xs text-red-600 mt-1">Từ chối</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-red-50 rounded p-2">
+                                    <p class="text-xs text-red-800">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        Nội dung chuyển khoản sai định dạng
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdraw Tab -->
+            <div id="withdraw-tab" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Withdraw Form -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Yêu cầu rút tiền</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tài khoản ngân hàng *</label>
+                                <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Chọn tài khoản</option>
+                                    <option value="vcb">Vietcombank - **** **** **** 1234</option>
+                                    <option value="tcb">Techcombank - **** **** **** 5678</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Số tiền rút *</label>
+                                <input type="number" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập số tiền">
+                                <div class="flex items-center justify-between mt-1 text-sm text-gray-600">
+                                    <span>Số dư khả dụng: 15,750,000 ₫</span>
+                                    <button type="button" class="text-blue-600 hover:text-blue-700">Rút tối đa</button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
+                                <textarea rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ghi chú (không bắt buộc)"></textarea>
+                            </div>
+                            
+                            <div class="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                                <div class="flex">
+                                    <i class="fas fa-info-circle text-orange-600 mr-2 mt-0.5"></i>
+                                    <div class="text-sm text-orange-800">
+                                        <p class="font-medium">Lưu ý:</p>
+                                        <ul class="mt-1 list-disc list-inside space-y-1">
+                                            <li>Thời gian xử lý: 1-2 ngày làm việc</li>
+                                            <li>Phí rút tiền: 0₫ (Miễn phí)</li>
+                                            <li>Số tiền tối thiểu: 100,000₫</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg">
+                                <i class="fas fa-arrow-up mr-2"></i>Yêu cầu rút tiền
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Withdraw History -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Lịch sử rút tiền</h3>
+                        <div class="space-y-4">
+                            <div class="border border-green-200 bg-green-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-green-800">#WTD001234</span>
+                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Thành công</span>
+                                </div>
+                                <p class="text-lg font-semibold text-gray-900">500,000 ₫</p>
+                                <p class="text-sm text-gray-600">Vietcombank - **** 1234</p>
+                                <p class="text-sm text-gray-500">22/12/2024 09:30</p>
+                            </div>
+
+                            <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-yellow-800">#WTD001233</span>
+                                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Đang xử lý</span>
+                                </div>
+                                <p class="text-lg font-semibold text-gray-900">1,000,000 ₫</p>
+                                <p class="text-sm text-gray-600">Techcombank - **** 5678</p>
+                                <p class="text-sm text-gray-500">23/12/2024 14:20</p>
+                                <div class="flex space-x-2 mt-3">
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-times mr-1"></i>Hủy yêu cầu
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="border border-red-200 bg-red-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-red-800">#WTD001232</span>
+                                    <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Thất bại</span>
+                                </div>
+                                <p class="text-lg font-semibold text-gray-900">2,000,000 ₫</p>
+                                <p class="text-sm text-gray-600">Vietcombank - **** 1234</p>
+                                <p class="text-sm text-gray-500">20/12/2024 11:15</p>
+                                <p class="text-xs text-red-600 mt-1">Lỗi: Thông tin tài khoản không chính xác</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('open-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.remove('hidden');
+        });
+
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        document.getElementById('mobile-overlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        // User menu toggle
+        document.getElementById('user-menu-button').addEventListener('click', function() {
+            document.getElementById('user-menu').classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const userMenuButton = document.getElementById('user-menu-button');
+            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                
+                // Update button states
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                this.classList.add('border-blue-500', 'text-blue-600');
+                this.classList.remove('border-transparent', 'text-gray-500');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabId + '-tab').classList.add('active');
+            });
+        });
+
+        // Modal controls
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Close modal events
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Close modal when clicking backdrop
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+
+        // Deposit quick amounts
+        document.querySelectorAll('.deposit-quick-amount').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('deposit-amount').value = this.dataset.amount;
+            });
+        });
+
+        // New deposit quick amounts
+        document.querySelectorAll('.deposit-quick-amount-new').forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = this.dataset.amount;
+                document.getElementById('deposit-amount-new').value = amount;
+                updateTransferContent(amount);
+                generateQRCode(amount);
+                
+                // Visual feedback
+                document.querySelectorAll('.deposit-quick-amount-new').forEach(btn => {
+                    btn.classList.remove('border-green-500', 'bg-green-100');
+                    btn.classList.add('border-green-200', 'bg-green-50');
+                });
+                this.classList.remove('border-green-200', 'bg-green-50');
+                this.classList.add('border-green-500', 'bg-green-100');
+            });
+        });
+
+        // Update transfer content when amount changes
+        document.getElementById('deposit-amount-new').addEventListener('input', function() {
+            const amount = this.value;
+            updateTransferContent(amount);
+            generateQRCode(amount);
+        });
+
+        function updateTransferContent(amount) {
+            const content = `NAP 0123456789 ${amount}`;
+            document.getElementById('transfer-content').textContent = content;
+        }
+
+        function generateQRCode(amount) {
+            const container = document.getElementById('qr-code-container');
+            if (amount && amount > 0) {
+                // Simulate QR code generation
+                container.innerHTML = `
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <div class="grid grid-cols-8 gap-1">
+                            ${Array.from({length: 64}, () => 
+                                `<div class="w-2 h-2 ${Math.random() > 0.5 ? 'bg-white' : 'bg-gray-900'}"></div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <p class="text-xs text-green-600 mt-2 font-semibold">QR Code cho ${formatCurrency(amount)}</p>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-qrcode text-6xl text-gray-300 mb-2"></i>
+                        <p class="text-sm text-gray-500">Nhập số tiền để tạo QR</p>
+                    </div>
+                `;
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`Đã sao chép: ${text}`);
+            });
+        }
+
+        function copyTransferContent() {
+            const content = document.getElementById('transfer-content').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                showNotification(`Đã sao chép nội dung chuyển khoản`);
+            });
+        }
+
+        function createDepositOrder() {
+            const amount = document.getElementById('deposit-amount-new').value;
+            if (!amount || amount < 10000) {
+                showNotification('Số tiền nạp tối thiểu là 10,000 ₫', 'error');
+                return;
+            }
+            
+            showNotification(`Đã tạo lệnh nạp ${formatCurrency(amount)} thành công!`);
+            // Simulate adding new order to the list
+            switchToDepositTab();
+        }
+
+        function confirmDeposit(orderId) {
+            showNotification(`Đã xác nhận chuyển khoản cho lệnh ${orderId}. Admin sẽ kiểm tra trong vòng 15-30 phút.`);
+            // Update UI to show confirmed status
+        }
+
+        function cancelDeposit(orderId) {
+            if (confirm('Bạn có chắc chắn muốn hủy lệnh nạp tiền này?')) {
+                showNotification(`Đã hủy lệnh ${orderId}`, 'info');
+                // Update UI to remove or mark as cancelled
+            }
+        }
+
+        // Global search functionality
+        document.getElementById('global-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    if (query.startsWith('http')) {
+                        sessionStorage.setItem('productUrl', query);
+                        window.location.href = 'create-order.html';
+                    } else {
+                        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                    }
+                }
+            }
+        });
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 max-w-sm p-4 rounded-lg shadow-lg ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Currency formatting
+        function formatCurrency(amount, currency = 'VND') {
+            if (currency === 'VND') {
+                return new Intl.NumberFormat('vi-VN').format(amount) + ' ₫';
+            } else if (currency === 'JPY') {
+                return new Intl.NumberFormat('ja-JP').format(amount) + ' ¥';
+            }
+            return amount;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho hàng - eShopGlobal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        .notification-dot { 
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile menu overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 z-40 lg:hidden hidden bg-black bg-opacity-50"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition">
+        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">eShopGlobal</span>
+            </div>
+            <button id="close-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-3">
+                <a href="dashboard.html" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-home w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="orders.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-shopping-cart w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đơn hàng</span>
+                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">5</span>
+                </a>
+                <a href="auction.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-gavel w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đấu giá</span>
+                    <span class="ml-auto bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">3</span>
+                </a>
+                <a href="warehouse.html" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
+                    <i class="fas fa-warehouse w-5 h-5 text-blue-600"></i>
+                    <span class="ml-3">Kho hàng</span>
+                    <span class="ml-auto bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="wallet.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-wallet w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Ví tiền</span>
+                </a>
+                <a href="account.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-user w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Tài khoản</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 px-3 pt-6 border-t border-gray-200">
+                <button class="flex items-center w-full px-3 py-2 text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors group">
+                    <i class="fas fa-sign-out-alt w-5 h-5 text-gray-400 group-hover:text-red-600"></i>
+                    <span class="ml-3">Đăng xuất</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="lg:pl-64">
+        <!-- Top header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between h-16 px-6">
+                <div class="flex items-center">
+                    <button id="open-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-xl font-semibold text-gray-900">Quản lý kho hàng</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search bar -->
+                    <div class="hidden md:block">
+                        <div class="relative">
+                            <input type="text" id="global-search" placeholder="Tìm kiếm sản phẩm, URL..." 
+                                   class="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="relative text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full notification-dot"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- User menu -->
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&background=3b82f6&color=fff" 
+                                 alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block font-medium">Nguyễn Văn A</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cài đặt</a>
+                            <hr class="my-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page content -->
+        <main class="p-6">
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Tổng kiện hàng</p>
+                            <p class="text-2xl font-bold">24</p>
+                        </div>
+                        <i class="fas fa-boxes text-2xl opacity-80"></i>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">Đang tại kho VN</p>
+                </div>
+
+                <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Sẵn sàng giao</p>
+                            <p class="text-2xl font-bold">12</p>
+                        </div>
+                        <i class="fas fa-truck text-2xl opacity-80"></i>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">Có thể tạo đơn giao</p>
+                </div>
+
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Đang giao</p>
+                            <p class="text-2xl font-bold">8</p>
+                        </div>
+                        <i class="fas fa-shipping-fast text-2xl opacity-80"></i>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">Trên đường giao</p>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-80">Tổng cân nặng</p>
+                            <p class="text-2xl font-bold">45.2kg</p>
+                        </div>
+                        <i class="fas fa-weight text-2xl opacity-80"></i>
+                    </div>
+                    <p class="text-xs mt-2 opacity-75">Toàn bộ hàng hóa</p>
+                </div>
+            </div>
+
+            <!-- Tab navigation -->
+            <div class="bg-white rounded-lg shadow-sm mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex space-x-8 px-6">
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600" data-tab="warehouse">
+                            <i class="fas fa-warehouse mr-2"></i>Hàng tại kho VN
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="shipped">
+                            <i class="fas fa-truck mr-2"></i>Đơn đã giao
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Warehouse Tab -->
+            <div id="warehouse-tab" class="tab-content active">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <!-- Filters and Actions -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
+                        <div class="flex space-x-3">
+                            <input type="text" placeholder="Tìm theo mã kiện, sản phẩm..." class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-64">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">
+                                <i class="fas fa-filter mr-2"></i>Lọc
+                            </button>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="selectAll()" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm">
+                                <i class="fas fa-check-square mr-2"></i>Chọn tất cả
+                            </button>
+                            <button onclick="showModal('bulk-shipping-modal')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm" id="bulk-ship-btn" disabled>
+                                <i class="fas fa-truck mr-2"></i>Giao hàng gộp (<span id="selected-count">0</span>)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Items Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Item 1 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors warehouse-item">
+                            <div class="flex items-start justify-between mb-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="item-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500" onchange="updateSelection()">
+                                    <span class="ml-2 text-sm font-medium text-gray-900">#PKG001233</span>
+                                </label>
+                                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Sẵn sàng</span>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3 mb-3">
+                                <img src="https://via.placeholder.com/60x60.png?text=MacBook" alt="MacBook" class="w-15 h-15 rounded-lg object-cover">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-medium text-gray-900 truncate">MacBook Air M2 2023</h4>
+                                    <p class="text-sm text-gray-600">Từ đơn: #ORD001233</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3 text-xs text-gray-600 mb-4">
+                                <div><i class="fas fa-weight mr-1"></i>1.5kg</div>
+                                <div><i class="fas fa-ruler mr-1"></i>35x25x5cm</div>
+                                <div><i class="fas fa-calendar mr-1"></i>29/12/2024</div>
+                                <div><i class="fas fa-map-marker mr-1"></i>Kho A-01</div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="showModal('single-shipping-modal', 'PKG001233')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-shipping-fast mr-1"></i>Giao hàng
+                                </button>
+                                <button onclick="showWarehouseDetail(this)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors warehouse-item">
+                            <div class="flex items-start justify-between mb-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="item-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500" onchange="updateSelection()">
+                                    <span class="ml-2 text-sm font-medium text-gray-900">#PKG001234</span>
+                                </label>
+                                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Sẵn sàng</span>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3 mb-3">
+                                <img src="https://via.placeholder.com/60x60.png?text=iPhone" alt="iPhone" class="w-15 h-15 rounded-lg object-cover">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-medium text-gray-900 truncate">iPhone 15 Pro Max 256GB</h4>
+                                    <p class="text-sm text-gray-600">Từ đơn: #ORD001234</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3 text-xs text-gray-600 mb-4">
+                                <div><i class="fas fa-weight mr-1"></i>0.3kg</div>
+                                <div><i class="fas fa-ruler mr-1"></i>18x12x3cm</div>
+                                <div><i class="fas fa-calendar mr-1"></i>28/12/2024</div>
+                                <div><i class="fas fa-map-marker mr-1"></i>Kho B-02</div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="showModal('single-shipping-modal', 'PKG001234')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-shipping-fast mr-1"></i>Giao hàng
+                                </button>
+                                <button onclick="showWarehouseDetail(this)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors warehouse-item">
+                            <div class="flex items-start justify-between mb-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="item-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500" onchange="updateSelection()">
+                                    <span class="ml-2 text-sm font-medium text-gray-900">#PKG001235</span>
+                                </label>
+                                <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Chờ thanh toán</span>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3 mb-3">
+                                <img src="https://via.placeholder.com/60x60.png?text=Nintendo" alt="Nintendo" class="w-15 h-15 rounded-lg object-cover">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-medium text-gray-900 truncate">Nintendo Switch OLED</h4>
+                                    <p class="text-sm text-gray-600">Từ đơn: #ORD001231</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3 text-xs text-gray-600 mb-4">
+                                <div><i class="fas fa-weight mr-1"></i>0.8kg</div>
+                                <div><i class="fas fa-ruler mr-1"></i>25x15x5cm</div>
+                                <div><i class="fas fa-calendar mr-1"></i>27/12/2024</div>
+                                <div><i class="fas fa-map-marker mr-1"></i>Kho C-03</div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="showPaymentModal('iPhone 15 Pro Max 256GB', '#WH001234')" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-credit-card mr-1"></i>Thanh toán
+                                </button>
+                                <button onclick="showWarehouseDetail(this)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-xs">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Add more items here... -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipped Tab -->
+            <div id="shipped-tab" class="tab-content">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="space-y-4">
+                        <!-- Shipped Item 1 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-sm font-medium text-gray-900">#SHIP001</span>
+                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Đã giao</span>
+                                </div>
+                                <span class="text-sm text-gray-500">Giao: 25/12/2024</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <p class="text-sm text-gray-600">Địa chỉ giao hàng</p>
+                                    <p class="font-medium">123 Đường ABC, Q.1, TP.HCM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Đơn vị vận chuyển</p>
+                                    <p class="font-medium">GHTK</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Phí ship</p>
+                                    <p class="font-medium text-green-600">35,000 ₫</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <span class="text-sm text-gray-600">3 sản phẩm • 2.8kg</span>
+                                    <span class="text-sm text-blue-600">Tracking: <a href="#" class="underline">GHTK123456789</a></span>
+                                </div>
+                                <button onclick="showDeliveredDetail('#SHIP001')" class="text-blue-600 hover:text-blue-700 text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Chi tiết
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Shipped Item 2 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-sm font-medium text-gray-900">#SHIP002</span>
+                                    <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Đang giao</span>
+                                </div>
+                                <span class="text-sm text-gray-500">Tạo: 28/12/2024</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <p class="text-sm text-gray-600">Địa chỉ giao hàng</p>
+                                    <p class="font-medium">456 Đường DEF, Q.3, TP.HCM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Đơn vị vận chuyển</p>
+                                    <p class="font-medium">Viettel Post</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Phí ship</p>
+                                    <p class="font-medium text-green-600">42,000 ₫</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <span class="text-sm text-gray-600">1 sản phẩm • 1.5kg</span>
+                                    <span class="text-sm text-blue-600">Tracking: <a href="#" class="underline">VTP987654321</a></span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-700 text-sm">
+                                        <i class="fas fa-eye mr-1"></i>Chi tiết
+                                    </button>
+                                    <button class="text-orange-600 hover:text-orange-700 text-sm">
+                                        <i class="fas fa-phone mr-1"></i>Liên hệ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delivered Order Detail Modal -->
+    <div id="delivered-detail-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Chi tiết đơn hàng đã giao</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Order Info -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-lg font-bold text-gray-900" id="detail-order-id">#SHIP001</span>
+                                <span class="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full">Đã giao</span>
+                            </div>
+                            <span class="text-sm text-gray-500">Giao: 25/12/2024 14:30</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-green-600">Thời gian giao:</span>
+                                <span class="font-medium ml-2">2 ngày</span>
+                            </div>
+                            <div>
+                                <span class="text-green-600">Đánh giá:</span>
+                                <div class="flex items-center ml-2">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="text-gray-600 ml-1">(5.0)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Info -->
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h5 class="font-medium text-gray-900 mb-3">Thông tin vận chuyển</h5>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-600 mb-1">Địa chỉ giao hàng:</p>
+                                <p class="font-medium">123 Đường ABC, Phường 1, Quận 1, TP.HCM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 mb-1">Đơn vị vận chuyển:</p>
+                                <p class="font-medium">GHTK Express</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 mb-1">Mã vận đơn:</p>
+                                <p class="font-medium text-blue-600">GHTK123456789</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600 mb-1">Phí ship:</p>
+                                <p class="font-medium text-green-600">35,000 ₫</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products -->
+                    <div>
+                        <h5 class="font-medium text-gray-900 mb-3">Sản phẩm (3 items)</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <img src="https://via.placeholder.com/50x50.png?text=P1" alt="Product" class="w-12 h-12 rounded object-cover">
+                                <div class="flex-1">
+                                    <p class="font-medium">iPhone 15 Pro Max 256GB</p>
+                                    <p class="text-sm text-gray-600">Màu: Natural Titanium • SL: 1</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium">0.8kg</p>
+                                    <p class="text-sm text-gray-600">25x15x5cm</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <img src="https://via.placeholder.com/50x50.png?text=P2" alt="Product" class="w-12 h-12 rounded object-cover">
+                                <div class="flex-1">
+                                    <p class="font-medium">AirPods Pro (3rd Gen)</p>
+                                    <p class="text-sm text-gray-600">Màu: Trắng • SL: 1</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium">0.5kg</p>
+                                    <p class="text-sm text-gray-600">15x10x8cm</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                <img src="https://via.placeholder.com/50x50.png?text=P3" alt="Product" class="w-12 h-12 rounded object-cover">
+                                <div class="flex-1">
+                                    <p class="font-medium">MagSafe Charger</p>
+                                    <p class="text-sm text-gray-600">Sạc không dây • SL: 1</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium">1.5kg</p>
+                                    <p class="text-sm text-gray-600">20x20x3cm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div>
+                        <h5 class="font-medium text-gray-900 mb-3">Lịch sử vận chuyển</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-green-600">Đã giao hàng thành công</p>
+                                    <p class="text-xs text-gray-500">25/12/2024 14:30</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium">Đang giao hàng</p>
+                                    <p class="text-xs text-gray-500">25/12/2024 08:15</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium">Đã rời kho phân loại</p>
+                                    <p class="text-xs text-gray-500">24/12/2024 20:45</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium">Đã nhận hàng từ kho</p>
+                                    <p class="text-xs text-gray-500">23/12/2024 16:30</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
+                    <button type="button" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-download mr-2"></i>Tải hóa đơn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warehouse Detail Modal -->
+    <div id="warehouse-detail-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Chi tiết kiện hàng</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                        <div class="flex items-center space-x-4">
+                            <img id="warehouse-detail-image" src="https://via.placeholder.com/80x80.png?text=MacBook" alt="Product" class="w-20 h-20 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h4 id="warehouse-detail-product" class="font-semibold text-blue-900 mb-1">MacBook Air M2 2023</h4>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-blue-700">Mã kiện:</span>
+                                        <span id="warehouse-detail-package" class="font-semibold text-blue-900">#PKG001233</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-blue-700">Từ đơn hàng:</span>
+                                        <span id="warehouse-detail-order" class="font-semibold text-blue-900">#ORD001233</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">Thông tin kiện hàng</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Cân nặng:</span>
+                                    <span id="warehouse-detail-weight" class="font-semibold">1.5 kg</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Kích thước:</span>
+                                    <span id="warehouse-detail-dimensions" class="font-semibold">35x25x5 cm</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Ngày nhập kho:</span>
+                                    <span id="warehouse-detail-date" class="font-semibold">29/12/2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Trạng thái:</span>
+                                    <span id="warehouse-detail-status" class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Sẵn sàng</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">Thông tin giao hàng</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Phí giao hàng dự kiến:</span>
+                                    <span id="warehouse-detail-shipping" class="font-semibold text-orange-600">45,000 ₫</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Thời gian giao (HN):</span>
+                                    <span class="font-semibold">1-2 ngày</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Thời gian giao (HCM):</span>
+                                    <span class="font-semibold">2-3 ngày</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Kho lưu trữ:</span>
+                                    <span class="font-semibold">Kho VN - Hà Nội</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-yellow-600 mr-2 mt-0.5"></i>
+                            <div class="text-sm text-yellow-800">
+                                <p class="font-medium mb-1">Lưu ý:</p>
+                                <ul class="list-disc list-inside space-y-1 text-xs">
+                                    <li>Kiện hàng đã được kiểm tra và đóng gói cẩn thận</li>
+                                    <li>Bạn có thể yêu cầu giao hàng ngay hoặc ghép với kiện khác để tiết kiệm phí</li>
+                                    <li>Phí giao hàng được tính theo trọng lượng và khoảng cách</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
+                    <button type="button" onclick="requestShipping()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-truck mr-2"></i>Yêu cầu giao hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Thanh toán phí vận chuyển</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h4 class="font-medium text-gray-900 mb-2" id="payment-item-name">iPhone 15 Pro Max 256GB</h4>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Mã vận đơn:</span>
+                                <span class="font-medium" id="payment-tracking-code">#WH001234</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Trọng lượng:</span>
+                                <span class="font-medium">0.8kg</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Kích thước:</span>
+                                <span class="font-medium">25x15x5cm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h5 class="font-medium text-gray-900 mb-2">Chi tiết thanh toán</h5>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Phí vận chuyển cơ bản:</span>
+                                <span class="font-medium">35,000 ₫</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Phí xử lý (3%):</span>
+                                <span class="font-medium">1,050 ₫</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Phí bảo hiểm:</span>
+                                <span class="font-medium">5,000 ₫</span>
+                            </div>
+                            <div class="border-t pt-2 flex justify-between font-semibold">
+                                <span>Tổng cộng:</span>
+                                <span class="text-orange-600" id="payment-total">41,050 ₫</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-green-800">Số dư ví hiện tại:</span>
+                            <span class="text-lg font-bold text-green-900">15,750,000 ₫</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <div class="flex">
+                            <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                            <div class="text-sm text-yellow-800">
+                                <p class="font-medium">Lưu ý:</p>
+                                <p>Sau khi thanh toán, hàng sẽ được giao trong vòng 3-5 ngày làm việc.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                    <button type="button" onclick="processPayment()" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">Thanh toán ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Shipping Modal -->
+    <div id="single-shipping-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Tạo đơn giao hàng</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-gray-900 mb-2">Thông tin kiện hàng</h4>
+                        <p class="text-sm text-gray-600">Mã kiện: <span id="package-id">#PKG001233</span></p>
+                        <p class="text-sm text-gray-600">Sản phẩm: MacBook Air M2 2023</p>
+                        <p class="text-sm text-gray-600">Cân nặng: 1.5kg • Kích thước: 35x25x5cm</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ giao hàng *</label>
+                        <select required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="">Chọn địa chỉ</option>
+                            <option value="default">123 Đường ABC, Phường XYZ, Q.1, TP.HCM (Mặc định)</option>
+                            <option value="alt">456 Đường DEF, Phường UVW, Q.3, TP.HCM</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị vận chuyển *</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="shipping" value="ghtk" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">GHTK</p>
+                                    <p class="text-xs text-gray-600">35,000₫</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="shipping" value="viettelpost" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">Viettel Post</p>
+                                    <p class="text-xs text-gray-600">42,000₫</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="shipping" value="jnt" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">J&T</p>
+                                    <p class="text-xs text-gray-600">38,000₫</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú giao hàng</label>
+                        <textarea rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Yêu cầu đặc biệt cho shipper..."></textarea>
+                    </div>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-blue-900">Tổng phí giao hàng:</span>
+                            <span class="text-lg font-bold text-blue-900" id="shipping-cost">35,000 ₫</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Tạo đơn giao hàng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Shipping Modal -->
+    <div id="bulk-shipping-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Giao hàng gộp - <span id="bulk-count">0</span> kiện</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg max-h-40 overflow-y-auto">
+                        <h4 class="font-medium text-gray-900 mb-2">Danh sách kiện hàng đã chọn</h4>
+                        <div id="selected-items" class="space-y-2 text-sm text-gray-600">
+                            <!-- Selected items will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ giao hàng *</label>
+                        <select required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="">Chọn địa chỉ</option>
+                            <option value="default">123 Đường ABC, Phường XYZ, Q.1, TP.HCM (Mặc định)</option>
+                            <option value="alt">456 Đường DEF, Phường UVW, Q.3, TP.HCM</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị vận chuyển *</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="bulk-shipping" value="ghtk" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">GHTK</p>
+                                    <p class="text-xs text-gray-600" id="ghtk-price">85,000₫</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="bulk-shipping" value="viettelpost" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">Viettel Post</p>
+                                    <p class="text-xs text-gray-600" id="vtp-price">95,000₫</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" name="bulk-shipping" value="jnt" class="text-blue-600 focus:ring-blue-500">
+                                <div class="ml-2">
+                                    <p class="text-sm font-medium">J&T</p>
+                                    <p class="text-xs text-gray-600" id="jnt-price">90,000₫</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú giao hàng</label>
+                        <textarea rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Yêu cầu đặc biệt cho shipper..."></textarea>
+                    </div>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-blue-800">Tổng cân nặng:</span>
+                                <span class="font-medium text-blue-900" id="total-weight">3.6kg</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-blue-900">Tổng phí giao hàng:</span>
+                                <span class="text-lg font-bold text-blue-900" id="bulk-shipping-cost">85,000 ₫</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Tạo đơn giao hàng gộp</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedItems = [];
+
+        // Mobile sidebar toggle
+        document.getElementById('open-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.remove('hidden');
+        });
+
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        document.getElementById('mobile-overlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        // User menu toggle
+        document.getElementById('user-menu-button').addEventListener('click', function() {
+            document.getElementById('user-menu').classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const userMenuButton = document.getElementById('user-menu-button');
+            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                
+                // Update button states
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                this.classList.add('border-blue-500', 'text-blue-600');
+                this.classList.remove('border-transparent', 'text-gray-500');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabId + '-tab').classList.add('active');
+            });
+        });
+
+        // Selection management
+        function updateSelection() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            selectedItems = [];
+            
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    selectedItems.push({
+                        id: checkbox.closest('.warehouse-item').querySelector('span').textContent,
+                        name: checkbox.closest('.warehouse-item').querySelector('h4').textContent,
+                        weight: checkbox.closest('.warehouse-item').querySelector('[class*="fas fa-weight"]').parentElement.textContent
+                    });
+                }
+            });
+            
+            document.getElementById('selected-count').textContent = selectedItems.length;
+            document.getElementById('bulk-ship-btn').disabled = selectedItems.length === 0;
+            
+            if (selectedItems.length === 0) {
+                document.getElementById('bulk-ship-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                document.getElementById('bulk-ship-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function selectAll() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+            });
+            
+            updateSelection();
+        }
+
+        // Modal controls
+        function showModal(modalId, packageId = null) {
+            if (packageId) {
+                document.getElementById('package-id').textContent = packageId;
+            }
+            
+            if (modalId === 'bulk-shipping-modal') {
+                document.getElementById('bulk-count').textContent = selectedItems.length;
+                const selectedItemsContainer = document.getElementById('selected-items');
+                selectedItemsContainer.innerHTML = selectedItems.map(item => 
+                    `<div class="flex justify-between">
+                        <span>${item.id} - ${item.name}</span>
+                        <span>${item.weight}</span>
+                    </div>`
+                ).join('');
+            }
+            
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Close modal events
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Close modal when clicking backdrop
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Shipping cost calculation
+        document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const costs = { ghtk: '35,000', viettelpost: '42,000', jnt: '38,000' };
+                document.getElementById('shipping-cost').textContent = costs[this.value] + ' ₫';
+            });
+        });
+
+        document.querySelectorAll('input[name="bulk-shipping"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const costs = { ghtk: '85,000', viettelpost: '95,000', jnt: '90,000' };
+                document.getElementById('bulk-shipping-cost').textContent = costs[this.value] + ' ₫';
+            });
+        });
+
+        // Global search functionality
+        document.getElementById('global-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    if (query.startsWith('http')) {
+                        sessionStorage.setItem('productUrl', query);
+                        window.location.href = 'create-order.html';
+                    } else {
+                        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                    }
+                }
+            }
+        });
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 max-w-sm p-4 rounded-lg shadow-lg ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Form submissions
+        document.querySelector('#single-shipping-modal form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Đơn giao hàng đã được tạo thành công!');
+            hideModal('single-shipping-modal');
+        });
+
+        document.querySelector('#bulk-shipping-modal form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification(`Đơn giao hàng gộp ${selectedItems.length} kiện đã được tạo!`);
+            hideModal('bulk-shipping-modal');
+            // Reset selections
+            selectedItems = [];
+            document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = false);
+            updateSelection();
+        });
+
+        // Payment modal functions
+        function showPaymentModal(itemName, trackingCode) {
+            document.getElementById('payment-item-name').textContent = itemName;
+            document.getElementById('payment-tracking-code').textContent = trackingCode;
+            showModal('payment-modal');
+        }
+
+        function processPayment() {
+            // Simulate payment processing
+            showNotification('Đã thanh toán phí vận chuyển thành công! Hàng sẽ được giao trong 3-5 ngày.');
+            hideModal('payment-modal');
+        }
+
+        // Warehouse detail modal function
+        function showWarehouseDetail(button) {
+            // Find the parent item container to extract data
+            const itemContainer = button.closest('.warehouse-item');
+            const packageCode = itemContainer.querySelector('span.text-gray-900').textContent;
+            const productName = itemContainer.querySelector('h4.text-gray-900').textContent;
+            const orderCode = itemContainer.querySelector('.text-gray-600').textContent.replace('Từ đơn: ', '');
+            const productImage = itemContainer.querySelector('img').src;
+            
+            // Populate modal data (with some demo data)
+            document.getElementById('warehouse-detail-package').textContent = packageCode;
+            document.getElementById('warehouse-detail-product').textContent = productName;
+            document.getElementById('warehouse-detail-order').textContent = orderCode;
+            document.getElementById('warehouse-detail-image').src = productImage;
+            
+            // Demo data based on package code
+            const demoData = {
+                '#PKG001233': {
+                    weight: '1.5 kg',
+                    dimensions: '35x25x5 cm',
+                    date: '29/12/2024',
+                    shipping: '45,000 ₫'
+                },
+                '#PKG001234': {
+                    weight: '0.8 kg',
+                    dimensions: '25x20x3 cm',
+                    date: '30/12/2024',
+                    shipping: '35,000 ₫'
+                },
+                '#PKG001235': {
+                    weight: '2.1 kg',
+                    dimensions: '40x30x8 cm',
+                    date: '28/12/2024',
+                    shipping: '55,000 ₫'
+                }
+            };
+            
+            const data = demoData[packageCode] || demoData['#PKG001233'];
+            document.getElementById('warehouse-detail-weight').textContent = data.weight;
+            document.getElementById('warehouse-detail-dimensions').textContent = data.dimensions;
+            document.getElementById('warehouse-detail-date').textContent = data.date;
+            document.getElementById('warehouse-detail-shipping').textContent = data.shipping;
+            
+            showModal('warehouse-detail-modal');
+        }
+
+        // Shipping request function
+        function requestShipping() {
+            const packageCode = document.getElementById('warehouse-detail-package').textContent;
+            showNotification(`Đã gửi yêu cầu giao hàng cho ${packageCode}! Chúng tôi sẽ liên hệ xác nhận địa chỉ giao hàng.`, 'success');
+            hideModal('warehouse-detail-modal');
+        }
+
+        // Delivered detail modal function
+        function showDeliveredDetail(orderId) {
+            document.getElementById('detail-order-id').textContent = orderId;
+            showModal('delivered-detail-modal');
+        }
+
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Modal close handlers
+        document.querySelectorAll('.modal-close, .modal-backdrop').forEach(element => {
+            element.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 5000);
+        }
+    </script>
+</body>
+</html>

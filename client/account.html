@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản - eShopGlobal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        .notification-dot { 
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile menu overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 z-40 lg:hidden hidden bg-black bg-opacity-50"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition">
+        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">eShopGlobal</span>
+            </div>
+            <button id="close-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-3">
+                <a href="dashboard.html" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-home w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="orders.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-shopping-cart w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đơn hàng</span>
+                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">5</span>
+                </a>
+                <a href="auction.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-gavel w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đấu giá</span>
+                    <span class="ml-auto bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">3</span>
+                </a>
+                <a href="warehouse.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-warehouse w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Kho hàng</span>
+                    <span class="ml-auto bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="wallet.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-wallet w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Ví tiền</span>
+                </a>
+                <a href="account.html" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
+                    <i class="fas fa-user w-5 h-5 text-blue-600"></i>
+                    <span class="ml-3">Tài khoản</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 px-3 pt-6 border-t border-gray-200">
+                <button class="flex items-center w-full px-3 py-2 text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors group">
+                    <i class="fas fa-sign-out-alt w-5 h-5 text-gray-400 group-hover:text-red-600"></i>
+                    <span class="ml-3">Đăng xuất</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="lg:pl-64">
+        <!-- Top header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between h-16 px-6">
+                <div class="flex items-center">
+                    <button id="open-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-xl font-semibold text-gray-900">Quản lý tài khoản</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search bar -->
+                    <div class="hidden md:block">
+                        <div class="relative">
+                            <input type="text" id="global-search" placeholder="Tìm kiếm sản phẩm, URL..." 
+                                   class="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="relative text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full notification-dot"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- User menu -->
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&background=3b82f6&color=fff" 
+                                 alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block font-medium">Nguyễn Văn A</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cài đặt</a>
+                            <hr class="my-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page content -->
+        <main class="p-6">
+            <!-- Tab navigation -->
+            <div class="bg-white rounded-lg shadow-sm mb-6">
+                <div class="border-b border-gray-200">
+                    <nav class="flex space-x-8 px-6">
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-blue-500 text-blue-600" data-tab="profile">
+                            <i class="fas fa-user mr-2"></i>Hồ sơ cá nhân
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="addresses">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Sổ địa chỉ
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="banks">
+                            <i class="fas fa-university mr-2"></i>Tài khoản ngân hàng
+                        </button>
+                        <button class="tab-button py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="security">
+                            <i class="fas fa-shield-alt mr-2"></i>Bảo mật
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content active">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Avatar Section -->
+                        <div class="lg:col-span-1">
+                            <div class="text-center">
+                                <div class="relative inline-block">
+                                    <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&background=3b82f6&color=fff&size=120" 
+                                         alt="Avatar" class="w-30 h-30 rounded-full mx-auto">
+                                    <button class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-blue-700">
+                                        <i class="fas fa-camera text-sm"></i>
+                                    </button>
+                                </div>
+                                <h3 class="mt-4 text-lg font-semibold text-gray-900">Nguyễn Văn A</h3>
+                                <p class="text-sm text-gray-500">Khách hàng thân thiết</p>
+                                <div class="mt-4 flex items-center justify-center space-x-4">
+                                    <div class="text-center">
+                                        <p class="text-lg font-semibold text-blue-600">156</p>
+                                        <p class="text-xs text-gray-500">Đơn hàng</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-lg font-semibold text-green-600">24</p>
+                                        <p class="text-xs text-gray-500">Đấu giá thắng</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-lg font-semibold text-purple-600">2.5M</p>
+                                        <p class="text-xs text-gray-500">Tổng tiết kiệm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Form -->
+                        <div class="lg:col-span-2">
+                            <form id="profile-form" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
+                                        <input type="text" value="Nguyễn Văn A" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        <input type="email" value="nguyenvana@gmail.com" disabled class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 text-gray-500">
+                                        <p class="text-xs text-gray-500 mt-1">Email không thể thay đổi</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại *</label>
+                                        <input type="tel" value="0123456789" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày sinh</label>
+                                        <input type="date" value="1990-01-01" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
+                                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="male" selected>Nam</option>
+                                            <option value="female">Nữ</option>
+                                            <option value="other">Khác</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">CCCD/CMND</label>
+                                        <input type="text" placeholder="Số CCCD/CMND" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                                    <textarea rows="3" placeholder="Nhập địa chỉ chi tiết" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+
+                                <div class="flex justify-end space-x-3 pt-4">
+                                    <button type="button" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Cập nhật thông tin</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Addresses Tab -->
+            <div id="addresses-tab" class="tab-content">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Sổ địa chỉ giao hàng</h3>
+                        <button onclick="showModal('add-address-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-plus mr-2"></i>Thêm địa chỉ
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Default Address -->
+                        <div class="border border-green-200 rounded-lg p-4 bg-green-50">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Mặc định</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-700 text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Nguyễn Văn A</h4>
+                            <p class="text-sm text-gray-600">0123456789</p>
+                            <p class="text-sm text-gray-600 mt-2">123 Đường ABC, Phường XYZ, Quận 1, TP.HCM</p>
+                        </div>
+
+                        <!-- Other Address -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Phụ</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-700 text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-blue-600 text-sm" title="Đặt làm mặc định">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="font-semibold text-gray-900">Nguyễn Văn A</h4>
+                            <p class="text-sm text-gray-600">0987654321</p>
+                            <p class="text-sm text-gray-600 mt-2">456 Đường DEF, Phường UVW, Quận 3, TP.HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banks Tab -->
+            <div id="banks-tab" class="tab-content">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Tài khoản ngân hàng</h3>
+                        <button onclick="showModal('add-bank-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-plus mr-2"></i>Thêm tài khoản
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Bank Account 1 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-university text-red-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Vietcombank</h4>
+                                        <p class="text-sm text-gray-600">**** **** **** 1234</p>
+                                        <p class="text-sm text-gray-500">NGUYEN VAN A</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Đã xác thực</span>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Account 2 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-university text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Techcombank</h4>
+                                        <p class="text-sm text-gray-600">**** **** **** 5678</p>
+                                        <p class="text-sm text-gray-500">NGUYEN VAN A</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Chờ xác thực</span>
+                                    <button class="text-blue-600 hover:text-blue-700 text-sm" title="Xác thực">
+                                        <i class="fas fa-check-circle"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div id="security-tab" class="tab-content">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Bảo mật tài khoản</h3>
+
+                    <!-- Change Password -->
+                    <div class="max-w-md">
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 mb-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mr-4">
+                                    <i class="fas fa-key text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-blue-900">Đổi mật khẩu</h4>
+                                    <p class="text-sm text-blue-600">Cập nhật mật khẩu để bảo mật tài khoản</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="change-password-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mật khẩu hiện tại *</label>
+                                <div class="relative">
+                                    <input type="password" id="current-password" class="w-full border border-gray-300 rounded-lg px-3 py-3 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập mật khẩu hiện tại">
+                                    <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" onclick="togglePassword('current-password')">
+                                        <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mật khẩu mới *</label>
+                                <div class="relative">
+                                    <input type="password" id="new-password" class="w-full border border-gray-300 rounded-lg px-3 py-3 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập mật khẩu mới">
+                                    <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" onclick="togglePassword('new-password')">
+                                        <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-2">
+                                    <div class="text-xs text-gray-500 space-y-1">
+                                        <p class="flex items-center"><span class="w-2 h-2 bg-gray-300 rounded-full mr-2"></span>Ít nhất 8 ký tự</p>
+                                        <p class="flex items-center"><span class="w-2 h-2 bg-gray-300 rounded-full mr-2"></span>Có chữ hoa và chữ thường</p>
+                                        <p class="flex items-center"><span class="w-2 h-2 bg-gray-300 rounded-full mr-2"></span>Có số và ký tự đặc biệt</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Xác nhận mật khẩu mới *</label>
+                                <div class="relative">
+                                    <input type="password" id="confirm-password" class="w-full border border-gray-300 rounded-lg px-3 py-3 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Nhập lại mật khẩu mới">
+                                    <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" onclick="togglePassword('confirm-password')">
+                                        <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-4">
+                                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shield-alt mr-2"></i>Cập nhật mật khẩu
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Add Address Modal -->
+    <div id="add-address-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Thêm địa chỉ mới</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Họ tên *</label>
+                            <input type="text" required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Số điện thoại *</label>
+                            <input type="tel" required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố *</label>
+                            <select required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                                <option value="">Chọn tỉnh/thành</option>
+                                <option value="hcm">TP.HCM</option>
+                                <option value="hanoi">Hà Nội</option>
+                                <option value="danang">Đà Nẵng</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Quận/Huyện *</label>
+                            <select required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                                <option value="">Chọn quận/huyện</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Phường/Xã *</label>
+                            <select required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                                <option value="">Chọn phường/xã</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Địa chỉ chi tiết *</label>
+                        <textarea required rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Số nhà, tên đường..."></textarea>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" id="default-address" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="default-address" class="ml-2 text-sm text-gray-700">Đặt làm địa chỉ mặc định</label>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Thêm địa chỉ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bank Modal -->
+    <div id="add-bank-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Thêm tài khoản ngân hàng</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Ngân hàng *</label>
+                        <select required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="">Chọn ngân hàng</option>
+                            <option value="vcb">Vietcombank</option>
+                            <option value="tcb">Techcombank</option>
+                            <option value="acb">ACB</option>
+                            <option value="mb">MB Bank</option>
+                            <option value="vib">VIB</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Số tài khoản *</label>
+                        <input type="text" required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Nhập số tài khoản">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tên chủ tài khoản *</label>
+                        <input type="text" required class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Nhập tên chủ tài khoản">
+                    </div>
+                    
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <div class="flex">
+                            <i class="fas fa-exclamation-triangle text-yellow-600 mr-2 mt-0.5"></i>
+                            <div class="text-sm text-yellow-800">
+                                <p class="font-medium">Lưu ý:</p>
+                                <ul class="mt-1 list-disc list-inside space-y-1">
+                                    <li>Tên chủ TK phải trùng với tên trong hồ sơ</li>
+                                    <li>Tài khoản sẽ được xác thực trong 24h</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Thêm tài khoản</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('open-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.remove('hidden');
+        });
+
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        document.getElementById('mobile-overlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        // User menu toggle
+        document.getElementById('user-menu-button').addEventListener('click', function() {
+            document.getElementById('user-menu').classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const userMenuButton = document.getElementById('user-menu-button');
+            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                
+                // Update button states
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                this.classList.add('border-blue-500', 'text-blue-600');
+                this.classList.remove('border-transparent', 'text-gray-500');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabId + '-tab').classList.add('active');
+            });
+        });
+
+        // Modal controls
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Close modal events
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Close modal when clicking backdrop
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+            backdrop.addEventListener('click', function() {
+                this.closest('.fixed').classList.add('hidden');
+            });
+        });
+
+        // Global search functionality
+        document.getElementById('global-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    if (query.startsWith('http')) {
+                        sessionStorage.setItem('productUrl', query);
+                        window.location.href = 'create-order.html';
+                    } else {
+                        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                    }
+                }
+            }
+        });
+
+        // Form submissions
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Thông tin tài khoản đã được cập nhật!');
+        });
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 max-w-sm p-4 rounded-lg shadow-lg ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

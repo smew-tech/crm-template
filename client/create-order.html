@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo đơn hàng - eShopGlobal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-transition { transition: transform 0.3s ease-in-out; }
+        .notification-dot { 
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile menu overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 z-40 lg:hidden hidden bg-black bg-opacity-50"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 sidebar-transition">
+        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-globe text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">eShopGlobal</span>
+            </div>
+            <button id="close-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mt-6">
+            <div class="px-3">
+                <a href="dashboard.html" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-home w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="orders.html" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
+                    <i class="fas fa-shopping-cart w-5 h-5 text-blue-600"></i>
+                    <span class="ml-3">Đơn hàng</span>
+                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">5</span>
+                </a>
+                <a href="auction.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-gavel w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Đấu giá</span>
+                    <span class="ml-auto bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">3</span>
+                </a>
+                <a href="warehouse.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-warehouse w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Kho hàng</span>
+                    <span class="ml-auto bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="wallet.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-wallet w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Ví tiền</span>
+                </a>
+                <a href="account.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-user w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
+                    <span class="ml-3">Tài khoản</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 px-3 pt-6 border-t border-gray-200">
+                <button class="flex items-center w-full px-3 py-2 text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors group">
+                    <i class="fas fa-sign-out-alt w-5 h-5 text-gray-400 group-hover:text-red-600"></i>
+                    <span class="ml-3">Đăng xuất</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="lg:pl-64">
+        <!-- Top header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between h-16 px-6">
+                <div class="flex items-center">
+                    <button id="open-sidebar" class="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <a href="orders.html" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <h1 class="text-xl font-semibold text-gray-900">Tạo đơn hàng mới</h1>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="relative text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full notification-dot"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- User menu -->
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <img src="https://ui-avatars.com/api/?name=Nguyen+Van+A&background=3b82f6&color=fff" 
+                                 alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span class="hidden md:block font-medium">Nguyễn Văn A</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cài đặt</a>
+                            <hr class="my-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page content -->
+        <main class="p-6 max-w-4xl mx-auto">
+            <!-- Step 1: Product URL Input -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Nhập link sản phẩm cần mua</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Link sản phẩm</label>
+                        <div class="flex space-x-2">
+                            <input type="url" id="product-url" placeholder="Nhập URL sản phẩm từ Amazon JP, Yahoo Auctions, Mercari..." 
+                                   class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <button onclick="analyzeProduct()" id="analyze-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                <i class="fas fa-search mr-2"></i>Phân tích
+                            </button>
+                        </div>
+                        <div id="url-validation" class="mt-2 hidden">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        <div class="mt-3">
+                            <details class="text-sm">
+                                <summary class="cursor-pointer text-blue-600 hover:text-blue-800 font-medium">
+                                    <i class="fas fa-globe mr-1"></i>
+                                    Xem danh sách website hỗ trợ
+                                </summary>
+                                <div class="mt-3 bg-gray-50 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-900 mb-3">Các trang web được hỗ trợ:</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div>
+                                            <h5 class="font-medium text-gray-800 mb-2">🇯🇵 Nhật Bản:</h5>
+                                            <ul class="space-y-1 text-xs text-gray-600">
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>amazon.co.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>auctions.yahoo.co.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>paypayfleamarket.yahoo.co.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>mercari.com (JP)</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>rakuten.co.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>qoo10.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>zozo.jp</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>buyee.jp</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-medium text-gray-800 mb-2">🌍 Quốc tế:</h5>
+                                            <ul class="space-y-1 text-xs text-gray-600">
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>amazon.com (US)</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>ebay.com</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>alibaba.com</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>aliexpress.com</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>taobao.com</li>
+                                                <li><i class="fas fa-check text-green-500 mr-1"></i>1688.com</li>
+                                                <li><i class="fas fa-times text-red-500 mr-1"></i>shopee.vn <span class="text-gray-400">(không hỗ trợ)</span></li>
+                                                <li><i class="fas fa-times text-red-500 mr-1"></i>lazada.vn <span class="text-gray-400">(không hỗ trợ)</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
+                                        <p class="text-xs text-blue-800">
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            <strong>Lưu ý:</strong> Nếu website bạn cần không có trong danh sách, vui lòng liên hệ admin để được hỗ trợ thêm.
+                                        </p>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Số lượng</label>
+                            <input type="number" id="quantity" value="1" min="1" max="10" 
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tạo đơn hàng</label>
+                            <select id="order-mode" onchange="toggleOrderMode()" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="single">Đơn lẻ</option>
+                                <option value="multiple">Nhiều đơn cùng lúc</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multiple Orders Section -->
+            <div id="multiple-orders-section" class="hidden bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900">Tạo nhiều đơn hàng cùng lúc</h2>
+                    <button onclick="addOrderRow()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm">
+                        <i class="fas fa-plus mr-2"></i>Thêm đơn hàng
+                    </button>
+                </div>
+                
+                <div class="space-y-4" id="orders-container">
+                    <!-- Order rows will be dynamically added here -->
+                    <div class="order-row border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">Đơn hàng #1</span>
+                                <span class="order-status text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">Chưa phân tích</span>
+                            </div>
+                            <button onclick="removeOrderRow(this)" class="text-red-600 hover:text-red-800 text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                            <div class="md:col-span-2">
+                                <input type="url" class="order-url w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="Link sản phẩm...">
+                            </div>
+                            <div>
+                                <input type="number" class="order-quantity w-full border border-gray-300 rounded px-3 py-2 text-sm" value="1" min="1" max="10">
+                            </div>
+                            <div>
+                                <button onclick="analyzeOrderRow(this)" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm">
+                                    <i class="fas fa-search mr-1"></i>Phân tích
+                                </button>
+                            </div>
+                        </div>
+                        <div class="order-details mt-3 hidden">
+                            <!-- Product details will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-600">
+                            <span id="total-orders-count">1</span> đơn hàng • 
+                            <span id="analyzed-orders-count">0</span> đã phân tích
+                        </div>
+                        <button onclick="analyzeAllOrders()" id="analyze-all-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm">
+                            <i class="fas fa-layer-group mr-2"></i>Phân tích tất cả
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loading-section" class="hidden bg-white rounded-lg shadow-sm p-8 mb-6">
+                <div class="text-center">
+                    <div class="loading-spinner w-8 h-8 bg-blue-600 rounded mx-auto mb-4"></div>
+                    <p class="text-gray-600">Đang phân tích sản phẩm và tính toán chi phí...</p>
+                </div>
+            </div>
+            
+            <!-- Step 2: Product Information -->
+            <div id="product-info" class="hidden bg-white rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Thông tin sản phẩm</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <img id="product-image" src="https://via.placeholder.com/300x300.png?text=Product" alt="Product" class="w-full rounded-lg mb-4">
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Seller:</span>
+                                <span id="seller-name" class="font-medium">amazon.co.jp</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Rating:</span>
+                                <span id="seller-rating" class="font-medium">4.8/5 ⭐</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Availability:</span>
+                                <span id="availability" class="font-medium text-green-600">In Stock</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 id="product-title" class="text-xl font-semibold text-gray-900">Sony WH-1000XM5 Wireless Headphones</h3>
+                            <p id="product-description" class="text-gray-600 mt-2">Premium noise-canceling wireless headphones with industry-leading technology</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">Chi tiết sản phẩm</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Màu sắc:</span>
+                                    <span id="product-color" class="font-medium">Midnight Black</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Kích thước:</span>
+                                    <span id="product-size" class="font-medium">Standard</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tình trạng:</span>
+                                    <span id="product-condition" class="font-medium">Brand New</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Trọng lượng ước tính:</span>
+                                    <span id="estimated-weight" class="font-medium">0.8kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Cost Breakdown -->
+            <div id="cost-breakdown" class="hidden bg-white rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                    Chi phí ước tính
+                    <span id="cost-breakdown-title" class="text-sm font-normal text-gray-500"></span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Giá sản phẩm (JPY):</span>
+                                <span id="product-price-jpy" class="font-medium">¥45,000</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Quy đổi VND (1¥ = 165₫):</span>
+                                <span id="product-price-vnd" class="font-medium">7,425,000₫</span>
+                            </div>
+                            <hr>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Phí mua hộ (5%):</span>
+                                <span id="service-fee" class="font-medium">371,250₫</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Phí ship nội địa JP:</span>
+                                <span id="domestic-shipping" class="font-medium">85,000₫</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Phí ưu tiên:</span>
+                                <span id="priority-fee" class="font-medium">0₫</span>
+                            </div>
+                            <hr>
+                            <div class="flex justify-between text-lg font-semibold">
+                                <span class="text-gray-900">Tổng tiền:</span>
+                                <span id="total-amount" class="text-blue-600">7,881,250₫</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-orange-900 mb-2">Tiền cọc cần thanh toán</h4>
+                            <div class="text-2xl font-bold text-orange-600 mb-2">
+                                <span id="deposit-amount">3,940,625₫</span>
+                            </div>
+                            <p class="text-sm text-orange-800">50% tổng tiền để bắt đầu mua hàng</p>
+                        </div>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-900 mb-2">Số dư ví hiện tại</h4>
+                            <div class="text-xl font-bold text-blue-600 mb-2">15,750,000₫</div>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                <span class="text-green-800">Đủ để thanh toán cọc</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Notes -->
+            <div id="additional-notes" class="hidden bg-white rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Ghi chú bổ sung (tùy chọn)</h2>
+                <textarea id="order-notes" rows="4" placeholder="Ví dụ: Yêu cầu đóng gói cẩn thận, chọn màu đen nếu có, liên hệ trước khi mua..."
+                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                <p class="text-sm text-gray-500 mt-2">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Ghi chú sẽ được gửi cho admin để hỗ trợ tốt hơn trong quá trình mua hàng
+                </p>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div id="action-buttons" class="hidden flex justify-between items-center">
+                <a href="orders.html" class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                </a>
+                <div class="space-x-4">
+                    <button class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Lưu nháp</button>
+                    <button onclick="createOrder()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                        <i class="fas fa-shopping-cart mr-2"></i>Tạo đơn hàng
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('open-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.remove('hidden');
+        });
+
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        document.getElementById('mobile-overlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.add('hidden');
+        });
+
+        // User menu toggle
+        document.getElementById('user-menu-button').addEventListener('click', function() {
+            document.getElementById('user-menu').classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const userMenuButton = document.getElementById('user-menu-button');
+            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Supported websites configuration
+        const supportedWebsites = {
+            // Japan
+            'amazon.co.jp': { name: 'Amazon Japan', country: 'JP', fee: 0.05, shipping: 85000 },
+            'auctions.yahoo.co.jp': { name: 'Yahoo Auctions Japan', country: 'JP', fee: 0.07, shipping: 85000 },
+            'paypayfleamarket.yahoo.co.jp': { name: 'PayPay Flea Market', country: 'JP', fee: 0.06, shipping: 85000 },
+            'mercari.com': { name: 'Mercari Japan', country: 'JP', fee: 0.06, shipping: 85000 },
+            'rakuten.co.jp': { name: 'Rakuten Japan', country: 'JP', fee: 0.05, shipping: 85000 },
+            'qoo10.jp': { name: 'Qoo10 Japan', country: 'JP', fee: 0.05, shipping: 85000 },
+            'zozo.jp': { name: 'ZOZO Japan', country: 'JP', fee: 0.05, shipping: 85000 },
+            'buyee.jp': { name: 'Buyee Japan', country: 'JP', fee: 0.05, shipping: 85000 },
+            
+            // International
+            'amazon.com': { name: 'Amazon US', country: 'US', fee: 0.07, shipping: 120000 },
+            'ebay.com': { name: 'eBay', country: 'US', fee: 0.08, shipping: 150000 },
+            'alibaba.com': { name: 'Alibaba', country: 'CN', fee: 0.06, shipping: 95000 },
+            'aliexpress.com': { name: 'AliExpress', country: 'CN', fee: 0.05, shipping: 85000 },
+            'taobao.com': { name: 'Taobao', country: 'CN', fee: 0.06, shipping: 95000 },
+            '1688.com': { name: '1688.com', country: 'CN', fee: 0.06, shipping: 95000 }
+        };
+
+        // URL validation function
+        function validateURL(url) {
+            if (!url || !url.trim()) {
+                return null;
+            }
+            
+            try {
+                const urlObj = new URL(url);
+                const hostname = urlObj.hostname.toLowerCase();
+                
+                // Remove www. prefix if present
+                const cleanHostname = hostname.replace(/^www\./, '');
+                
+                // Check if website is supported
+                if (supportedWebsites[cleanHostname]) {
+                    return {
+                        supported: true,
+                        website: supportedWebsites[cleanHostname],
+                        hostname: cleanHostname
+                    };
+                }
+                
+                // Check for partial matches (e.g., subdomains)
+                for (const [domain, config] of Object.entries(supportedWebsites)) {
+                    if (cleanHostname.includes(domain) || domain.includes(cleanHostname)) {
+                        return {
+                            supported: true,
+                            website: config,
+                            hostname: domain
+                        };
+                    }
+                }
+                
+                return {
+                    supported: false,
+                    hostname: cleanHostname
+                };
+                
+            } catch (error) {
+                return {
+                    supported: false,
+                    error: 'URL không hợp lệ'
+                };
+            }
+        }
+
+        // Show URL validation result
+        function showURLValidation(result) {
+            const validationDiv = document.getElementById('url-validation');
+            validationDiv.classList.remove('hidden');
+            
+            if (!result) {
+                validationDiv.innerHTML = '';
+                validationDiv.classList.add('hidden');
+                return;
+            }
+            
+            if (result.error) {
+                validationDiv.innerHTML = `
+                    <div class="p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                            <span class="text-sm text-red-800">${result.error}</span>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (result.supported) {
+                const website = result.website;
+                const flagEmoji = website.country === 'JP' ? '🇯🇵' : website.country === 'US' ? '🇺🇸' : website.country === 'CN' ? '🇨🇳' : '🌍';
+                
+                validationDiv.innerHTML = `
+                    <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                <span class="text-sm text-green-800">
+                                    <strong>${website.name}</strong> ${flagEmoji} - Được hỗ trợ
+                                </span>
+                            </div>
+                            <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded">
+                                Phí: ${(website.fee * 100)}%
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                // Enable analyze button
+                document.getElementById('analyze-btn').disabled = false;
+                document.getElementById('analyze-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+                
+            } else {
+                validationDiv.innerHTML = `
+                    <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                                <span class="text-sm text-yellow-800">
+                                    Website <strong>${result.hostname}</strong> chưa được hỗ trợ
+                                </span>
+                            </div>
+                            <a href="#" class="text-xs text-blue-600 hover:text-blue-800 underline">
+                                Yêu cầu hỗ trợ
+                            </a>
+                        </div>
+                        <p class="text-xs text-yellow-700 mt-1">
+                            Vui lòng liên hệ admin hoặc thử với website khác trong danh sách hỗ trợ.
+                        </p>
+                    </div>
+                `;
+                
+                // Disable analyze button
+                document.getElementById('analyze-btn').disabled = true;
+                document.getElementById('analyze-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // Product analysis simulation
+        function analyzeProduct() {
+            const url = document.getElementById('product-url').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            
+            if (!url) {
+                alert('Vui lòng nhập link sản phẩm');
+                return;
+            }
+            
+            // Validate URL first
+            const validation = validateURL(url);
+            if (!validation || !validation.supported) {
+                alert('Website này chưa được hỗ trợ. Vui lòng chọn website khác trong danh sách.');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading-section').classList.remove('hidden');
+            document.getElementById('analyze-btn').disabled = true;
+            document.getElementById('analyze-btn').innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang phân tích...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Hide loading
+                document.getElementById('loading-section').classList.add('hidden');
+                document.getElementById('analyze-btn').disabled = false;
+                document.getElementById('analyze-btn').innerHTML = '<i class="fas fa-search mr-2"></i>Phân tích';
+                
+                // Show product info and cost breakdown
+                showProductInfo(validation.website);
+                calculateCosts(quantity, validation.website);
+                
+                // Show additional sections
+                document.getElementById('product-info').classList.remove('hidden');
+                document.getElementById('cost-breakdown').classList.remove('hidden');
+                document.getElementById('cost-breakdown-title').textContent = '';
+                document.getElementById('additional-notes').classList.remove('hidden');
+                document.getElementById('action-buttons').classList.remove('hidden');
+                
+                // Scroll to product info
+                document.getElementById('product-info').scrollIntoView({ behavior: 'smooth' });
+                
+            }, 3000);
+        }
+        
+        function showProductInfo(website) {
+            // Mock product data based on URL analysis
+            const products = {
+                'default': {
+                    title: 'Sony WH-1000XM5 Wireless Headphones',
+                    description: 'Premium noise-canceling wireless headphones with industry-leading technology',
+                    image: 'https://via.placeholder.com/300x300.png?text=Sony+WH-1000XM5',
+                    color: 'Midnight Black',
+                    size: 'Standard',
+                    condition: 'Brand New',
+                    weight: '0.8kg',
+                    rating: '4.8/5 ⭐',
+                    availability: 'In Stock',
+                    priceJpy: 45000
+                }
+            };
+            
+            const product = products.default;
+            document.getElementById('product-title').textContent = product.title;
+            document.getElementById('product-description').textContent = product.description;
+            document.getElementById('product-image').src = product.image;
+            document.getElementById('product-color').textContent = product.color;
+            document.getElementById('product-size').textContent = product.size;
+            document.getElementById('product-condition').textContent = product.condition;
+            document.getElementById('estimated-weight').textContent = product.weight;
+            document.getElementById('seller-name').textContent = website ? website.name : 'Unknown';
+            document.getElementById('seller-rating').textContent = product.rating;
+            document.getElementById('availability').textContent = product.availability;
+        }
+        
+        function calculateCosts(quantity, website, orders = null) {
+            if (orders) {
+                // Calculate total for multiple orders
+                calculateMultipleOrdersCosts(orders);
+                return;
+            }
+            
+            const basePrice = 45000; // JPY
+            const exchangeRate = 165;
+            const serviceFeeRate = website ? website.fee : 0.05;
+            const domesticShipping = website ? website.shipping : 85000; // VND
+            
+            const baseVND = Math.round(basePrice * quantity * exchangeRate);
+            const serviceFee = Math.round(baseVND * serviceFeeRate);
+            const totalAmount = baseVND + serviceFee + domesticShipping;
+            const depositAmount = Math.round(totalAmount * 0.5);
+            
+            // Update display
+            document.getElementById('product-price-jpy').textContent = '¥' + (basePrice * quantity).toLocaleString();
+            document.getElementById('product-price-vnd').textContent = baseVND.toLocaleString() + '₫';
+            document.getElementById('service-fee').textContent = serviceFee.toLocaleString() + '₫ (' + (serviceFeeRate * 100).toFixed(1) + '%)';
+            document.getElementById('domestic-shipping').textContent = domesticShipping.toLocaleString() + '₫';
+            document.getElementById('priority-fee').textContent = '0₫';
+            document.getElementById('total-amount').textContent = totalAmount.toLocaleString() + '₫';
+            document.getElementById('deposit-amount').textContent = depositAmount.toLocaleString() + '₫';
+        }
+
+        function calculateMultipleOrdersCosts(orders) {
+            let totalJPY = 0;
+            let totalVND = 0;
+            let totalServiceFee = 0;
+            let totalShipping = 0;
+            let orderCount = 0;
+
+            orders.forEach(order => {
+                if (order.analyzed) {
+                    totalJPY += order.priceJPY;
+                    totalVND += order.priceVND;
+                    totalServiceFee += order.serviceFee;
+                    totalShipping += order.shipping;
+                    orderCount++;
+                }
+            });
+
+            const totalAmount = totalVND + totalServiceFee + totalShipping;
+            const depositAmount = Math.round(totalAmount * 0.5);
+
+            // Update display
+            document.getElementById('product-price-jpy').textContent = '¥' + totalJPY.toLocaleString();
+            document.getElementById('product-price-vnd').textContent = totalVND.toLocaleString() + '₫';
+            document.getElementById('service-fee').textContent = totalServiceFee.toLocaleString() + '₫';
+            document.getElementById('domestic-shipping').textContent = totalShipping.toLocaleString() + '₫';
+            document.getElementById('priority-fee').textContent = '0₫';
+            document.getElementById('total-amount').textContent = totalAmount.toLocaleString() + '₫';
+            document.getElementById('deposit-amount').textContent = depositAmount.toLocaleString() + '₫';
+            
+            // Update title
+            document.getElementById('cost-breakdown-title').textContent = `(${orderCount} đơn hàng)`;
+        }
+        
+        // Multiple orders management
+        let orderCounter = 1;
+        let multipleOrders = [];
+
+        function toggleOrderMode() {
+            const mode = document.getElementById('order-mode').value;
+            const singleMode = document.getElementById('product-url').closest('.bg-white');
+            const multipleSection = document.getElementById('multiple-orders-section');
+            
+            if (mode === 'multiple') {
+                singleMode.style.display = 'none';
+                multipleSection.classList.remove('hidden');
+                // Hide single order results
+                ['product-info', 'cost-breakdown', 'additional-notes', 'action-buttons'].forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+            } else {
+                singleMode.style.display = 'block';
+                multipleSection.classList.add('hidden');
+            }
+        }
+
+        function addOrderRow() {
+            orderCounter++;
+            const container = document.getElementById('orders-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'order-row border border-gray-200 rounded-lg p-4';
+            newRow.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">Đơn hàng #${orderCounter}</span>
+                        <span class="order-status text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">Chưa phân tích</span>
+                    </div>
+                    <button onclick="removeOrderRow(this)" class="text-red-600 hover:text-red-800 text-sm">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div class="md:col-span-2">
+                        <input type="url" class="order-url w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="Link sản phẩm...">
+                    </div>
+                    <div>
+                        <input type="number" class="order-quantity w-full border border-gray-300 rounded px-3 py-2 text-sm" value="1" min="1" max="10">
+                    </div>
+                    <div>
+                        <button onclick="analyzeOrderRow(this)" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm">
+                            <i class="fas fa-search mr-1"></i>Phân tích
+                        </button>
+                    </div>
+                </div>
+                <div class="order-details mt-3 hidden">
+                    <!-- Product details will be populated here -->
+                </div>
+            `;
+            container.appendChild(newRow);
+            updateOrderCounts();
+        }
+
+        function removeOrderRow(button) {
+            const orderRow = button.closest('.order-row');
+            if (document.querySelectorAll('.order-row').length > 1) {
+                orderRow.remove();
+                updateOrderCounts();
+            } else {
+                alert('Phải có ít nhất 1 đơn hàng');
+            }
+        }
+
+        function analyzeOrderRow(button) {
+            const row = button.closest('.order-row');
+            const url = row.querySelector('.order-url').value;
+            const quantity = parseInt(row.querySelector('.order-quantity').value);
+            
+            if (!url) {
+                alert('Vui lòng nhập link sản phẩm');
+                return;
+            }
+            
+            const validation = validateURL(url);
+            if (!validation || !validation.supported) {
+                alert('Website này chưa được hỗ trợ');
+                return;
+            }
+            
+            // Update button state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Đang phân tích...';
+            
+            // Simulate analysis
+            setTimeout(() => {
+                const orderData = analyzeOrderData(url, quantity, validation.website);
+                displayOrderDetails(row, orderData);
+                
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-check mr-1"></i>Đã phân tích';
+                
+                // Update status
+                const status = row.querySelector('.order-status');
+                status.className = 'order-status text-xs px-2 py-1 rounded bg-green-100 text-green-600';
+                status.textContent = 'Đã phân tích';
+                
+                updateOrderCounts();
+                updateMultipleOrdersCost();
+            }, 2000);
+        }
+
+        function analyzeAllOrders() {
+            const rows = document.querySelectorAll('.order-row');
+            rows.forEach(row => {
+                const button = row.querySelector('button[onclick*="analyzeOrderRow"]');
+                if (!button.disabled && button.textContent.includes('Phân tích')) {
+                    analyzeOrderRow(button);
+                }
+            });
+        }
+
+        function analyzeOrderData(url, quantity, website) {
+            // Mock analysis - in real app this would call API
+            const basePrice = 45000;
+            const exchangeRate = 165;
+            const baseVND = basePrice * quantity * exchangeRate;
+            const serviceFee = Math.round(baseVND * website.fee);
+            
+            return {
+                analyzed: true,
+                title: 'Sony WH-1000XM5 Wireless Headphones',
+                priceJPY: basePrice * quantity,
+                priceVND: baseVND,
+                serviceFee: serviceFee,
+                shipping: website.shipping,
+                website: website.name,
+                quantity: quantity
+            };
+        }
+
+        function displayOrderDetails(row, orderData) {
+            const detailsDiv = row.querySelector('.order-details');
+            detailsDiv.innerHTML = `
+                <div class="bg-gray-50 rounded p-3">
+                    <div class="flex items-center space-x-4 text-sm">
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">${orderData.title}</p>
+                            <p class="text-gray-600">${orderData.website} • Số lượng: ${orderData.quantity}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-semibold">¥${orderData.priceJPY.toLocaleString()}</p>
+                            <p class="text-gray-600 text-xs">${orderData.priceVND.toLocaleString()}₫</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            detailsDiv.classList.remove('hidden');
+            
+            // Store order data
+            const index = multipleOrders.findIndex(o => o.row === row);
+            if (index >= 0) {
+                multipleOrders[index] = { ...orderData, row };
+            } else {
+                multipleOrders.push({ ...orderData, row });
+            }
+        }
+
+        function updateOrderCounts() {
+            const totalRows = document.querySelectorAll('.order-row').length;
+            const analyzedRows = document.querySelectorAll('.order-status.bg-green-100').length;
+            
+            document.getElementById('total-orders-count').textContent = totalRows;
+            document.getElementById('analyzed-orders-count').textContent = analyzedRows;
+        }
+
+        function updateMultipleOrdersCost() {
+            const analyzedOrders = multipleOrders.filter(order => order.analyzed);
+            if (analyzedOrders.length > 0) {
+                document.getElementById('cost-breakdown').classList.remove('hidden');
+                calculateCosts(null, null, analyzedOrders);
+                
+                document.getElementById('additional-notes').classList.remove('hidden');
+                document.getElementById('action-buttons').classList.remove('hidden');
+            }
+        }
+
+        function createOrder() {
+            const mode = document.getElementById('order-mode').value;
+            
+            if (mode === 'multiple') {
+                // Create multiple orders
+                const analyzedOrders = multipleOrders.filter(order => order.analyzed);
+                if (analyzedOrders.length === 0) {
+                    alert('Vui lòng phân tích ít nhất 1 đơn hàng trước khi tạo');
+                    return;
+                }
+                alert(`Đã tạo thành công ${analyzedOrders.length} đơn hàng! Bạn sẽ được chuyển đến trang quản lý đơn hàng.`);
+            } else {
+                // Create single order
+                alert('Đơn hàng đã được tạo thành công! Bạn sẽ được chuyển đến trang quản lý đơn hàng.');
+            }
+            
+            window.location.href = 'orders.html';
+        }
+        
+        
+        // URL input validation
+        document.getElementById('product-url').addEventListener('input', function() {
+            const url = this.value.trim();
+            const validation = validateURL(url);
+            showURLValidation(validation);
+        });
+
+        // Auto-analyze when URL is pasted
+        document.getElementById('product-url').addEventListener('paste', function() {
+            setTimeout(() => {
+                const url = this.value.trim();
+                if (url) {
+                    const validation = validateURL(url);
+                    showURLValidation(validation);
+                    
+                    // Auto-trigger analysis if supported
+                    if (validation && validation.supported) {
+                        setTimeout(analyzeProduct, 1000);
+                    }
+                }
+            }, 100);
+        });
+
+        // Real-time cost recalculation when inputs change
+        document.getElementById('quantity').addEventListener('change', function() {
+            if (!document.getElementById('product-info').classList.contains('hidden')) {
+                const quantity = parseInt(this.value);
+                const url = document.getElementById('product-url').value;
+                const validation = validateURL(url);
+                
+                if (validation && validation.supported) {
+                    calculateCosts(quantity, validation.website);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
