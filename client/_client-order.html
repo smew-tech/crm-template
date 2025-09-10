@@ -89,24 +89,27 @@
                 <div class="bg-white rounded-t-lg shadow-md">
                     <nav id="order-nav" class="flex flex-wrap border-b">
                         <button data-status="all" class="order-tab-item active">Tất cả</button>
-                        <button data-status="pending-payment" class="order-tab-item">Chờ đặt cọc</button>
-                        <button data-status="processing" class="order-tab-item">Đang mua hàng</button>
-                        <button data-status="shipping" class="order-tab-item">Đang vận chuyển</button>
-                        <button data-status="completed" class="order-tab-item">Hoàn thành</button>
-                        <button data-status="cancelled" class="order-tab-item">Đã hủy</button>
+                        <button data-status="deposit-paid" class="order-tab-item">Đã đặt cọc</button>
+                        <button data-status="confirmed" class="order-tab-item">Xác nhận</button>
+                        <button data-status="purchased" class="order-tab-item">Đã mua</button>
+                        <button data-status="bought" class="order-tab-item">Đã mua hàng</button>
+                        <button data-status="japan-warehouse" class="order-tab-item">Kho Nhật</button>
+                        <button data-status="shipping-vietnam" class="order-tab-item">Vận chuyển VN</button>
+                        <button data-status="vietnam-warehouse" class="order-tab-item">Kho Việt</button>
+                        <button data-status="ready-delivery" class="order-tab-item">Sẵn sàng giao</button>
+                        <button data-status="delivered" class="order-tab-item">Đã giao</button>
                     </nav>
                 </div>
 
                 <div id="order-list-container" class="space-y-4 pt-4">
                     <!-- Card: Chờ đặt cọc -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="pending-payment">
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="deposit-paid">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
                                 <p class="font-bold text-blue-600">Mã đơn: #OD88888</p>
                                 <p class="text-sm text-gray-500">Ngày tạo: 08/08/2025</p>
                             </div>
-                            <span class="bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm">Chờ
-                                đặt cọc</span>
+                            <span class="bg-yellow-100 text-yellow-800 font-medium px-3 py-1 rounded-full text-sm">Đã đặt cọc</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <img src="https://m.media-amazon.com/images/I/81umrFEhL2L._AC_UY218_.jpg"
@@ -126,14 +129,13 @@
                     </div>
 
                     <!-- Card: Đang mua hàng -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="processing">
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="bought">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
                                 <p class="font-bold text-blue-600">Mã đơn: #OD99001</p>
                                 <p class="text-sm text-gray-500">Ngày tạo: 07/08/2025</p>
                             </div>
-                            <span class="bg-orange-100 text-orange-800 font-medium px-3 py-1 rounded-full text-sm">Đang
-                                mua hàng</span>
+                            <span class="bg-orange-100 text-orange-800 font-medium px-3 py-1 rounded-full text-sm">Đã mua hàng</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <img src="https://m.media-amazon.com/images/I/61SUj2aKoCL._AC_UY218_.jpg"
@@ -152,14 +154,13 @@
                     </div>
 
                     <!-- Card: Đang vận chuyển -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="shipping">
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="shipping-vietnam">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
                                 <p class="font-bold text-blue-600">Mã đơn: #OD54321</p>
                                 <p class="text-sm text-gray-500">Ngày tạo: 01/08/2025</p>
                             </div>
-                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đang vận
-                                chuyển</span>
+                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đang vận chuyển về Việt Nam</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <img src="https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg"
@@ -180,14 +181,13 @@
                     </div>
 
                     <!-- Card: Hoàn thành -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="completed">
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="delivered">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
                                 <p class="font-bold text-blue-600">Mã đơn: #OD12345</p>
                                 <p class="text-sm text-gray-500">Ngày tạo: 15/07/2025</p>
                             </div>
-                            <span class="bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Hoàn
-                                thành</span>
+                            <span class="bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full text-sm">Đã giao hàng</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <img src="https://m.media-amazon.com/images/I/71L5lsw6KcL._AC_UY218_.jpg"
@@ -206,15 +206,39 @@
                         </div>
                     </div>
 
-                    <!-- Card: Đã hủy -->
-                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="cancelled">
+                    <!-- Card: Xác nhận -->
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="confirmed">
                         <div class="flex justify-between items-center border-b pb-3 mb-3">
                             <div>
-                                <p class="font-bold text-blue-600">Mã đơn: #OD99002</p>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88889</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 07/08/2025</p>
+                            </div>
+                            <span class="bg-cyan-100 text-cyan-800 font-medium px-3 py-1 rounded-full text-sm">Xác nhận</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <img src="https://m.media-amazon.com/images/I/61SUj2aKoCL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Anker Wireless Charger Stand</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-500 text-sm">Tổng tiền</p>
+                                <p class="font-bold text-lg">850,000 ₫</p>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Đã mua -->
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="purchased">
+                        <div class="flex justify-between items-center border-b pb-3 mb-3">
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88890</p>
                                 <p class="text-sm text-gray-500">Ngày tạo: 06/08/2025</p>
                             </div>
-                            <span class="bg-gray-200 text-gray-800 font-medium px-3 py-1 rounded-full text-sm">Đã
-                                hủy</span>
+                            <span class="bg-emerald-100 text-emerald-800 font-medium px-3 py-1 rounded-full text-sm">Đã mua</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <img src="https://m.media-amazon.com/images/I/71p-M3sPhhL._AC_UY218_.jpg"
@@ -225,6 +249,81 @@
                             <div class="text-right">
                                 <p class="text-gray-500 text-sm">Tổng tiền</p>
                                 <p class="font-bold text-lg">2,150,000 ₫</p>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Hàng về kho Nhật -->
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="japan-warehouse">
+                        <div class="flex justify-between items-center border-b pb-3 mb-3">
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88891</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 05/08/2025</p>
+                            </div>
+                            <span class="bg-indigo-100 text-indigo-800 font-medium px-3 py-1 rounded-full text-sm">Hàng về kho Nhật</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <img src="https://m.media-amazon.com/images/I/71TPda7cwUL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Kindle Paperwhite 16GB</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-500 text-sm">Tổng tiền</p>
+                                <p class="font-bold text-lg">3,450,000 ₫</p>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Đã về kho Việt -->
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="vietnam-warehouse">
+                        <div class="flex justify-between items-center border-b pb-3 mb-3">
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88892</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 04/08/2025</p>
+                            </div>
+                            <span class="bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full text-sm">Đã về kho Việt</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <img src="https://m.media-amazon.com/images/I/71L5lsw6KcL._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Sony WH-1000XM5 Headphones</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-500 text-sm">Tổng tiền</p>
+                                <p class="font-bold text-lg">8,990,000 ₫</p>
+                                <a href="./_client-order-detail.html"
+                                    class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
+                                    chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Sẵn sàng giao hàng -->
+                    <div class="order-card bg-white rounded-lg shadow-md p-4" data-status-val="ready-delivery">
+                        <div class="flex justify-between items-center border-b pb-3 mb-3">
+                            <div>
+                                <p class="font-bold text-blue-600">Mã đơn: #OD88893</p>
+                                <p class="text-sm text-gray-500">Ngày tạo: 03/08/2025</p>
+                            </div>
+                            <span class="bg-purple-100 text-purple-800 font-medium px-3 py-1 rounded-full text-sm">Sẵn sàng giao hàng</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <img src="https://m.media-amazon.com/images/I/81umrFEhL2L._AC_UY218_.jpg"
+                                class="w-16 h-16 object-contain rounded-md border p-1">
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">LEGO Icons Succulents Set</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-500 text-sm">Tổng tiền</p>
+                                <p class="font-bold text-lg">1,200,000 ₫</p>
                                 <a href="./_client-order-detail.html"
                                     class="mt-2 inline-block text-sm text-blue-600 font-semibold hover:underline">Xem
                                     chi tiết <i class="fas fa-arrow-right ml-1"></i></a>
