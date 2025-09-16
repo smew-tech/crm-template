@@ -356,6 +356,26 @@
                                 <span class="text-gray-600">Phí ưu tiên:</span>
                                 <span id="priority-fee" class="font-medium">0₫</span>
                             </div>
+                            
+                            <!-- Insurance Option -->
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3 mb-3">
+                                <div class="flex items-start space-x-3">
+                                    <input type="checkbox" id="order-insurance" onchange="toggleInsurance()" 
+                                           class="mt-0.5 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <div class="flex-1">
+                                        <label for="order-insurance" class="block text-sm font-medium text-gray-900 cursor-pointer">
+                                            Bảo hiểm đơn hàng (khuyến nghị)
+                                        </label>
+                                        <p class="text-xs text-gray-600 mt-1">
+                                            Bảo vệ đơn hàng khỏi rủi ro mất mát, hư hỏng trong quá trình vận chuyển
+                                        </p>
+                                        <div class="flex justify-between items-center mt-2">
+                                            <span class="text-xs text-yellow-700">Phí bảo hiểm (2% giá trị đơn hàng):</span>
+                                            <span id="insurance-fee" class="text-sm font-medium text-yellow-800">148,500₫</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             <div class="flex justify-between text-lg font-semibold">
                                 <span class="text-gray-900">Tổng tiền:</span>
@@ -941,6 +961,33 @@
                 }
             }, 100);
         });
+
+        // Insurance toggle function
+        function toggleInsurance() {
+            const checkbox = document.getElementById('order-insurance');
+            const insuranceFeeElement = document.getElementById('insurance-fee');
+            const totalAmountElement = document.getElementById('total-amount');
+            const depositAmountElement = document.getElementById('deposit-amount');
+            
+            // Get current base amount (without insurance)
+            let baseAmount = parseFloat(totalAmountElement.textContent.replace(/[₫,]/g, ''));
+            let insuranceFee = parseFloat(insuranceFeeElement.textContent.replace(/[₫,]/g, ''));
+            
+            if (checkbox.checked) {
+                // Add insurance
+                baseAmount += insuranceFee;
+            } else {
+                // Remove insurance
+                baseAmount -= insuranceFee;
+            }
+            
+            // Update total amount
+            totalAmountElement.textContent = baseAmount.toLocaleString('vi-VN') + '₫';
+            
+            // Update deposit amount (50% of total)
+            const depositAmount = Math.floor(baseAmount * 0.5);
+            depositAmountElement.textContent = depositAmount.toLocaleString('vi-VN') + '₫';
+        }
 
         // Real-time cost recalculation when inputs change
         document.getElementById('quantity').addEventListener('change', function() {

@@ -1,0 +1,186 @@
+<div class="space-y-6">
+    <!-- Header with Bank Info -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">Lịch sử Giao dịch Tài khoản Ngân hàng</h2>
+            <button onclick="window.history.back()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-arrow-left mr-2"></i>Quay lại
+            </button>
+        </div>
+        
+        <!-- Bank Account Info -->
+        <div id="bank-account-info" class="bg-blue-50 p-4 rounded-lg">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <span class="text-sm text-gray-600">Ngân hàng:</span>
+                    <p id="bank-name-display" class="font-semibold text-lg">-</p>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-600">Số tài khoản:</span>
+                    <p id="account-number-display" class="font-semibold text-lg font-mono">-</p>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-600">Chủ tài khoản:</span>
+                    <p id="account-holder-display" class="font-semibold text-lg">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold mb-4">Bộ lọc</h3>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <select id="transaction-type-filter" class="px-3 py-2 border rounded-lg">
+                <option value="">-- Loại giao dịch --</option>
+                <option value="deposit">Nạp tiền</option>
+                <option value="withdrawal">Rút tiền</option>
+            </select>
+            <input type="date" id="from-date-filter" class="px-3 py-2 border rounded-lg" placeholder="Từ ngày">
+            <input type="date" id="to-date-filter" class="px-3 py-2 border rounded-lg" placeholder="Đến ngày">
+            <input type="text" id="amount-filter" placeholder="Số tiền tối thiểu..." class="px-3 py-2 border rounded-lg">
+            <input type="text" id="customer-filter" placeholder="Tên khách hàng..." class="px-3 py-2 border rounded-lg">
+            <button id="filter-transactions" class="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg px-4 py-2">
+                <i class="fas fa-filter mr-2"></i>Lọc
+            </button>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+            <button id="reset-filters" class="text-gray-600 hover:text-gray-800">
+                <i class="fas fa-undo mr-1"></i>Đặt lại bộ lọc
+            </button>
+            <button id="export-excel" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div class="flex items-center">
+                <i class="fas fa-arrow-down text-green-500 text-3xl mr-4"></i>
+                <div>
+                    <p class="text-sm text-gray-600">Tổng tiền nạp</p>
+                    <p id="total-deposits" class="text-2xl font-bold text-green-600">0 ₫</p>
+                    <p id="deposit-count" class="text-xs text-gray-500">0 giao dịch</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+            <div class="flex items-center">
+                <i class="fas fa-arrow-up text-red-500 text-3xl mr-4"></i>
+                <div>
+                    <p class="text-sm text-gray-600">Tổng tiền rút</p>
+                    <p id="total-withdrawals" class="text-2xl font-bold text-red-600">0 ₫</p>
+                    <p id="withdrawal-count" class="text-xs text-gray-500">0 giao dịch</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div class="flex items-center">
+                <i class="fas fa-exchange-alt text-blue-500 text-3xl mr-4"></i>
+                <div>
+                    <p class="text-sm text-gray-600">Tổng giao dịch</p>
+                    <p id="total-transactions" class="text-2xl font-bold text-blue-600">0</p>
+                    <p id="transaction-period" class="text-xs text-gray-500">Tháng này</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+            <div class="flex items-center">
+                <i class="fas fa-wallet text-purple-500 text-3xl mr-4"></i>
+                <div>
+                    <p class="text-sm text-gray-600">Số dư ước tính</p>
+                    <p id="estimated-balance" class="text-2xl font-bold text-purple-600">0 ₫</p>
+                    <p class="text-xs text-gray-500">Tính từ giao dịch</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction History Table -->
+    <div class="bg-white rounded-lg shadow-md">
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Lịch sử Giao dịch</h3>
+                <div class="flex space-x-2">
+                    <select id="page-size" class="px-3 py-1 border rounded text-sm">
+                        <option value="10">10/trang</option>
+                        <option value="25" selected>25/trang</option>
+                        <option value="50">50/trang</option>
+                        <option value="100">100/trang</option>
+                    </select>
+                    <button id="refresh-data" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="p-4 font-semibold cursor-pointer hover:bg-gray-200" onclick="sortTable('date')">
+                            Ngày GD <i class="fas fa-sort ml-1"></i>
+                        </th>
+                        <th class="p-4 font-semibold cursor-pointer hover:bg-gray-200" onclick="sortTable('transactionId')">
+                            Mã GD <i class="fas fa-sort ml-1"></i>
+                        </th>
+                        <th class="p-4 font-semibold">Loại</th>
+                        <th class="p-4 font-semibold cursor-pointer hover:bg-gray-200" onclick="sortTable('customer')">
+                            Khách hàng <i class="fas fa-sort ml-1"></i>
+                        </th>
+                        <th class="p-4 font-semibold text-right cursor-pointer hover:bg-gray-200" onclick="sortTable('amount')">
+                            Số tiền <i class="fas fa-sort ml-1"></i>
+                        </th>
+                        <th class="p-4 font-semibold">Nội dung</th>
+                        <th class="p-4 font-semibold text-center">Trạng thái</th>
+                        <th class="p-4 font-semibold">Người xử lý</th>
+                        <th class="p-4 font-semibold text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-history-tbody" class="divide-y divide-gray-200">
+                    <!-- Dynamic content will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="p-4 border-t bg-gray-50">
+            <div class="flex justify-between items-center">
+                <div id="pagination-info" class="text-sm text-gray-600">
+                    Hiển thị 1-25 của 0 kết quả
+                </div>
+                <div id="pagination-controls" class="flex space-x-2">
+                    <!-- Pagination buttons will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="text-center py-12 hidden">
+            <i class="fas fa-inbox text-gray-400 text-4xl mb-4"></i>
+            <p class="text-gray-500 text-lg">Không có dữ liệu giao dịch</p>
+            <p class="text-gray-400 text-sm">Hãy thử điều chỉnh bộ lọc hoặc khoảng thời gian</p>
+        </div>
+    </div>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div id="transaction-detail-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">Chi tiết Giao dịch</h3>
+                <button id="close-transaction-detail" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6" id="transaction-detail-content">
+                <!-- Transaction details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>

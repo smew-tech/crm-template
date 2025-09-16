@@ -306,6 +306,7 @@
                                     <a href="#"
                                         class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
                                         quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-bank-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
                                     <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
                                 </td>
                             </tr>
@@ -323,6 +324,7 @@
                                     <a href="#"
                                         class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
                                         quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-bank-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
                                     <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
                                 </td>
                             </tr>
@@ -483,3 +485,121 @@
         </div>
     </div>
 </div>
+
+<!-- Bank Transaction History Modal -->
+<div id="bank-history-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">Lịch sử Giao dịch Tài khoản Ngân hàng</h3>
+                <button id="close-bank-history-modal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <!-- Bank Account Info -->
+                <div id="bank-account-info" class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <span class="text-sm text-gray-600">Ngân hàng:</span>
+                            <p id="bank-name" class="font-semibold text-lg">-</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Số tài khoản:</span>
+                            <p id="account-number" class="font-semibold text-lg font-mono">-</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Chủ tài khoản:</span>
+                            <p id="account-holder" class="font-semibold text-lg">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                    <select id="transaction-type-filter" class="px-3 py-2 border rounded-lg">
+                        <option value="">-- Loại giao dịch --</option>
+                        <option value="deposit">Nạp tiền</option>
+                        <option value="withdrawal">Rút tiền</option>
+                    </select>
+                    <input type="date" id="from-date-filter" class="px-3 py-2 border rounded-lg">
+                    <input type="date" id="to-date-filter" class="px-3 py-2 border rounded-lg">
+                    <input type="text" id="amount-filter" placeholder="Số tiền..." class="px-3 py-2 border rounded-lg">
+                    <button id="filter-bank-history" class="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg">
+                        <i class="fas fa-filter mr-2"></i>Lọc
+                    </button>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-arrow-down text-green-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-600">Tổng nạp</p>
+                                <p id="total-deposits" class="text-xl font-bold text-green-600">0 ₫</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-arrow-up text-red-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-600">Tổng rút</p>
+                                <p id="total-withdrawals" class="text-xl font-bold text-red-600">0 ₫</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-exchange-alt text-blue-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-600">Tổng giao dịch</p>
+                                <p id="total-transactions" class="text-xl font-bold text-blue-600">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-wallet text-purple-500 text-2xl mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-600">Số dư ước tính</p>
+                                <p id="estimated-balance" class="text-xl font-bold text-purple-600">0 ₫</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction History Table -->
+                <div class="overflow-x-auto max-h-96 overflow-y-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-100 text-left sticky top-0">
+                            <tr>
+                                <th class="p-3 font-semibold">Ngày GD</th>
+                                <th class="p-3 font-semibold">Mã GD</th>
+                                <th class="p-3 font-semibold">Loại</th>
+                                <th class="p-3 font-semibold">Khách hàng</th>
+                                <th class="p-3 font-semibold text-right">Số tiền</th>
+                                <th class="p-3 font-semibold">Nội dung</th>
+                                <th class="p-3 font-semibold text-center">Trạng thái</th>
+                                <th class="p-3 font-semibold">Người xử lý</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bank-history-tbody" class="divide-y divide-gray-200">
+                            <!-- Dynamic content will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="bank-history-empty" class="text-center py-12 hidden">
+                    <i class="fas fa-inbox text-gray-400 text-4xl mb-4"></i>
+                    <p class="text-gray-500 text-lg">Không có dữ liệu giao dịch</p>
+                    <p class="text-gray-400 text-sm">Hãy thử điều chỉnh bộ lọc hoặc khoảng thời gian</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

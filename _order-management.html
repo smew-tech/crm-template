@@ -11,15 +11,15 @@
             <input type="text" placeholder="Mã đơn, Mã kiện, Tên KH..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">-- Trạng thái --</option>
-                <option value="pending-confirmation">Chờ xác nhận</option>
-                <option value="deposit-paid">Đã đặt cọc</option>
-                <option value="confirmed">Xác nhận</option>
-                <option value="purchased">Đã mua</option>
-                <option value="bought">Đã mua hàng</option>
-                <option value="japan-warehouse">Hàng về kho Nhật</option>
-                <option value="shipping-vietnam">Đang vận chuyển về Việt Nam</option>
-                <option value="vietnam-warehouse">Đã về kho Việt</option>
-                <option value="ready-delivery">Sẵn sàng giao hàng</option>
+                <option value="pending_approval">Đợi duyệt</option>
+                <option value="waiting_deposit">Đợi đặt cọc</option>
+                <option value="deposit_confirmed">Đã đặt cọc</option>
+                <option value="ordered">Đã mua</option>
+                <option value="in_transit_jp">Đến kho Nhật</option>
+                <option value="in_transit_vn">Đến kho Việt</option>
+                <option value="checking">Đang kiểm hàng</option>
+                <option value="waiting_payment">Đợi thanh toán</option>
+                <option value="ready_to_ship">Sẵn chuyển</option>
                 <option value="delivered">Đã giao hàng</option>
             </select>
             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -38,46 +38,292 @@
                     <tr>
                         <th class="p-3 font-semibold">Mã Đơn</th>
                         <th class="p-3 font-semibold">Khách hàng</th>
-                        <th class="p-3 font-semibold">Ngày tạo</th>
+                        <th class="p-3 font-semibold">Sản phẩm</th>
+                        <th class="p-3 font-semibold">Tracking</th>
+                        <th class="p-3 font-semibold">Giá trị</th>
                         <th class="p-3 font-semibold text-center">Trạng thái</th>
                         <th class="p-3 font-semibold text-center">Hành động</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    <tr>
-                        <td class="p-3 font-medium text-blue-600">#DH-0810-1</td>
-                        <td class="p-3">Nguyễn Văn A (SC244)</td>
-                        <td class="p-3">10/08/2025</td>
-                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
-                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    <tr data-order-id="DH-0810-1" data-customer="Nguyễn Văn A (SC244)" data-status="pending_approval">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0810-1</div>
+                            <div class="text-xs text-gray-500">10/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Nguyễn Văn A</div>
+                            <div class="text-xs text-gray-500">SC244</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">iPhone 15 Pro Max</div>
+                            <div class="text-xs text-gray-500">Amazon JP • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <span class="text-gray-400 text-xs">Chưa có</span>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">2,850,000 ₫</div>
+                            <div class="text-xs text-gray-500">Cần cọc: 1,425,000 ₫</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Đợi duyệt</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0810-1', 'approve')" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-check mr-1"></i>Duyệt
+                                </button>
+                                <button onclick="showOrderDetail('DH-0810-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0810-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="p-3 font-medium text-blue-600">#DH-0809-1</td>
-                        <td class="p-3">Trần Thị B (SC231)</td>
-                        <td class="p-3">09/08/2025</td>
-                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
-                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    <tr data-order-id="DH-0809-1" data-customer="Trần Thị B (SC231)" data-status="waiting_deposit">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0809-1</div>
+                            <div class="text-xs text-gray-500">09/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Trần Thị B</div>
+                            <div class="text-xs text-gray-500">SC231</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">MacBook Air M2</div>
+                            <div class="text-xs text-gray-500">Amazon JP • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <span class="text-gray-400 text-xs">Chưa có</span>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">1,950,000 ₫</div>
+                            <div class="text-xs text-yellow-600">Chờ cọc: 975,000 ₫</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Đợi đặt cọc</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="showOrderDetail('DH-0809-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0809-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="p-3 font-medium text-blue-600">#DH-0808-1</td>
-                        <td class="p-3">Lê Văn C (SC144)</td>
-                        <td class="p-3">08/08/2025</td>
-                        <td class="p-3 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Chờ xác nhận</span></td>
-                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    <tr data-order-id="DH-0808-1" data-customer="Lê Văn C (SC144)" data-status="ordered">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0808-1</div>
+                            <div class="text-xs text-gray-500">08/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Lê Văn C</div>
+                            <div class="text-xs text-gray-500">SC144</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Sony WH-1000XM5</div>
+                            <div class="text-xs text-gray-500">Yahoo Auctions • Đấu giá</div>
+                        </td>
+                        <td class="p-3">
+                            <input type="text" placeholder="Nhập mã tracking" class="w-full text-xs border border-gray-300 rounded px-2 py-1" id="tracking-DH-0808-1">
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">890,000 ₫</div>
+                            <div class="text-xs text-green-600">Đã thanh toán</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Đã mua</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0808-1', 'add_tracking')" class="bg-purple-500 hover:bg-purple-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-plus mr-1"></i>Tracking
+                                </button>
+                                <button onclick="showOrderDetail('DH-0808-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0808-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="p-3 font-medium text-blue-600">#DH-0806-1</td>
-                        <td class="p-3">Nguyễn Văn A (SC244)</td>
-                        <td class="p-3">06/08/2025</td>
-                        <td class="p-3 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Đã đặt cọc</span></td>
-                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    <tr data-order-id="DH-0807-1" data-customer="Phạm Thị D (SC168)" data-status="in_transit_jp">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0807-1</div>
+                            <div class="text-xs text-gray-500">07/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Phạm Thị D</div>
+                            <div class="text-xs text-gray-500">SC168</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Canon EOS R50</div>
+                            <div class="text-xs text-gray-500">Yodobashi • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">JP1234567890</a>
+                            <div class="text-xs text-gray-500">Cân nặng: 2.1kg</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">1,280,000 ₫</div>
+                            <div class="text-xs text-green-600">Đã thanh toán</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full font-medium">Đến kho Nhật</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0807-1', 'ship_to_vn')" class="bg-indigo-500 hover:bg-indigo-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-plane mr-1"></i>Chuyển VN
+                                </button>
+                                <button onclick="showOrderDetail('DH-0807-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0807-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="p-3 font-medium text-blue-600">#DH-0805-1</td>
-                        <td class="p-3">Trần Thị B (SC231)</td>
-                        <td class="p-3">05/08/2025</td>
-                        <td class="p-3 text-center"><span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Đang vận chuyển về Việt Nam</span></td>
-                        <td class="p-3 text-center"><a href="#" class="view-detail-link text-indigo-600 font-medium">Xem chi tiết</a></td>
+                    <tr data-order-id="DH-0806-1" data-customer="Hoàng Văn E (SC191)" data-status="in_transit_vn">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0806-1</div>
+                            <div class="text-xs text-gray-500">06/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Hoàng Văn E</div>
+                            <div class="text-xs text-gray-500">SC191</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Apple Watch S9</div>
+                            <div class="text-xs text-gray-500">Yahoo Auctions • Đấu giá</div>
+                        </td>
+                        <td class="p-3">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">JP9876543210</a>
+                            <div class="text-xs text-gray-500">Cân nặng: 0.3kg</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">1,350,000 ₫</div>
+                            <div class="text-xs text-green-600">Đã cọc: 675,000 ₫</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-cyan-100 text-cyan-800 text-xs rounded-full font-medium">Đến kho Việt</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0806-1', 'check_goods')" class="bg-teal-500 hover:bg-teal-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-search mr-1"></i>Kiểm hàng
+                                </button>
+                                <button onclick="showOrderDetail('DH-0806-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0806-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-order-id="DH-0805-1" data-customer="Nguyễn Thị F (SC208)" data-status="checking">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0805-1</div>
+                            <div class="text-xs text-gray-500">05/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Nguyễn Thị F</div>
+                            <div class="text-xs text-gray-500">SC208</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Nintendo Switch OLED</div>
+                            <div class="text-xs text-gray-500">Mercari • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">VN-HN-003</a>
+                            <div class="text-xs text-gray-500">Cân nặng: 0.5kg</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">1,200,000 ₫</div>
+                            <div class="text-xs text-orange-600">Còn lại: 600,000 ₫</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full font-medium">Đang kiểm hàng</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0805-1', 'complete_check')" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-check mr-1"></i>Xong
+                                </button>
+                                <button onclick="showOrderDetail('DH-0805-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0805-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-order-id="DH-0804-1" data-customer="Trần Văn G (SC247)" data-status="waiting_payment">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0804-1</div>
+                            <div class="text-xs text-gray-500">04/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Trần Văn G</div>
+                            <div class="text-xs text-gray-500">SC247</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">AirPods Pro 2</div>
+                            <div class="text-xs text-gray-500">Amazon JP • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">VN-HCM-015</a>
+                            <div class="text-xs text-gray-500">Cân nặng: 0.2kg</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">750,000 ₫</div>
+                            <div class="text-xs text-red-600">Còn lại: 375,000 ₫</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Đợi thanh toán</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="showOrderDetail('DH-0804-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0804-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-order-id="DH-0803-1" data-customer="Lý Thị H (SC231)" data-status="ready_to_ship">
+                        <td class="p-3">
+                            <div class="font-medium text-blue-600">#DH-0803-1</div>
+                            <div class="text-xs text-gray-500">03/08/2025</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">Lý Thị H</div>
+                            <div class="text-xs text-gray-500">SC231</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">iPad Pro 11"</div>
+                            <div class="text-xs text-gray-500">Amazon JP • Mua thẳng</div>
+                        </td>
+                        <td class="p-3">
+                            <a href="#" class="text-emerald-600 hover:text-emerald-800 text-xs font-medium">VN-HN-007</a>
+                            <div class="text-xs text-gray-500">Cân nặng: 1.1kg</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">2,200,000 ₫</div>
+                            <div class="text-xs text-green-600">Đã thanh toán</div>
+                        </td>
+                        <td class="p-3 text-center"><span class="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs rounded-full font-medium">Sẵn chuyển</span></td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="handleAdminAction('DH-0803-1', 'ship_order')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 text-xs rounded">
+                                    <i class="fas fa-truck mr-1"></i>Giao
+                                </button>
+                                <button onclick="showOrderDetail('DH-0803-1')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 text-xs rounded">
+                                    Chi tiết
+                                </button>
+                                <button onclick="editOrder('DH-0803-1')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 text-xs rounded">
+                                    Sửa
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -135,19 +381,12 @@
                     <!-- Phương thức mua -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Phương thức *</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                                <input type="radio" name="purchase-method" value="direct" class="mr-3">
+                        <div class="w-full">
+                            <label class="flex items-center p-3 border-2 border-blue-300 bg-blue-50 rounded-lg">
+                                <input type="radio" name="purchase-method" value="direct" class="mr-3" checked disabled>
                                 <div>
-                                    <div class="font-medium">Mua thẳng</div>
-                                    <div class="text-xs text-gray-500">Giá cố định</div>
-                                </div>
-                            </label>
-                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                                <input type="radio" name="purchase-method" value="auction" class="mr-3">
-                                <div>
-                                    <div class="font-medium">Đấu giá</div>
-                                    <div class="text-xs text-gray-500">Giá linh hoạt</div>
+                                    <div class="font-medium text-blue-800">Mua thẳng</div>
+                                    <div class="text-xs text-blue-600">Phương thức duy nhất được hỗ trợ</div>
                                 </div>
                             </label>
                         </div>
@@ -186,11 +425,13 @@
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phí DV (¥)</label>
-                            <input type="number" id="service-fee-yen" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0" value="500">
+                            <input type="number" id="service-fee-yen" disabled class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed" placeholder="0" value="500">
+                            <p class="text-xs text-gray-500 mt-1">Phí cố định, không thể chỉnh sửa</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phí DV (VND)</label>
-                            <input type="text" id="service-fee-vnd" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" placeholder="Tự động tính">
+                            <input type="text" id="service-fee-vnd" disabled class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed" placeholder="Tự động tính">
+                            <p class="text-xs text-gray-500 mt-1">Tính tự động từ tỷ giá hiện tại</p>
                         </div>
                     </div>
                     
@@ -203,6 +444,18 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">% Cọc</label>
                             <input type="text" id="deposit-percentage" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" placeholder="Tự động tính">
+                        </div>
+                    </div>
+                    
+                    <!-- Bảo hiểm đơn hàng -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Bảo hiểm đơn hàng</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="order-insurance" class="mr-3 rounded">
+                            <div>
+                                <span class="text-sm font-medium">Có bảo hiểm đơn hàng</span>
+                                <p class="text-xs text-gray-500">Bảo hiểm toàn bộ giá trị đơn hàng (tùy chọn)</p>
+                            </div>
                         </div>
                     </div>
                     
@@ -249,3 +502,371 @@
         </form>
     </div>
 </div>
+
+<!-- Modal Duyệt đơn hàng -->
+<div id="approve-order-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Duyệt đơn hàng</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="approve-order-form" class="p-6">
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">Thông tin đơn hàng</h4>
+                    <p><strong>Mã đơn:</strong> <span id="approve-order-id"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="approve-customer"></span></p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Loại sản phẩm *</label>
+                    <select id="approve-product-type" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Chọn loại sản phẩm --</option>
+                        <option value="electronics">Điện tử</option>
+                        <option value="fashion">Thời trang</option>
+                        <option value="cosmetics">Mỹ phẩm</option>
+                        <option value="toys">Đồ chơi</option>
+                        <option value="books">Sách</option>
+                        <option value="home">Đồ gia dụng</option>
+                        <option value="food">Thực phẩm</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phí COD *</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="cod-fee-type" value="fixed" class="mr-3">
+                            <span>Điền phí cố định</span>
+                        </label>
+                        <div id="fixed-cod-section" class="ml-6 hidden">
+                            <input type="number" id="fixed-cod-amount" placeholder="Nhập số tiền COD" 
+                                   class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <label class="flex items-center">
+                            <input type="radio" name="cod-fee-type" value="calculated" class="mr-3">
+                            <span>Đợi tính phí sau</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú admin</label>
+                    <textarea id="approve-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" 
+                              placeholder="Ghi chú về việc duyệt đơn..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    <i class="fas fa-check mr-2"></i>Duyệt đơn
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Thêm Tracking Code -->
+<div id="tracking-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Thêm mã tracking</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="tracking-form" class="p-6">
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">Thông tin đơn hàng</h4>
+                    <p><strong>Mã đơn:</strong> <span id="tracking-order-id"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="tracking-customer"></span></p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Mã tracking (tùy chọn)</label>
+                    <input type="text" id="tracking-code" class="w-full p-3 border border-gray-300 rounded-lg" 
+                           placeholder="VD: 1234567890123">
+                    <p class="text-sm text-gray-500 mt-1">Có thể để trống và thêm sau</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nhà vận chuyển</label>
+                    <select id="shipping-carrier" class="w-full p-3 border border-gray-300 rounded-lg">
+                        <option value="">-- Chọn nhà vận chuyển --</option>
+                        <option value="jpost">Japan Post</option>
+                        <option value="yamato">Yamato Transport</option>
+                        <option value="sagawa">Sagawa Express</option>
+                        <option value="dhl">DHL</option>
+                        <option value="fedex">FedEx</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
+                    <textarea id="tracking-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" 
+                              placeholder="Ghi chú về việc vận chuyển..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    <i class="fas fa-shipping-fast mr-2"></i>Cập nhật tracking
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Cập nhật trạng thái -->
+<div id="status-update-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Cập nhật trạng thái đơn hàng</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="status-update-form" class="p-6">
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">Thông tin đơn hàng</h4>
+                    <p><strong>Mã đơn:</strong> <span id="status-order-id"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="status-customer"></span></p>
+                    <p><strong>Trạng thái hiện tại:</strong> <span id="current-status"></span></p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái mới *</label>
+                    <select id="new-status" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Chọn trạng thái mới --</option>
+                        <option value="pending_approval">Đợi duyệt</option>
+                        <option value="waiting_deposit">Đợi đặt cọc</option>
+                        <option value="deposit_confirmed">Đã đặt cọc</option>
+                        <option value="ordered">Đã mua</option>
+                        <option value="in_transit_jp">Đến kho Nhật</option>
+                        <option value="in_transit_vn">Đến kho Việt</option>
+                        <option value="checking">Đang kiểm hàng</option>
+                        <option value="waiting_payment">Đợi thanh toán</option>
+                        <option value="ready_to_ship">Sẵn chuyển</option>
+                        <option value="delivered">Đã giao hàng</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú cập nhật</label>
+                    <textarea id="status-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" 
+                              placeholder="Mô tả về việc cập nhật trạng thái..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-sync mr-2"></i>Cập nhật trạng thái
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div id="order-detail-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Chi tiết Đơn hàng</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Left Column - Order Info -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2">Thông tin Đơn hàng</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Mã đơn:</span>
+                            <span class="font-semibold text-blue-600" id="detail-order-id">#DH-0810-1</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Ngày tạo:</span>
+                            <span id="detail-order-date">10/08/2025</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Khách hàng:</span>
+                            <span id="detail-customer">Nguyễn Văn A (SC244)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Trạng thái:</span>
+                            <span id="detail-status" class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium">Đợi duyệt</span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mt-6">Thông tin Sản phẩm</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-sm font-medium text-gray-600">Tên sản phẩm:</span>
+                            <p class="font-semibold" id="detail-product-name">iPhone 15 Pro Max</p>
+                        </div>
+                        <div>
+                            <span class="text-sm font-medium text-gray-600">Link sản phẩm:</span>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm break-all" id="detail-product-link">https://amazon.co.jp/...</a>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Loại sản phẩm:</span>
+                            <span id="detail-product-type">Điện tử</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Nguồn:</span>
+                            <span id="detail-product-source">Amazon JP • Mua thẳng</span>
+                        </div>
+                    </div>
+
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mt-6">Bảo hiểm Đơn hàng</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-600">Bảo hiểm:</span>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="detail-insurance" class="mr-2 rounded" disabled>
+                                <span class="text-sm" id="detail-insurance-text">Có bảo hiểm</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500" id="detail-insurance-note">
+                            Bảo hiểm toàn bộ giá trị đơn hàng trong quá trình vận chuyển
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Financial Info -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2">Thông tin Tài chính</h4>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">Giá sản phẩm (¥):</span>
+                            <span class="font-medium" id="detail-price-yen">¥150,000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">Giá sản phẩm (VND):</span>
+                            <span class="font-medium" id="detail-price-vnd">2,250,000 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">Phí dịch vụ:</span>
+                            <span class="font-medium" id="detail-service-fee">600,000 ₫</span>
+                        </div>
+                        <div class="flex justify-between border-t pt-2">
+                            <span class="text-sm font-semibold text-gray-800">Tổng cộng:</span>
+                            <span class="font-bold text-lg" id="detail-total">2,850,000 ₫</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-blue-700">Tiền cọc:</span>
+                            <span class="font-semibold text-blue-800" id="detail-deposit">1,425,000 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-orange-700">Còn phải trả:</span>
+                            <span class="font-semibold text-orange-800" id="detail-remaining">1,425,000 ₫</span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mt-6">Phí COD</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Loại phí:</span>
+                            <span id="detail-cod-type">Tính phí sau</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Phí COD:</span>
+                            <span id="detail-cod-fee" class="text-gray-500">Chưa tính</span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mt-6">Vận chuyển</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Mã tracking:</span>
+                            <span id="detail-tracking" class="text-gray-500">Chưa có</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Cân nặng:</span>
+                            <span id="detail-weight" class="text-gray-500">Chưa cân</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-medium text-gray-600">Phí cân nặng:</span>
+                            <span id="detail-weight-fee" class="text-gray-500">Chưa tính</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Timeline -->
+            <div class="mt-8">
+                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Lịch sử Đơn hàng</h4>
+                <div class="space-y-3" id="order-timeline">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full mt-1"></div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-gray-800">Đơn hàng được tạo</span>
+                                <span class="text-xs text-gray-500">10/08/2025 14:30</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Khách hàng đặt đơn hàng iPhone 15 Pro Max</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full mt-1"></div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-gray-800">Đang chờ duyệt</span>
+                                <span class="text-xs text-gray-500">10/08/2025 14:35</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Đơn hàng đang chờ admin duyệt và bổ sung thông tin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notes Section -->
+            <div class="mt-6">
+                <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Ghi chú</h4>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm text-gray-600" id="detail-notes">Khách hàng yêu cầu giao hàng nhanh. Ưu tiên xử lý.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-end space-x-3 p-6 border-t">
+            <button type="button" class="close-modal-btn px-4 py-2 text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
+            <button onclick="editOrder()" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+                <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+            </button>
+            <button onclick="updateOrderStatus()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                <i class="fas fa-sync mr-2"></i>Cập nhật trạng thái
+            </button>
+        </div>
+    </div>
+</div>
+

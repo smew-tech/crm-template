@@ -1,0 +1,89 @@
+<!-- Final Payment Modal -->
+<div id="final-payment-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Tính toán thanh toán cuối</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="final-payment-form" class="p-6">
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">Thông tin đơn hàng</h4>
+                    <p><strong>Mã đơn:</strong> <span id="payment-order-id"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="payment-customer"></span></p>
+                    <p><strong>Đã cọc:</strong> <span id="payment-deposited" class="text-green-600"></span></p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cân nặng thực tế (kg) *</label>
+                        <input type="number" step="0.1" id="actual-weight" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.0">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí cân nặng (VND/kg)</label>
+                        <input type="number" id="weight-fee-rate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" value="50000" placeholder="50000">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí COD (VND)</label>
+                        <input type="number" id="final-cod-fee" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí khác (VND)</label>
+                        <input type="number" id="other-fees" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0">
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-gray-700 mb-3">Tính toán thanh toán</h5>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Tổng giá trị đơn hàng:</span>
+                            <span id="calc-total-value">2,850,000 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Đã đặt cọc:</span>
+                            <span id="calc-deposited" class="text-green-600">-1,425,000 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Phí cân nặng:</span>
+                            <span id="calc-weight-fee">0 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Phí COD:</span>
+                            <span id="calc-cod-fee">0 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Phí khác:</span>
+                            <span id="calc-other-fees">0 ₫</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg border-t pt-2">
+                            <span>Còn phải trả:</span>
+                            <span id="calc-final-amount" class="text-red-600">1,425,000 ₫</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
+                    <textarea id="payment-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" 
+                              placeholder="Ghi chú về việc tính toán phí..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    <i class="fas fa-calculator mr-2"></i>Xác nhận tính toán
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

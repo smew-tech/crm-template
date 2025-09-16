@@ -120,6 +120,10 @@
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
                         class="fas fa-users w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý Người
                         dùng</span></a>
+                <a href="_telesales-management.html" data-title="Quản lý Telesales"
+                    class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
+                        class="fas fa-headset w-6 text-center text-gray-500"></i><span class="ml-3">Quản lý
+                        Telesales</span></a>
                 <a href="_auction-management.html" data-title="Hệ thống Đấu giá"
                     class="nav-item flex items-center px-4 py-3 text-gray-700 rounded-lg"><i
                         class="fas fa-gavel w-6 text-center text-gray-500"></i><span class="ml-3">Hệ thống Đấu
@@ -2934,9 +2938,17 @@ Noi dung: Rut tien ${withdrawalId}`;
             const modal = document.getElementById('admin-create-order-modal');
             if (modal) {
                 modal.classList.remove('hidden');
-                // Initialize customer search after modal opens
+                // Initialize fixed service fee and purchase method
                 setTimeout(() => {
                     initCustomerSearch();
+                    // Set default service fee
+                    const serviceFeeYen = document.getElementById('service-fee-yen');
+                    if (serviceFeeYen) serviceFeeYen.value = 500;
+                    // Set default purchase method to direct
+                    const directRadio = document.querySelector('input[name="purchase-method"][value="direct"]');
+                    if (directRadio) directRadio.checked = true;
+                    // Calculate initial service fee in VND
+                    updateOrderSummary();
                 }, 100);
             }
         }
@@ -2952,7 +2964,7 @@ Noi dung: Rut tien ${withdrawalId}`;
         
         function updateOrderSummary() {
             const productPriceYen = parseFloat(document.getElementById('product-price-yen')?.value) || 0;
-            const serviceFeeYen = parseFloat(document.getElementById('service-fee-yen')?.value) || 0;
+            const serviceFeeYen = 500; // Fixed service fee
             const depositAmount = parseFloat(document.getElementById('deposit-amount')?.value) || 0;
             
             const productPriceVnd = productPriceYen * window.exchangeRate;
@@ -3032,8 +3044,8 @@ Noi dung: Rut tien ${withdrawalId}`;
 
         // Handle dynamic form options in modals
         document.addEventListener('change', function(e) {
-            // Handle admin order form field changes
-            if (e.target.id === 'product-price-yen' || e.target.id === 'service-fee-yen' || e.target.id === 'deposit-amount') {
+            // Handle admin order form field changes (service fee is now fixed and disabled)
+            if (e.target.id === 'product-price-yen' || e.target.id === 'deposit-amount') {
                 updateOrderSummary();
             }
             
@@ -3756,6 +3768,1690 @@ Noi dung: Rut tien ${withdrawalId}`;
                     plugins: { legend: { position: 'bottom' } }
                 }
             });
+        };
+
+        // Bank History Modal Functionality
+        window.initBankHistoryModal = function() {
+            console.log('initBankHistoryModal called');
+            
+            const bankHistoryModal = document.getElementById('bank-history-modal');
+            const closeBankHistoryModal = document.getElementById('close-bank-history-modal');
+            
+            console.log('Modal elements:', {bankHistoryModal: !!bankHistoryModal, closeBankHistoryModal: !!closeBankHistoryModal});
+            
+            if (!bankHistoryModal || !closeBankHistoryModal) {
+                console.log('Modal elements not found, exiting');
+                return;
+            }
+            
+            // Mock transaction data for demonstration
+            const mockBankTransactions = {
+                'Vietcombank-0123456789': [
+                    {
+                        date: '2025-08-05',
+                        time: '14:20:00',
+                        transactionId: 'VCB240805001',
+                        type: 'deposit',
+                        customer: 'Nguyễn Văn A (KH001)',
+                        amount: 5000000,
+                        content: 'N-0805-1 Nap tien',
+                        status: 'completed',
+                        processor: 'Auto System'
+                    },
+                    {
+                        date: '2025-08-05',
+                        time: '11:35:00',
+                        transactionId: 'VCB240805002',
+                        type: 'deposit',
+                        customer: 'Trần Thị B (KH002)',
+                        amount: 10000000,
+                        content: 'N-0805-2 Nap tien',
+                        status: 'completed',
+                        processor: 'Admin'
+                    },
+                    {
+                        date: '2025-08-04',
+                        time: '16:05:00',
+                        transactionId: 'VCB240804001',
+                        type: 'withdrawal',
+                        customer: 'Phạm Thị D (KH005)',
+                        amount: -1000000,
+                        content: 'R-0804-5 Rut tien',
+                        status: 'completed',
+                        processor: 'Admin'
+                    },
+                    {
+                        date: '2025-08-03',
+                        time: '09:30:00',
+                        transactionId: 'VCB240803001',
+                        type: 'deposit',
+                        customer: 'Lê Văn C (KH004)',
+                        amount: 3500000,
+                        content: 'N-0803-3 Nap tien',
+                        status: 'completed',
+                        processor: 'ketoan.1'
+                    },
+                    {
+                        date: '2025-08-02',
+                        time: '16:20:00',
+                        transactionId: 'VCB240802001',
+                        type: 'deposit',
+                        customer: 'Lê Văn C (KH004)',
+                        amount: 3500000,
+                        content: 'Manual deposit - ref: FT24080112345',
+                        status: 'completed',
+                        processor: 'Admin'
+                    }
+                ],
+                'Techcombank-9876543210': [
+                    {
+                        date: '2025-08-01',
+                        time: '10:15:00',
+                        transactionId: 'TCB240801001',
+                        type: 'deposit',
+                        customer: 'Hoàng Văn E (KH006)',
+                        amount: 2000000,
+                        content: 'N-0801-1 Nap tien',
+                        status: 'completed',
+                        processor: 'Auto System'
+                    },
+                    {
+                        date: '2025-07-31',
+                        time: '14:45:00',
+                        transactionId: 'TCB240731001',
+                        type: 'withdrawal',
+                        customer: 'Nguyễn Văn A (KH001)',
+                        amount: -1500000,
+                        content: 'R-0731-2 Rut tien',
+                        status: 'completed',
+                        processor: 'ketoan.1'
+                    }
+                ]
+            };
+
+            // Format currency for bank history
+            function formatCurrencyBankHistory(amount) {
+                return Math.abs(amount).toLocaleString('vi-VN') + ' ₫';
+            }
+
+            // Get transaction type badge
+            function getTransactionTypeBadge(type, amount) {
+                if (type === 'deposit' || amount > 0) {
+                    return '<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium"><i class="fas fa-arrow-down mr-1"></i>Nạp tiền</span>';
+                } else {
+                    return '<span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium"><i class="fas fa-arrow-up mr-1"></i>Rút tiền</span>';
+                }
+            }
+
+            // Get status badge
+            function getStatusBadgeBankHistory(status) {
+                const badges = {
+                    'completed': '<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Thành công</span>',
+                    'pending': '<span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Đang xử lý</span>',
+                    'failed': '<span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Thất bại</span>'
+                };
+                return badges[status] || badges['completed'];
+            }
+
+            // Show bank history modal
+            function showBankHistoryModal(bankName, accountNumber, accountHolder) {
+                console.log('Showing modal for:', bankName, accountNumber, accountHolder);
+                
+                const bankNameEl = document.getElementById('bank-name');
+                const accountNumberEl = document.getElementById('account-number');
+                const accountHolderEl = document.getElementById('account-holder');
+                
+                if (bankNameEl) bankNameEl.textContent = bankName;
+                if (accountNumberEl) accountNumberEl.textContent = accountNumber;
+                if (accountHolderEl) accountHolderEl.textContent = accountHolder;
+                
+                loadBankTransactionHistory(bankName, accountNumber);
+                bankHistoryModal.classList.remove('hidden');
+                bankHistoryModal.style.display = 'flex';
+                
+                console.log('Modal should be visible now');
+            }
+
+            // Load transaction history
+            function loadBankTransactionHistory(bankName, accountNumber) {
+                const key = `${bankName}-${accountNumber}`;
+                const transactions = mockBankTransactions[key] || [];
+                
+                const tbody = document.getElementById('bank-history-tbody');
+                const emptyState = document.getElementById('bank-history-empty');
+                
+                if (!tbody || !emptyState) return;
+                
+                if (transactions.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    updateSummaryStats([]);
+                    return;
+                }
+                
+                emptyState.classList.add('hidden');
+                
+                // Sort transactions by date and time (newest first)
+                const sortedTransactions = transactions.sort((a, b) => {
+                    const dateA = new Date(`${a.date} ${a.time}`);
+                    const dateB = new Date(`${b.date} ${b.time}`);
+                    return dateB - dateA;
+                });
+                
+                tbody.innerHTML = sortedTransactions.map(transaction => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3">
+                            <div>
+                                <div class="font-medium">${transaction.date}</div>
+                                <div class="text-xs text-gray-500">${transaction.time}</div>
+                            </div>
+                        </td>
+                        <td class="p-3 font-mono text-sm">${transaction.transactionId}</td>
+                        <td class="p-3">${getTransactionTypeBadge(transaction.type, transaction.amount)}</td>
+                        <td class="p-3">${transaction.customer}</td>
+                        <td class="p-3 text-right">
+                            <span class="font-semibold ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${transaction.amount > 0 ? '+' : ''}${formatCurrencyBankHistory(transaction.amount)}
+                            </span>
+                        </td>
+                        <td class="p-3 text-sm">${transaction.content}</td>
+                        <td class="p-3 text-center">${getStatusBadgeBankHistory(transaction.status)}</td>
+                        <td class="p-3 text-sm">${transaction.processor}</td>
+                    </tr>
+                `).join('');
+                
+                updateSummaryStats(sortedTransactions);
+            }
+
+            // Update summary statistics
+            function updateSummaryStats(transactions) {
+                const deposits = transactions.filter(t => t.amount > 0);
+                const withdrawals = transactions.filter(t => t.amount < 0);
+                
+                const totalDeposits = deposits.reduce((sum, t) => sum + t.amount, 0);
+                const totalWithdrawals = Math.abs(withdrawals.reduce((sum, t) => sum + t.amount, 0));
+                const estimatedBalance = totalDeposits - totalWithdrawals;
+                
+                const totalDepositsEl = document.getElementById('total-deposits');
+                const totalWithdrawalsEl = document.getElementById('total-withdrawals');
+                const totalTransactionsEl = document.getElementById('total-transactions');
+                const estimatedBalanceEl = document.getElementById('estimated-balance');
+                
+                if (totalDepositsEl) totalDepositsEl.textContent = formatCurrencyBankHistory(totalDeposits);
+                if (totalWithdrawalsEl) totalWithdrawalsEl.textContent = formatCurrencyBankHistory(totalWithdrawals);
+                if (totalTransactionsEl) totalTransactionsEl.textContent = transactions.length.toString();
+                if (estimatedBalanceEl) {
+                    estimatedBalanceEl.textContent = formatCurrencyBankHistory(estimatedBalance);
+                    estimatedBalanceEl.className = `text-xl font-bold ${estimatedBalance >= 0 ? 'text-purple-600' : 'text-red-600'}`;
+                }
+            }
+
+            // Filter functionality
+            function filterTransactions() {
+                const typeEl = document.getElementById('transaction-type-filter');
+                const fromDateEl = document.getElementById('from-date-filter');
+                const toDateEl = document.getElementById('to-date-filter');
+                const amountFilterEl = document.getElementById('amount-filter');
+                const bankNameEl = document.getElementById('bank-name');
+                const accountNumberEl = document.getElementById('account-number');
+                
+                if (!typeEl || !fromDateEl || !toDateEl || !amountFilterEl || !bankNameEl || !accountNumberEl) return;
+                
+                const type = typeEl.value;
+                const fromDate = fromDateEl.value;
+                const toDate = toDateEl.value;
+                const amountFilter = amountFilterEl.value;
+                const bankName = bankNameEl.textContent;
+                const accountNumber = accountNumberEl.textContent;
+                
+                const key = `${bankName}-${accountNumber}`;
+                let transactions = mockBankTransactions[key] || [];
+                
+                // Apply filters
+                if (type) {
+                    transactions = transactions.filter(t => {
+                        if (type === 'deposit') return t.amount > 0;
+                        if (type === 'withdrawal') return t.amount < 0;
+                        return true;
+                    });
+                }
+                
+                if (fromDate) {
+                    transactions = transactions.filter(t => t.date >= fromDate);
+                }
+                
+                if (toDate) {
+                    transactions = transactions.filter(t => t.date <= toDate);
+                }
+                
+                if (amountFilter) {
+                    const amount = parseFloat(amountFilter.replace(/[,\.]/g, ''));
+                    if (!isNaN(amount)) {
+                        transactions = transactions.filter(t => Math.abs(t.amount) >= amount);
+                    }
+                }
+                
+                // Update display
+                const tbody = document.getElementById('bank-history-tbody');
+                const emptyState = document.getElementById('bank-history-empty');
+                
+                if (!tbody || !emptyState) return;
+                
+                if (transactions.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    updateSummaryStats([]);
+                    return;
+                }
+                
+                emptyState.classList.add('hidden');
+                
+                const sortedTransactions = transactions.sort((a, b) => {
+                    const dateA = new Date(`${a.date} ${a.time}`);
+                    const dateB = new Date(`${b.date} ${b.time}`);
+                    return dateB - dateA;
+                });
+                
+                tbody.innerHTML = sortedTransactions.map(transaction => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3">
+                            <div>
+                                <div class="font-medium">${transaction.date}</div>
+                                <div class="text-xs text-gray-500">${transaction.time}</div>
+                            </div>
+                        </td>
+                        <td class="p-3 font-mono text-sm">${transaction.transactionId}</td>
+                        <td class="p-3">${getTransactionTypeBadge(transaction.type, transaction.amount)}</td>
+                        <td class="p-3">${transaction.customer}</td>
+                        <td class="p-3 text-right">
+                            <span class="font-semibold ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${transaction.amount > 0 ? '+' : ''}${formatCurrencyBankHistory(transaction.amount)}
+                            </span>
+                        </td>
+                        <td class="p-3 text-sm">${transaction.content}</td>
+                        <td class="p-3 text-center">${getStatusBadgeBankHistory(transaction.status)}</td>
+                        <td class="p-3 text-sm">${transaction.processor}</td>
+                    </tr>
+                `).join('');
+                
+                updateSummaryStats(sortedTransactions);
+            }
+
+            // Event listeners - using more specific delegation
+            document.addEventListener('click', function(e) {
+                // Check if clicked element or its parent has the class
+                const historyLink = e.target.closest('.view-bank-history-link');
+                if (historyLink) {
+                    e.preventDefault();
+                    console.log('History link clicked!', historyLink);
+                    
+                    const row = historyLink.closest('tr');
+                    if (row) {
+                        const bankName = row.getAttribute('data-bank-name');
+                        const accountNumber = row.getAttribute('data-account-number');
+                        const accountHolder = row.getAttribute('data-account-name');
+                        
+                        console.log('Bank data:', {bankName, accountNumber, accountHolder});
+                        
+                        if (bankName && accountNumber && accountHolder) {
+                            showBankHistoryModal(bankName, accountNumber, accountHolder);
+                        } else {
+                            console.error('Missing bank data attributes');
+                        }
+                    } else {
+                        console.error('Could not find parent row');
+                    }
+                    return;
+                }
+            });
+
+            closeBankHistoryModal.addEventListener('click', function() {
+                bankHistoryModal.classList.add('hidden');
+                bankHistoryModal.style.display = 'none';
+            });
+
+            const filterBtn = document.getElementById('filter-bank-history');
+            if (filterBtn) {
+                filterBtn.addEventListener('click', filterTransactions);
+            }
+
+            // Close modal when clicking outside
+            bankHistoryModal.addEventListener('click', function(e) {
+                if (e.target === bankHistoryModal) {
+                    bankHistoryModal.classList.add('hidden');
+                    bankHistoryModal.style.display = 'none';
+                }
+            });
+        };
+
+        // Initialize bank history modal when content is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            window.initBankHistoryModal();
+        });
+
+        // Store bank data when nav-link with view-bank-history-link is clicked
+        document.addEventListener('click', function(e) {
+            const navLink = e.target.closest('.nav-link.view-bank-history-link');
+            if (navLink) {
+                console.log('Bank history nav-link clicked');
+                
+                const row = navLink.closest('tr');
+                if (row) {
+                    const bankName = row.getAttribute('data-bank-name');
+                    const accountNumber = row.getAttribute('data-account-number');
+                    const accountHolder = row.getAttribute('data-account-name');
+                    
+                    console.log('Storing bank data:', {bankName, accountNumber, accountHolder});
+                    
+                    // Store bank data in sessionStorage for the history page
+                    sessionStorage.setItem('bankHistoryData', JSON.stringify({
+                        bankName: bankName,
+                        accountNumber: accountNumber,
+                        accountHolder: accountHolder
+                    }));
+                }
+            }
+        });
+
+        // Global function to show bank history modal
+        window.showBankHistoryModalGlobal = function(bankName, accountNumber, accountHolder) {
+            console.log('showBankHistoryModalGlobal called with:', {bankName, accountNumber, accountHolder});
+            
+            const bankHistoryModal = document.getElementById('bank-history-modal');
+            if (!bankHistoryModal) {
+                console.error('Bank history modal not found in DOM');
+                return;
+            }
+            
+            // Set bank info
+            const bankNameEl = document.getElementById('bank-name');
+            const accountNumberEl = document.getElementById('account-number');
+            const accountHolderEl = document.getElementById('account-holder');
+            
+            if (bankNameEl) bankNameEl.textContent = bankName;
+            if (accountNumberEl) accountNumberEl.textContent = accountNumber;
+            if (accountHolderEl) accountHolderEl.textContent = accountHolder;
+            
+            // Load sample data based on bank
+            const mockData = {
+                'Vietcombank-0123456789': [
+                    {date: '2025-08-05', time: '14:20:00', transactionId: 'VCB240805001', type: 'deposit', customer: 'Nguyễn Văn A (KH001)', amount: 5000000, content: 'N-0805-1 Nap tien', status: 'completed', processor: 'Auto System'},
+                    {date: '2025-08-05', time: '11:35:00', transactionId: 'VCB240805002', type: 'deposit', customer: 'Trần Thị B (KH002)', amount: 10000000, content: 'N-0805-2 Nap tien', status: 'completed', processor: 'Admin'},
+                    {date: '2025-08-04', time: '16:05:00', transactionId: 'VCB240804001', type: 'withdrawal', customer: 'Phạm Thị D (KH005)', amount: -1000000, content: 'R-0804-5 Rut tien', status: 'completed', processor: 'Admin'}
+                ],
+                'Techcombank-9876543210': [
+                    {date: '2025-08-01', time: '10:15:00', transactionId: 'TCB240801001', type: 'deposit', customer: 'Hoàng Văn E (KH006)', amount: 2000000, content: 'N-0801-1 Nap tien', status: 'completed', processor: 'Auto System'},
+                    {date: '2025-07-31', time: '14:45:00', transactionId: 'TCB240731001', type: 'withdrawal', customer: 'Nguyễn Văn A (KH001)', amount: -1500000, content: 'R-0731-2 Rut tien', status: 'completed', processor: 'ketoan.1'}
+                ]
+            };
+            
+            const key = `${bankName}-${accountNumber}`;
+            const transactions = mockData[key] || [];
+            
+            // Load transactions into table
+            const tbody = document.getElementById('bank-history-tbody');
+            if (tbody && transactions.length > 0) {
+                tbody.innerHTML = transactions.map(t => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3">
+                            <div class="font-medium">${t.date}</div>
+                            <div class="text-xs text-gray-500">${t.time}</div>
+                        </td>
+                        <td class="p-3 font-mono text-sm">${t.transactionId}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-1 ${t.amount > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} text-xs rounded-full font-medium">
+                                <i class="fas ${t.amount > 0 ? 'fa-arrow-down' : 'fa-arrow-up'} mr-1"></i>
+                                ${t.amount > 0 ? 'Nạp tiền' : 'Rút tiền'}
+                            </span>
+                        </td>
+                        <td class="p-3">${t.customer}</td>
+                        <td class="p-3 text-right">
+                            <span class="font-semibold ${t.amount > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${t.amount > 0 ? '+' : ''}${Math.abs(t.amount).toLocaleString('vi-VN')} ₫
+                            </span>
+                        </td>
+                        <td class="p-3 text-sm">${t.content}</td>
+                        <td class="p-3 text-center">
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Thành công</span>
+                        </td>
+                        <td class="p-3 text-sm">${t.processor}</td>
+                    </tr>
+                `).join('');
+                
+                // Update stats
+                const deposits = transactions.filter(t => t.amount > 0);
+                const withdrawals = transactions.filter(t => t.amount < 0);
+                const totalDeposits = deposits.reduce((sum, t) => sum + t.amount, 0);
+                const totalWithdrawals = Math.abs(withdrawals.reduce((sum, t) => sum + t.amount, 0));
+                
+                const totalDepositsEl = document.getElementById('total-deposits');
+                const totalWithdrawalsEl = document.getElementById('total-withdrawals');
+                const totalTransactionsEl = document.getElementById('total-transactions');
+                const estimatedBalanceEl = document.getElementById('estimated-balance');
+                
+                if (totalDepositsEl) totalDepositsEl.textContent = totalDeposits.toLocaleString('vi-VN') + ' ₫';
+                if (totalWithdrawalsEl) totalWithdrawalsEl.textContent = totalWithdrawals.toLocaleString('vi-VN') + ' ₫';
+                if (totalTransactionsEl) totalTransactionsEl.textContent = transactions.length.toString();
+                if (estimatedBalanceEl) {
+                    const balance = totalDeposits - totalWithdrawals;
+                    estimatedBalanceEl.textContent = balance.toLocaleString('vi-VN') + ' ₫';
+                    estimatedBalanceEl.className = `text-xl font-bold ${balance >= 0 ? 'text-purple-600' : 'text-red-600'}`;
+                }
+            }
+            
+            // Show modal
+            bankHistoryModal.classList.remove('hidden');
+            bankHistoryModal.style.display = 'flex';
+            
+            console.log('Modal should be visible now');
+        };
+        
+        // Bank Transaction History Page Functionality
+        window.initBankTransactionHistoryPage = function() {
+            console.log('Initializing bank transaction history page');
+            
+            // Get bank data from sessionStorage
+            const bankData = sessionStorage.getItem('bankHistoryData');
+            if (!bankData) {
+                console.error('No bank data found in sessionStorage');
+                return;
+            }
+            
+            const { bankName, accountNumber, accountHolder } = JSON.parse(bankData);
+            
+            // Set bank info in the page
+            const bankNameEl = document.getElementById('bank-name-display');
+            const accountNumberEl = document.getElementById('account-number-display');
+            const accountHolderEl = document.getElementById('account-holder-display');
+            
+            if (bankNameEl) bankNameEl.textContent = bankName;
+            if (accountNumberEl) accountNumberEl.textContent = accountNumber;
+            if (accountHolderEl) accountHolderEl.textContent = accountHolder;
+            
+            // Mock transaction data
+            const mockTransactionData = {
+                'Vietcombank-0123456789': [
+                    // August 2025
+                    {date: '2025-08-05', time: '14:20:00', transactionId: 'VCB240805001', type: 'deposit', customer: 'Nguyễn Văn A (KH001)', amount: 5000000, content: 'N-0805-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24080501'},
+                    {date: '2025-08-05', time: '11:35:00', transactionId: 'VCB240805002', type: 'deposit', customer: 'Trần Thị B (KH002)', amount: 10000000, content: 'N-0805-2 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'FT24080502'},
+                    {date: '2025-08-05', time: '09:15:00', transactionId: 'VCB240805003', type: 'withdrawal', customer: 'Hoàng Văn E (KH006)', amount: -750000, content: 'R-0805-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 11000, reference: 'FT24080503'},
+                    {date: '2025-08-04', time: '16:05:00', transactionId: 'VCB240804001', type: 'withdrawal', customer: 'Phạm Thị D (KH005)', amount: -1000000, content: 'R-0804-5 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24080401'},
+                    {date: '2025-08-04', time: '13:22:00', transactionId: 'VCB240804002', type: 'deposit', customer: 'Đinh Văn F (KH007)', amount: 7500000, content: 'N-0804-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24080402'},
+                    {date: '2025-08-04', time: '10:40:00', transactionId: 'VCB240804003', type: 'deposit', customer: 'Vũ Thị G (KH008)', amount: 2200000, content: 'N-0804-2 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24080403'},
+                    {date: '2025-08-03', time: '15:30:00', transactionId: 'VCB240803001', type: 'deposit', customer: 'Lê Văn C (KH004)', amount: 3500000, content: 'N-0803-3 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'FT24080301'},
+                    {date: '2025-08-03', time: '11:10:00', transactionId: 'VCB240803002', type: 'withdrawal', customer: 'Trần Thị B (KH002)', amount: -3000000, content: 'R-0803-1 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24080302'},
+                    {date: '2025-08-02', time: '16:20:00', transactionId: 'VCB240802001', type: 'deposit', customer: 'Lê Văn C (KH004)', amount: 3500000, content: 'Manual deposit - ref: FT24080112345', status: 'completed', processor: 'Admin', fees: 0, reference: 'FT24080201'},
+                    {date: '2025-08-02', time: '09:45:00', transactionId: 'VCB240802002', type: 'deposit', customer: 'Ngô Thị H (KH009)', amount: 12000000, content: 'N-0802-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24080202'},
+                    {date: '2025-08-01', time: '14:15:00', transactionId: 'VCB240801001', type: 'deposit', customer: 'Hoàng Văn E (KH006)', amount: 2500000, content: 'N-0801-4 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24080101'},
+                    {date: '2025-08-01', time: '08:30:00', transactionId: 'VCB240801002', type: 'withdrawal', customer: 'Đinh Văn F (KH007)', amount: -1800000, content: 'R-0801-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 11000, reference: 'FT24080102'},
+                    
+                    // July 2025
+                    {date: '2025-07-31', time: '15:45:00', transactionId: 'VCB240731001', type: 'withdrawal', customer: 'Nguyễn Văn A (KH001)', amount: -500000, content: 'R-0731-3 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 11000, reference: 'FT24073101'},
+                    {date: '2025-07-31', time: '11:20:00', transactionId: 'VCB240731002', type: 'deposit', customer: 'Phan Văn I (KH010)', amount: 4500000, content: 'N-0731-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24073102'},
+                    {date: '2025-07-30', time: '16:55:00', transactionId: 'VCB240730001', type: 'deposit', customer: 'Lý Thị K (KH011)', amount: 6700000, content: 'N-0730-2 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'FT24073001'},
+                    {date: '2025-07-30', time: '10:25:00', transactionId: 'VCB240730002', type: 'withdrawal', customer: 'Vũ Thị G (KH008)', amount: -900000, content: 'R-0730-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 11000, reference: 'FT24073002'},
+                    {date: '2025-07-29', time: '14:40:00', transactionId: 'VCB240729001', type: 'deposit', customer: 'Mai Văn L (KH012)', amount: 15000000, content: 'N-0729-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24072901'},
+                    {date: '2025-07-29', time: '09:10:00', transactionId: 'VCB240729002', type: 'withdrawal', customer: 'Ngô Thị H (KH009)', amount: -2500000, content: 'R-0729-1 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24072902'},
+                    {date: '2025-07-28', time: '13:15:00', transactionId: 'VCB240728001', type: 'deposit', customer: 'Trương Văn M (KH013)', amount: 8800000, content: 'N-0728-1 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'FT24072801'},
+                    {date: '2025-07-27', time: '16:30:00', transactionId: 'VCB240727001', type: 'withdrawal', customer: 'Phạm Thị D (KH005)', amount: -1200000, content: 'R-0727-1 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24072701'},
+                    {date: '2025-07-26', time: '11:45:00', transactionId: 'VCB240726001', type: 'deposit', customer: 'Dương Thị N (KH014)', amount: 5500000, content: 'N-0726-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24072601'},
+                    {date: '2025-07-25', time: '14:20:00', transactionId: 'VCB240725001', type: 'deposit', customer: 'Hồ Văn O (KH015)', amount: 20000000, content: 'N-0725-1 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'FT24072501'},
+                    {date: '2025-07-24', time: '10:55:00', transactionId: 'VCB240724001', type: 'withdrawal', customer: 'Phan Văn I (KH010)', amount: -800000, content: 'R-0724-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 11000, reference: 'FT24072401'},
+                    {date: '2025-07-23', time: '15:10:00', transactionId: 'VCB240723001', type: 'deposit', customer: 'Lê Thị P (KH016)', amount: 3300000, content: 'N-0723-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'FT24072301'},
+                    {date: '2025-07-22', time: '12:35:00', transactionId: 'VCB240722001', type: 'withdrawal', customer: 'Mai Văn L (KH012)', amount: -4500000, content: 'R-0722-1 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24072201'},
+                    {date: '2025-07-21', time: '09:20:00', transactionId: 'VCB240721001', type: 'deposit', customer: 'Võ Văn Q (KH017)', amount: 7200000, content: 'N-0721-1 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'FT24072101'},
+                    {date: '2025-07-20', time: '16:45:00', transactionId: 'VCB240720001', type: 'withdrawal', customer: 'Trương Văn M (KH013)', amount: -1600000, content: 'R-0720-1 Rut tien', status: 'completed', processor: 'Admin', fees: 11000, reference: 'FT24072001'}
+                ],
+                'Techcombank-9876543210': [
+                    // August 2025
+                    {date: '2025-08-01', time: '10:15:00', transactionId: 'TCB240801001', type: 'deposit', customer: 'Hoàng Văn E (KH006)', amount: 2000000, content: 'N-0801-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'TT24080101'},
+                    {date: '2025-08-01', time: '14:30:00', transactionId: 'TCB240801002', type: 'withdrawal', customer: 'Trần Thị B (KH002)', amount: -2500000, content: 'R-0801-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 15000, reference: 'TT24080102'},
+                    
+                    // July 2025
+                    {date: '2025-07-31', time: '14:45:00', transactionId: 'TCB240731001', type: 'withdrawal', customer: 'Nguyễn Văn A (KH001)', amount: -1500000, content: 'R-0731-2 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 15000, reference: 'TT24073101'},
+                    {date: '2025-07-30', time: '09:20:00', transactionId: 'TCB240730001', type: 'deposit', customer: 'Trần Thị B (KH002)', amount: 8000000, content: 'N-0730-1 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'TT24073001'},
+                    {date: '2025-07-29', time: '11:35:00', transactionId: 'TCB240729001', type: 'deposit', customer: 'Phạm Văn R (KH018)', amount: 12500000, content: 'N-0729-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'TT24072901'},
+                    {date: '2025-07-28', time: '15:50:00', transactionId: 'TCB240728001', type: 'withdrawal', customer: 'Lê Thị S (KH019)', amount: -3200000, content: 'R-0728-1 Rut tien', status: 'completed', processor: 'Admin', fees: 15000, reference: 'TT24072801'},
+                    {date: '2025-07-27', time: '08:25:00', transactionId: 'TCB240727001', type: 'deposit', customer: 'Nguyễn Văn T (KH020)', amount: 6800000, content: 'N-0727-1 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'TT24072701'},
+                    {date: '2025-07-26', time: '13:40:00', transactionId: 'TCB240726001', type: 'withdrawal', customer: 'Hoàng Văn E (KH006)', amount: -1800000, content: 'R-0726-1 Rut tien', status: 'completed', processor: 'Auto System', fees: 15000, reference: 'TT24072601'},
+                    {date: '2025-07-25', time: '16:10:00', transactionId: 'TCB240725001', type: 'deposit', customer: 'Đỗ Thị U (KH021)', amount: 9500000, content: 'N-0725-1 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'TT24072501'},
+                    {date: '2025-07-24', time: '10:55:00', transactionId: 'TCB240724001', type: 'deposit', customer: 'Bùi Văn V (KH022)', amount: 4300000, content: 'N-0724-1 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'TT24072401'},
+                    {date: '2025-07-23', time: '14:20:00', transactionId: 'TCB240723001', type: 'withdrawal', customer: 'Phạm Văn R (KH018)', amount: -2700000, content: 'R-0723-1 Rut tien', status: 'completed', processor: 'Admin', fees: 15000, reference: 'TT24072301'},
+                    {date: '2025-07-22', time: '09:45:00', transactionId: 'TCB240722001', type: 'deposit', customer: 'Trần Văn W (KH023)', amount: 11200000, content: 'N-0722-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'TT24072201'},
+                    {date: '2025-07-21', time: '12:15:00', transactionId: 'TCB240721001', type: 'withdrawal', customer: 'Lê Thị S (KH019)', amount: -1400000, content: 'R-0721-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 15000, reference: 'TT24072101'},
+                    {date: '2025-07-20', time: '15:30:00', transactionId: 'TCB240720001', type: 'deposit', customer: 'Vương Thị X (KH024)', amount: 7600000, content: 'N-0720-1 Nap tien', status: 'completed', processor: 'Admin', fees: 0, reference: 'TT24072001'},
+                    {date: '2025-07-19', time: '11:05:00', transactionId: 'TCB240719001', type: 'withdrawal', customer: 'Nguyễn Văn T (KH020)', amount: -2100000, content: 'R-0719-1 Rut tien', status: 'completed', processor: 'Auto System', fees: 15000, reference: 'TT24071901'},
+                    {date: '2025-07-18', time: '14:50:00', transactionId: 'TCB240718001', type: 'deposit', customer: 'Chu Văn Y (KH025)', amount: 13800000, content: 'N-0718-1 Nap tien', status: 'completed', processor: 'ketoan.1', fees: 0, reference: 'TT24071801'},
+                    {date: '2025-07-17', time: '08:20:00', transactionId: 'TCB240717001', type: 'withdrawal', customer: 'Đỗ Thị U (KH021)', amount: -3500000, content: 'R-0717-1 Rut tien', status: 'completed', processor: 'Admin', fees: 15000, reference: 'TT24071701'},
+                    {date: '2025-07-16', time: '16:35:00', transactionId: 'TCB240716001', type: 'deposit', customer: 'Lý Văn Z (KH026)', amount: 5900000, content: 'N-0716-1 Nap tien', status: 'completed', processor: 'Auto System', fees: 0, reference: 'TT24071601'},
+                    {date: '2025-07-15', time: '13:10:00', transactionId: 'TCB240715001', type: 'withdrawal', customer: 'Bùi Văn V (KH022)', amount: -1900000, content: 'R-0715-1 Rut tien', status: 'completed', processor: 'ketoan.1', fees: 15000, reference: 'TT24071501'}
+                ]
+            };
+            
+            const key = `${bankName}-${accountNumber}`;
+            let allTransactions = mockTransactionData[key] || [];
+            let filteredTransactions = [...allTransactions];
+            let currentPage = 1;
+            let pageSize = 25;
+            let sortColumn = 'date';
+            let sortDirection = 'desc';
+            
+            // Format currency
+            function formatCurrency(amount) {
+                return Math.abs(amount).toLocaleString('vi-VN') + ' ₫';
+            }
+            
+            // Get transaction type badge
+            function getTransactionTypeBadge(type, amount) {
+                if (type === 'deposit' || amount > 0) {
+                    return '<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium"><i class="fas fa-arrow-down mr-1"></i>Nạp tiền</span>';
+                } else {
+                    return '<span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium"><i class="fas fa-arrow-up mr-1"></i>Rút tiền</span>';
+                }
+            }
+            
+            // Get status badge
+            function getStatusBadge(status) {
+                const badges = {
+                    'completed': '<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Thành công</span>',
+                    'pending': '<span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Đang xử lý</span>',
+                    'failed': '<span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Thất bại</span>'
+                };
+                return badges[status] || badges['completed'];
+            }
+            
+            // Update summary statistics
+            function updateSummaryStats(transactions) {
+                const deposits = transactions.filter(t => t.amount > 0);
+                const withdrawals = transactions.filter(t => t.amount < 0);
+                
+                const totalDeposits = deposits.reduce((sum, t) => sum + t.amount, 0);
+                const totalWithdrawals = Math.abs(withdrawals.reduce((sum, t) => sum + t.amount, 0));
+                const estimatedBalance = totalDeposits - totalWithdrawals;
+                
+                document.getElementById('total-deposits').textContent = formatCurrency(totalDeposits);
+                document.getElementById('total-withdrawals').textContent = formatCurrency(totalWithdrawals);
+                document.getElementById('total-transactions').textContent = transactions.length.toString();
+                document.getElementById('estimated-balance').textContent = formatCurrency(estimatedBalance);
+                document.getElementById('estimated-balance').className = `text-2xl font-bold ${estimatedBalance >= 0 ? 'text-purple-600' : 'text-red-600'}`;
+                
+                document.getElementById('deposit-count').textContent = deposits.length + ' giao dịch';
+                document.getElementById('withdrawal-count').textContent = withdrawals.length + ' giao dịch';
+            }
+            
+            // Sort transactions
+            function sortTransactions(transactions, column, direction) {
+                return transactions.sort((a, b) => {
+                    let valueA, valueB;
+                    
+                    switch(column) {
+                        case 'date':
+                            valueA = new Date(a.date + ' ' + a.time);
+                            valueB = new Date(b.date + ' ' + b.time);
+                            break;
+                        case 'amount':
+                            valueA = Math.abs(a.amount);
+                            valueB = Math.abs(b.amount);
+                            break;
+                        case 'customer':
+                            valueA = a.customer.toLowerCase();
+                            valueB = b.customer.toLowerCase();
+                            break;
+                        case 'transactionId':
+                            valueA = a.transactionId.toLowerCase();
+                            valueB = b.transactionId.toLowerCase();
+                            break;
+                        default:
+                            return 0;
+                    }
+                    
+                    if (direction === 'asc') {
+                        return valueA > valueB ? 1 : -1;
+                    } else {
+                        return valueA < valueB ? 1 : -1;
+                    }
+                });
+            }
+            
+            // Render transactions table
+            function renderTransactionsTable() {
+                const tbody = document.getElementById('transaction-history-tbody');
+                const emptyState = document.getElementById('empty-state');
+                
+                if (!tbody) return;
+                
+                // Sort transactions
+                const sortedTransactions = sortTransactions([...filteredTransactions], sortColumn, sortDirection);
+                
+                // Pagination
+                const startIndex = (currentPage - 1) * pageSize;
+                const endIndex = startIndex + pageSize;
+                const paginatedTransactions = sortedTransactions.slice(startIndex, endIndex);
+                
+                if (paginatedTransactions.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    updateSummaryStats([]);
+                    return;
+                }
+                
+                emptyState.classList.add('hidden');
+                
+                tbody.innerHTML = paginatedTransactions.map(transaction => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-4">
+                            <div>
+                                <div class="font-medium">${transaction.date}</div>
+                                <div class="text-xs text-gray-500">${transaction.time}</div>
+                            </div>
+                        </td>
+                        <td class="p-4 font-mono text-sm">${transaction.transactionId}</td>
+                        <td class="p-4">${getTransactionTypeBadge(transaction.type, transaction.amount)}</td>
+                        <td class="p-4">${transaction.customer}</td>
+                        <td class="p-4 text-right">
+                            <span class="font-semibold ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${transaction.amount > 0 ? '+' : ''}${formatCurrency(transaction.amount)}
+                            </span>
+                        </td>
+                        <td class="p-4 text-sm">${transaction.content}</td>
+                        <td class="p-4 text-center">${getStatusBadge(transaction.status)}</td>
+                        <td class="p-4 text-sm">${transaction.processor}</td>
+                        <td class="p-4 text-center">
+                            <button onclick="showTransactionDetail('${transaction.transactionId}')" 
+                                    class="text-blue-600 hover:text-blue-800 text-xs">
+                                <i class="fas fa-eye mr-1"></i>Xem
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                updateSummaryStats(sortedTransactions);
+                updatePaginationInfo();
+                renderPaginationControls();
+            }
+            
+            // Update pagination info
+            function updatePaginationInfo() {
+                const totalItems = filteredTransactions.length;
+                const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+                const endItem = Math.min(currentPage * pageSize, totalItems);
+                
+                document.getElementById('pagination-info').textContent = 
+                    `Hiển thị ${startItem}-${endItem} của ${totalItems} kết quả`;
+            }
+            
+            // Render pagination controls
+            function renderPaginationControls() {
+                const totalItems = filteredTransactions.length;
+                const totalPages = Math.ceil(totalItems / pageSize);
+                const controls = document.getElementById('pagination-controls');
+                
+                if (!controls || totalPages <= 1) {
+                    if (controls) controls.innerHTML = '';
+                    return;
+                }
+                
+                let paginationHTML = '';
+                
+                // Previous button
+                paginationHTML += `
+                    <button onclick="changePage(${currentPage - 1})" 
+                            ${currentPage === 1 ? 'disabled' : ''} 
+                            class="px-3 py-1 border rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-400' : 'bg-white text-gray-700 hover:bg-gray-100'}">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                `;
+                
+                // Page numbers
+                for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" 
+                                class="px-3 py-1 border rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}">
+                            ${i}
+                        </button>
+                    `;
+                }
+                
+                // Next button
+                paginationHTML += `
+                    <button onclick="changePage(${currentPage + 1})" 
+                            ${currentPage === totalPages ? 'disabled' : ''} 
+                            class="px-3 py-1 border rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-400' : 'bg-white text-gray-700 hover:bg-gray-100'}">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+                
+                controls.innerHTML = paginationHTML;
+            }
+            
+            // Change page function
+            window.changePage = function(page) {
+                const totalPages = Math.ceil(filteredTransactions.length / pageSize);
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    renderTransactionsTable();
+                }
+            };
+            
+            // Sort table function
+            window.sortTable = function(column) {
+                if (sortColumn === column) {
+                    sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortColumn = column;
+                    sortDirection = 'desc';
+                }
+                renderTransactionsTable();
+            };
+            
+            // Filter transactions
+            function applyFilters() {
+                const typeFilter = document.getElementById('transaction-type-filter')?.value;
+                const fromDate = document.getElementById('from-date-filter')?.value;
+                const toDate = document.getElementById('to-date-filter')?.value;
+                const amountFilter = document.getElementById('amount-filter')?.value;
+                const customerFilter = document.getElementById('customer-filter')?.value;
+                
+                filteredTransactions = allTransactions.filter(transaction => {
+                    // Type filter
+                    if (typeFilter) {
+                        if (typeFilter === 'deposit' && transaction.amount <= 0) return false;
+                        if (typeFilter === 'withdrawal' && transaction.amount >= 0) return false;
+                    }
+                    
+                    // Date range filter
+                    if (fromDate && transaction.date < fromDate) return false;
+                    if (toDate && transaction.date > toDate) return false;
+                    
+                    // Amount filter
+                    if (amountFilter) {
+                        const amount = parseFloat(amountFilter.replace(/[,\.]/g, ''));
+                        if (!isNaN(amount) && Math.abs(transaction.amount) < amount) return false;
+                    }
+                    
+                    // Customer filter
+                    if (customerFilter && !transaction.customer.toLowerCase().includes(customerFilter.toLowerCase())) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+                
+                currentPage = 1; // Reset to first page
+                renderTransactionsTable();
+            }
+            
+            // Show transaction detail
+            window.showTransactionDetail = function(transactionId) {
+                const transaction = allTransactions.find(t => t.transactionId === transactionId);
+                if (!transaction) return;
+                
+                const modal = document.getElementById('transaction-detail-modal');
+                const content = document.getElementById('transaction-detail-content');
+                
+                if (!modal || !content) return;
+                
+                content.innerHTML = `
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Mã giao dịch:</label>
+                            <p class="font-mono text-lg">${transaction.transactionId}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Loại giao dịch:</label>
+                            <p>${getTransactionTypeBadge(transaction.type, transaction.amount)}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Ngày giờ:</label>
+                            <p>${transaction.date} ${transaction.time}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Khách hàng:</label>
+                            <p>${transaction.customer}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Số tiền:</label>
+                            <p class="text-lg font-bold ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${transaction.amount > 0 ? '+' : ''}${formatCurrency(transaction.amount)}
+                            </p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Phí giao dịch:</label>
+                            <p>${formatCurrency(transaction.fees || 0)}</p>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-sm font-medium text-gray-600">Nội dung:</label>
+                            <p>${transaction.content}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Trạng thái:</label>
+                            <p>${getStatusBadge(transaction.status)}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Người xử lý:</label>
+                            <p>${transaction.processor}</p>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-sm font-medium text-gray-600">Mã tham chiếu:</label>
+                            <p class="font-mono">${transaction.reference || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+                
+                modal.classList.remove('hidden');
+            };
+            
+            // Event listeners
+            document.getElementById('filter-transactions')?.addEventListener('click', applyFilters);
+            
+            document.getElementById('reset-filters')?.addEventListener('click', function() {
+                document.getElementById('transaction-type-filter').value = '';
+                document.getElementById('from-date-filter').value = '';
+                document.getElementById('to-date-filter').value = '';
+                document.getElementById('amount-filter').value = '';
+                document.getElementById('customer-filter').value = '';
+                filteredTransactions = [...allTransactions];
+                currentPage = 1;
+                renderTransactionsTable();
+            });
+            
+            document.getElementById('page-size')?.addEventListener('change', function() {
+                pageSize = parseInt(this.value);
+                currentPage = 1;
+                renderTransactionsTable();
+            });
+            
+            document.getElementById('refresh-data')?.addEventListener('click', function() {
+                renderTransactionsTable();
+            });
+            
+            document.getElementById('export-excel')?.addEventListener('click', function() {
+                alert('Chức năng xuất Excel đang được phát triển...');
+            });
+            
+            document.getElementById('close-transaction-detail')?.addEventListener('click', function() {
+                document.getElementById('transaction-detail-modal').classList.add('hidden');
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('transaction-detail-modal')?.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+            
+            // Initial render
+            renderTransactionsTable();
+        };
+
+        // ORDER MANAGEMENT FUNCTIONS
+        window.handleOrderAction = function(orderId, action) {
+            console.log('Order action:', orderId, action);
+            
+            switch(action) {
+                case 'approve':
+                    showNotification('Đang duyệt đơn hàng ' + orderId + '...', 'info');
+                    setTimeout(() => {
+                        updateOrderStatus(orderId, 'waiting_deposit', 'Đợi đặt cọc');
+                        showNotification('Đơn hàng ' + orderId + ' đã được duyệt! Chờ khách đặt cọc.', 'success');
+                    }, 1000);
+                    break;
+                    
+                case 'check':
+                    showNotification('Đang kiểm hàng ' + orderId + '...', 'info');
+                    setTimeout(() => {
+                        updateOrderStatus(orderId, 'waiting_payment', 'Đợi thanh toán');
+                        showNotification('Kiểm hàng hoàn tất! ' + orderId + ' chờ thanh toán.', 'success');
+                    }, 1500);
+                    break;
+                    
+                case 'ship_to_vn':
+                    showNotification('Đang chuyển hàng về Việt Nam...', 'info');
+                    setTimeout(() => {
+                        updateOrderStatus(orderId, 'in_transit_vn', 'Đến kho Việt');
+                        showNotification('Hàng đã được chuyển về Việt Nam!', 'success');
+                    }, 1200);
+                    break;
+                    
+                case 'payment':
+                    showPaymentModal(orderId);
+                    break;
+                    
+                case 'deliver':
+                    showNotification('Đang xử lý giao hàng...', 'info');
+                    setTimeout(() => {
+                        updateOrderStatus(orderId, 'delivered', 'Đã giao hàng');
+                        showNotification('Đơn hàng ' + orderId + ' đã được giao thành công!', 'success');
+                    }, 1000);
+                    break;
+            }
+        };
+
+        window.handleAdminAction = function(orderId, action) {
+            console.log('Admin action:', orderId, action);
+            
+            switch(action) {
+                case 'approve':
+                    showApproveModal(orderId);
+                    break;
+                    
+                case 'add_tracking':
+                    showTrackingModal(orderId);
+                    break;
+                    
+                case 'ship_to_vn':
+                    showNotification('Đang chuyển hàng về Việt Nam...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'in_transit_vn', 'Đến kho Việt');
+                        showNotification('Hàng đã được chuyển về Việt Nam!', 'success');
+                    }, 1200);
+                    break;
+                    
+                case 'check_goods':
+                    showNotification('Đang kiểm hàng...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'checking', 'Đang kiểm hàng');
+                        showNotification('Bắt đầu kiểm hàng ' + orderId, 'success');
+                    }, 800);
+                    break;
+                    
+                case 'complete_check':
+                    showNotification('Hoàn tất kiểm hàng...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'waiting_payment', 'Đợi thanh toán');
+                        showNotification('Kiểm hàng hoàn tất! Thông báo khách thanh toán.', 'success');
+                    }, 1000);
+                    break;
+                    
+                case 'ship_order':
+                    showNotification('Đang giao hàng...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'delivered', 'Đã giao hàng');
+                        showNotification('Đơn hàng ' + orderId + ' đã được giao!', 'success');
+                    }, 1000);
+                    break;
+            }
+        };
+
+        window.showOrderDetail = function(orderId) {
+            console.log('=== ORDER DETAIL FUNCTION CALLED ===');
+            console.log('Opening order detail for:', orderId);
+            
+            // Prevent any default actions
+            if (typeof event !== 'undefined') {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            // Find the order row to get data
+            const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            if (!orderRow) {
+                console.error('Order row not found for:', orderId);
+                showNotification('Không tìm thấy đơn hàng ' + orderId, 'error');
+                return;
+            }
+            
+            // Get order data from the row
+            const customerName = orderRow.dataset.customer || 'N/A';
+            const status = orderRow.dataset.status || 'unknown';
+            console.log('Order data:', { orderId, customerName, status });
+            
+            // Check if modal exists
+            const modal = document.getElementById('order-detail-modal');
+            if (!modal) {
+                console.error('Order detail modal not found!');
+                showNotification('Không tìm thấy modal chi tiết đơn hàng', 'error');
+                return;
+            }
+            
+            // Update modal content with correct element IDs
+            const detailOrderId = document.getElementById('detail-order-id');
+            const detailCustomer = document.getElementById('detail-customer');
+            const detailStatus = document.getElementById('detail-status');
+            const detailOrderDate = document.getElementById('detail-order-date');
+            
+            console.log('Modal elements found:', {
+                detailOrderId: !!detailOrderId,
+                detailCustomer: !!detailCustomer,
+                detailStatus: !!detailStatus,
+                detailOrderDate: !!detailOrderDate
+            });
+            
+            if (detailOrderId) detailOrderId.textContent = '#' + orderId;
+            if (detailCustomer) detailCustomer.textContent = customerName;
+            if (detailStatus) {
+                detailStatus.textContent = getStatusText(status);
+                detailStatus.className = getStatusBadgeClass(status).replace('inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium', 'px-2 py-1 text-xs rounded-full font-medium');
+            }
+            if (detailOrderDate) {
+                // Get current date for demo
+                const today = new Date();
+                detailOrderDate.textContent = today.toLocaleDateString('vi-VN');
+            }
+            
+            // Force show the modal directly
+            console.log('Opening modal: order-detail-modal');
+            modal.classList.remove('hidden');
+            
+            showNotification('Đã tải chi tiết đơn hàng ' + orderId, 'success');
+            
+            return false; // Prevent any further event propagation
+        };
+
+        // Helper function to get status text
+        function getStatusText(status) {
+            const statusTexts = {
+                'pending_approval': 'Đợi duyệt',
+                'waiting_deposit': 'Đợi đặt cọc',
+                'deposit_confirmed': 'Đã đặt cọc',
+                'ordered': 'Đã mua',
+                'in_transit_jp': 'Đến kho Nhật',
+                'in_transit_vn': 'Đến kho Việt',
+                'checking': 'Đang kiểm hàng',
+                'waiting_payment': 'Đợi thanh toán',
+                'ready_to_ship': 'Sẵn chuyển',
+                'delivered': 'Đã giao hàng'
+            };
+            return statusTexts[status] || status;
+        }
+
+        // Show approve order modal function
+        window.showApproveModal = function(orderId) {
+            const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            if (orderRow) {
+                const customer = orderRow.getAttribute('data-customer') || 'N/A';
+                
+                // Update approve modal content
+                const approveOrderId = document.getElementById('approve-order-id');
+                const approveCustomer = document.getElementById('approve-customer');
+                
+                if (approveOrderId) approveOrderId.textContent = '#' + orderId;
+                if (approveCustomer) approveCustomer.textContent = customer;
+            }
+            
+            openModal('approve-order-modal');
+        };
+
+        // Show tracking modal function
+        window.showTrackingModal = function(orderId) {
+            const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            if (orderRow) {
+                const customer = orderRow.getAttribute('data-customer') || 'N/A';
+                
+                // Update tracking modal content
+                const trackingOrderId = document.getElementById('tracking-order-id');
+                const trackingCustomer = document.getElementById('tracking-customer');
+                
+                if (trackingOrderId) trackingOrderId.textContent = '#' + orderId;
+                if (trackingCustomer) trackingCustomer.textContent = customer;
+            }
+            
+            openModal('tracking-modal');
+        };
+
+        // Edit order function
+        window.editOrder = function(orderId) {
+            showNotification(`Chức năng chỉnh sửa đơn hàng ${orderId} sẽ được triển khai.`, 'info');
+            // TODO: Implement edit order functionality
+        };
+
+        // Create order functionality
+        window.showCreateOrderModal = function() {
+            openModal('admin-create-order-modal');
+        };
+
+        // Handle form submissions for order management
+        document.addEventListener('DOMContentLoaded', function() {
+            // Approve order form submission
+            const approveForm = document.getElementById('approve-order-form');
+            if (approveForm) {
+                approveForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const orderId = document.getElementById('approve-order-id').textContent.replace('#', '');
+                    const productType = document.getElementById('approve-product-type').value;
+                    const codType = document.querySelector('input[name="cod-fee-type"]:checked')?.value;
+                    
+                    if (!productType || !codType) {
+                        showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
+                        return;
+                    }
+                    
+                    showNotification('Đang duyệt đơn hàng ' + orderId + '...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'waiting_deposit', 'Đợi đặt cọc');
+                        showNotification('Đơn hàng ' + orderId + ' đã được duyệt! Thông báo khách đặt cọc.', 'success');
+                    }, 1000);
+                    
+                    closeModal('approve-order-modal');
+                    approveForm.reset();
+                });
+            }
+            
+            // Tracking form submission
+            const trackingForm = document.getElementById('tracking-form');
+            if (trackingForm) {
+                trackingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const orderId = document.getElementById('tracking-order-id').textContent.replace('#', '');
+                    const trackingCode = document.getElementById('tracking-code').value;
+                    
+                    if (!trackingCode.trim()) {
+                        showNotification('Vui lòng nhập mã tracking!', 'error');
+                        return;
+                    }
+                    
+                    showNotification('Đang thêm tracking code...', 'info');
+                    setTimeout(() => {
+                        updateAdminOrderStatus(orderId, 'in_transit_jp', 'Đến kho Nhật');
+                        showNotification('Tracking code đã được thêm!', 'success');
+                        
+                        // Update tracking in table
+                        const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+                        if (orderRow) {
+                            const trackingCell = orderRow.querySelector('td:nth-child(4)');
+                            if (trackingCell) {
+                                trackingCell.innerHTML = `
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">${trackingCode}</a>
+                                    <div class="text-xs text-gray-500">Cân nặng: 0.0kg</div>
+                                `;
+                            }
+                        }
+                    }, 800);
+                    
+                    closeModal('tracking-modal');
+                    trackingForm.reset();
+                });
+            }
+            
+            // COD fee type toggle
+            document.querySelectorAll('input[name="cod-fee-type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const fixedSection = document.getElementById('fixed-cod-section');
+                    if (fixedSection) {
+                        if (this.value === 'fixed') {
+                            fixedSection.classList.remove('hidden');
+                        } else {
+                            fixedSection.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // Create order button functionality
+            const createOrderBtn = document.getElementById('create-order-btn');
+            if (createOrderBtn) {
+                createOrderBtn.addEventListener('click', function() {
+                    showCreateOrderModal();
+                });
+            }
+        });
+
+        function updateOrderStatus(orderId, newStatus, statusText) {
+            // Update client side status
+            const row = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            if (row) {
+                const statusBadge = row.querySelector('.px-2\\.5');
+                if (statusBadge) {
+                    statusBadge.textContent = statusText;
+                    statusBadge.className = getStatusBadgeClass(newStatus);
+                }
+            }
+        }
+
+        function updateAdminOrderStatus(orderId, newStatus, statusText) {
+            // Update admin side status
+            const row = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            if (row) {
+                const statusBadge = row.querySelector('.px-2');
+                if (statusBadge) {
+                    statusBadge.textContent = statusText;
+                    statusBadge.className = getAdminStatusBadgeClass(newStatus);
+                }
+                row.setAttribute('data-status', newStatus);
+                
+                // Update actions based on new status
+                updateRowActions(row, newStatus);
+            }
+        }
+
+        function getStatusBadgeClass(status) {
+            const classes = {
+                'pending_approval': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800',
+                'waiting_deposit': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800',
+                'ordered': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800',
+                'in_transit_jp': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800',
+                'in_transit_vn': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800',
+                'checking': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800',
+                'waiting_payment': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800',
+                'ready_to_ship': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800',
+                'delivered': 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800'
+            };
+            return classes[status] || classes['pending_approval'];
+        }
+
+        function getAdminStatusBadgeClass(status) {
+            const classes = {
+                'pending_approval': 'px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full font-medium',
+                'waiting_deposit': 'px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium',
+                'ordered': 'px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium',
+                'in_transit_jp': 'px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full font-medium',
+                'in_transit_vn': 'px-2 py-1 bg-cyan-100 text-cyan-800 text-xs rounded-full font-medium',
+                'checking': 'px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full font-medium',
+                'waiting_payment': 'px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium',
+                'ready_to_ship': 'px-2 py-1 bg-emerald-100 text-emerald-800 text-xs rounded-full font-medium',
+                'delivered': 'px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium'
+            };
+            return classes[status] || classes['pending_approval'];
+        }
+
+        function updateRowActions(row, status) {
+            const actionsCell = row.querySelector('td:last-child .flex');
+            if (!actionsCell) return;
+            
+            const orderId = row.getAttribute('data-order-id');
+            let newActions = '';
+            
+            switch(status) {
+                case 'waiting_deposit':
+                    newActions = `
+                        <span class="text-gray-500 text-xs px-2 py-1">Chờ khách</span>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+                    
+                case 'ordered':
+                    newActions = `
+                        <button onclick="handleAdminAction('${orderId}', 'add_tracking')" class="bg-purple-500 hover:bg-purple-600 text-white px-2 py-1 text-xs rounded">
+                            <i class="fas fa-plus mr-1"></i>Tracking
+                        </button>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+                    
+                case 'in_transit_jp':
+                    newActions = `
+                        <button onclick="handleAdminAction('${orderId}', 'ship_to_vn')" class="bg-indigo-500 hover:bg-indigo-600 text-white px-2 py-1 text-xs rounded">
+                            <i class="fas fa-plane mr-1"></i>Chuyển VN
+                        </button>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+                    
+                case 'waiting_payment':
+                    newActions = `
+                        <span class="text-gray-500 text-xs px-2 py-1">Chờ khách</span>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+                    
+                case 'ready_to_ship':
+                    newActions = `
+                        <button onclick="handleAdminAction('${orderId}', 'ship_order')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 text-xs rounded">
+                            <i class="fas fa-truck mr-1"></i>Giao
+                        </button>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+                    
+                case 'delivered':
+                    newActions = `
+                        <span class="text-green-600 bg-green-50 px-2 py-1 rounded-md border border-green-200 text-xs">
+                            <i class="fas fa-check mr-1"></i>Hoàn thành
+                        </span>
+                        <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                    break;
+            }
+            
+            actionsCell.innerHTML = newActions;
+        }
+
+        // TELESALES MANAGEMENT FUNCTIONS
+        window.telesalesData = [];
+        window.selectedCustomers = [];
+
+        // Excel Import Functions
+        window.handleFileSelect = function(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                showNotification('File quá lớn! Vui lòng chọn file dưới 10MB', 'error');
+                return;
+            }
+            
+            showNotification('Đang đọc file Excel...', 'info');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // In real implementation, you would use a library like SheetJS to read Excel
+                    // For demo purposes, we'll simulate the data
+                    const mockData = [
+                        ['Nguyễn Văn Hoàng', 'Nam', '15/05/1990', '123 Lê Lợi, Q1, HCM', '0901111111', 'hoang@email.com', 'Facebook Ad', 'Quan tâm điện tử'],
+                        ['Trần Thị Lan', 'Nữ', '22/08/1985', '456 Nguyễn Huệ, Q1, HCM', '0902222222', 'lan@email.com', 'Google Ad', 'Cần tư vấn'],
+                        ['Lê Văn Minh', 'Nam', '10/12/1992', '789 Điện Biên Phủ, Q3, HCM', '0903333333', 'minh@email.com', 'Website', 'Khách tiềm năng'],
+                        ['Phạm Thị Hoa', 'Nữ', '05/03/1988', '321 Võ Văn Tần, Q3, HCM', '0904444444', 'hoa@email.com', 'Zalo', 'Quan tâm thời trang']
+                    ];
+                    
+                    window.telesalesData = mockData.map((row, index) => ({
+                        id: 'IMP' + (index + 1).toString().padStart(3, '0'),
+                        name: row[0],
+                        gender: row[1],
+                        birthday: row[2],
+                        address: row[3],
+                        phone: row[4],
+                        email: row[5] || '',
+                        source: row[6] || '',
+                        note: row[7] || ''
+                    }));
+                    
+                    showPreviewData();
+                    showNotification('Đã đọc thành công ' + mockData.length + ' khách hàng', 'success');
+                } catch (error) {
+                    showNotification('Lỗi đọc file Excel: ' + error.message, 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        function showPreviewData() {
+            document.getElementById('upload-step').classList.add('hidden');
+            document.getElementById('preview-step').classList.remove('hidden');
+            document.getElementById('back-btn').classList.remove('hidden');
+            document.getElementById('import-btn').classList.remove('hidden');
+            
+            document.getElementById('preview-count').textContent = window.telesalesData.length;
+            
+            const tbody = document.getElementById('preview-table-body');
+            tbody.innerHTML = window.telesalesData.map(customer => `
+                <tr>
+                    <td class="p-2">${customer.name}</td>
+                    <td class="p-2">${customer.gender}</td>
+                    <td class="p-2">${customer.birthday}</td>
+                    <td class="p-2">${customer.phone}</td>
+                    <td class="p-2 text-xs">${customer.address}</td>
+                </tr>
+            `).join('');
+        }
+
+        window.goBackToUpload = function() {
+            document.getElementById('preview-step').classList.add('hidden');
+            document.getElementById('upload-step').classList.remove('hidden');
+            document.getElementById('back-btn').classList.add('hidden');
+            document.getElementById('import-btn').classList.add('hidden');
+        };
+
+        window.importCustomers = function() {
+            showNotification('Đang import ' + window.telesalesData.length + ' khách hàng...', 'info');
+            
+            setTimeout(() => {
+                // Add imported customers to the table
+                const tbody = document.getElementById('customer-table-body');
+                const newRows = window.telesalesData.map(customer => `
+                    <tr data-customer-id="${customer.id}" data-telesale="" data-status="not_called">
+                        <td class="p-3">
+                            <input type="checkbox" class="customer-checkbox rounded" value="${customer.id}">
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">${customer.name}</div>
+                            <div class="text-xs text-gray-500">${customer.gender} • ${customer.birthday}</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="font-medium">${customer.phone}</div>
+                            <div class="text-xs text-gray-500">${customer.address}</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="text-xs text-gray-600">Import: ${new Date().toLocaleDateString('vi-VN')}</div>
+                            <div class="text-xs text-gray-500">Nguồn: ${customer.source}</div>
+                        </td>
+                        <td class="p-3">
+                            <span class="text-gray-400 text-xs">Chưa gán</span>
+                        </td>
+                        <td class="p-3 text-center">
+                            <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">Chưa gán</span>
+                        </td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="viewCustomerDetail('${customer.id}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="assignSingleCustomer('${customer.id}')" class="text-orange-600 hover:text-orange-800 px-2 py-1">
+                                    <i class="fas fa-user-tag"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                tbody.innerHTML = newRows + tbody.innerHTML;
+                
+                // Update statistics
+                updateTelesalesStats();
+                
+                // Close modal and reset
+                const modal = document.getElementById('import-excel-modal');
+                modal.classList.add('hidden');
+                document.getElementById('excel-file-input').value = '';
+                goBackToUpload();
+                
+                showNotification('Đã import thành công ' + window.telesalesData.length + ' khách hàng!', 'success');
+            }, 2000);
+        };
+
+        window.downloadTemplate = function() {
+            // Create a sample CSV template
+            const csvContent = "data:text/csv;charset=utf-8," + 
+                "Họ tên,Giới tính,Ngày sinh,Địa chỉ,Số điện thoại,Email,Nguồn khách hàng,Ghi chú\n" +
+                "Nguyễn Văn A,Nam,01/01/1990,123 ABC Street,0901234567,email@example.com,Facebook,Khách tiềm năng\n" +
+                "Trần Thị B,Nữ,15/05/1985,456 XYZ Street,0987654321,email2@example.com,Google,Quan tâm sản phẩm";
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "template_khach_hang.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        // Customer Management Functions
+        window.viewCustomerDetail = function(customerId) {
+            console.log('Viewing customer detail:', customerId);
+            openModal('customer-detail-modal');
+        };
+
+        window.editCustomerNote = function(customerId) {
+            console.log('Editing customer note:', customerId);
+            // Open note editing interface
+        };
+
+        window.callCustomer = function(customerId) {
+            console.log('Calling customer:', customerId);
+            openModal('call-status-modal');
+        };
+
+        window.assignSingleCustomer = function(customerId) {
+            window.selectedCustomers = [customerId];
+            document.getElementById('selected-count').textContent = '1';
+            openModal('bulk-assign-modal');
+        };
+
+        // Bulk Assignment Functions
+        window.confirmBulkAssign = function() {
+            const telesaleId = document.getElementById('assign-telesale').value;
+            const note = document.getElementById('assign-note').value;
+            
+            if (!telesaleId) {
+                showNotification('Vui lòng chọn Telesale!', 'error');
+                return;
+            }
+            
+            showNotification('Đang gán ' + window.selectedCustomers.length + ' khách hàng...', 'info');
+            
+            setTimeout(() => {
+                // Update customer rows
+                window.selectedCustomers.forEach(customerId => {
+                    const row = document.querySelector(`tr[data-customer-id="${customerId}"]`);
+                    if (row) {
+                        row.dataset.telesale = telesaleId;
+                        row.dataset.status = 'not_called';
+                        
+                        // Update telesale column
+                        const telesaleCell = row.children[4];
+                        telesaleCell.innerHTML = `
+                            <div class="font-medium text-blue-600">Nguyễn Văn A</div>
+                            <div class="text-xs text-gray-500">${telesaleId}</div>
+                        `;
+                        
+                        // Update status column
+                        const statusCell = row.children[5];
+                        statusCell.innerHTML = '<span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">Chưa gọi</span>';
+                        
+                        // Update actions
+                        const actionsCell = row.children[6];
+                        actionsCell.innerHTML = `
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="viewCustomerDetail('${customerId}')" class="text-blue-600 hover:text-blue-800 px-2 py-1">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="editCustomerNote('${customerId}')" class="text-green-600 hover:text-green-800 px-2 py-1">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="callCustomer('${customerId}')" class="text-purple-600 hover:text-purple-800 px-2 py-1">
+                                    <i class="fas fa-phone"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+                });
+                
+                // Clear selections
+                window.selectedCustomers = [];
+                document.querySelectorAll('.customer-checkbox').forEach(cb => cb.checked = false);
+                document.getElementById('select-all-customers').checked = false;
+                
+                // Close modal
+                const modal = document.getElementById('bulk-assign-modal');
+                modal.classList.add('hidden');
+                
+                updateTelesalesStats();
+                showNotification('Đã gán thành công khách hàng cho Telesale!', 'success');
+            }, 1500);
+        };
+
+        // Call Status Functions
+        window.saveCallStatus = function() {
+            const status = document.querySelector('input[name="call-status"]:checked')?.value;
+            const note = document.getElementById('call-note').value;
+            
+            if (!status || !note.trim()) {
+                showNotification('Vui lòng chọn trạng thái và nhập ghi chú!', 'error');
+                return;
+            }
+            
+            showNotification('Đang lưu trạng thái cuộc gọi...', 'info');
+            
+            setTimeout(() => {
+                // Update customer status in table
+                // This would be implemented based on the selected customer
+                
+                const modal = document.getElementById('call-status-modal');
+                modal.classList.add('hidden');
+                
+                updateTelesalesStats();
+                showNotification('Đã lưu trạng thái cuộc gọi thành công!', 'success');
+            }, 1000);
+        };
+
+        // Utility Functions
+        function updateTelesalesStats() {
+            const rows = document.querySelectorAll('#customer-table-body tr');
+            let total = rows.length;
+            let pending = 0, success = 0, failed = 0;
+            
+            rows.forEach(row => {
+                const status = row.dataset.status;
+                if (status === 'not_called') pending++;
+                else if (status === 'success') success++;
+                else if (status === 'failed') failed++;
+            });
+            
+            document.getElementById('total-customers').textContent = total.toLocaleString();
+            document.getElementById('pending-calls').textContent = pending.toLocaleString();
+            document.getElementById('success-calls').textContent = success.toLocaleString();
+            document.getElementById('failed-calls').textContent = failed.toLocaleString();
+        }
+
+        // Event Listeners for Telesales Management
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#import-excel-btn')) {
+                openModal('import-excel-modal');
+            }
+            
+            if (e.target.closest('#bulk-assign-btn')) {
+                const checkedBoxes = document.querySelectorAll('.customer-checkbox:checked');
+                if (checkedBoxes.length === 0) {
+                    showNotification('Vui lòng chọn ít nhất một khách hàng!', 'error');
+                    return;
+                }
+                
+                window.selectedCustomers = Array.from(checkedBoxes).map(cb => cb.value);
+                document.getElementById('selected-count').textContent = window.selectedCustomers.length;
+                openModal('bulk-assign-modal');
+            }
+            
+            // Handle select all checkbox
+            if (e.target.id === 'select-all-customers') {
+                const checkboxes = document.querySelectorAll('.customer-checkbox');
+                checkboxes.forEach(cb => cb.checked = e.target.checked);
+            }
+        });
+
+        // Re-initialize when content is loaded
+        const originalLoadContent = loadContent;
+        window.loadContent = async function(url, title, targetTab) {
+            await originalLoadContent(url, title, targetTab);
+            console.log('Content loaded:', url);
+            
+            // Initialize bank history modal for financial management
+            if (url.includes('_financial-management.html')) {
+                console.log('Financial management loaded, initializing bank history modal...');
+                setTimeout(() => {
+                    window.initBankHistoryModal();
+                    console.log('Bank history modal initialized');
+                }, 500);
+            }
+            
+            // Initialize bank transaction history page
+            if (url.includes('_bank-transaction-history.html')) {
+                console.log('Bank transaction history loaded, initializing page...');
+                setTimeout(() => {
+                    window.initBankTransactionHistoryPage();
+                    console.log('Bank transaction history page initialized');
+                }, 300);
+            }
+            
+            // Initialize telesales management
+            if (url.includes('_telesales-management.html')) {
+                console.log('Telesales management loaded, initializing...');
+                setTimeout(() => {
+                    updateTelesalesStats();
+                    console.log('Telesales management initialized');
+                }, 300);
+            }
         };
     </script>
 </body>
