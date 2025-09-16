@@ -145,8 +145,9 @@
                 
                 <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-orange-300 hover:shadow-md transition-all" data-status="pending_approval">
                     <div class="text-center">
-                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 relative">
                             <i class="fas fa-clock text-orange-600 text-sm"></i>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                         </div>
                         <p class="text-lg font-bold text-orange-600 mb-1">3</p>
                         <p class="text-xs text-gray-600">Đợi duyệt</p>
@@ -166,10 +167,10 @@
                 <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-blue-300 hover:shadow-md transition-all" data-status="ordered">
                     <div class="text-center">
                         <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-shopping-cart text-blue-600 text-sm"></i>
+                            <i class="fas fa-check-circle text-blue-600 text-sm"></i>
                         </div>
                         <p class="text-lg font-bold text-blue-600 mb-1">4</p>
-                        <p class="text-xs text-gray-600">Đã mua</p>
+                        <p class="text-xs text-gray-600">Đã cọc</p>
                     </div>
                 </div>
                 
@@ -205,8 +206,9 @@
                 
                 <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-red-300 hover:shadow-md transition-all" data-status="waiting_payment">
                     <div class="text-center">
-                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2 relative">
                             <i class="fas fa-credit-card text-red-600 text-sm"></i>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
                         </div>
                         <p class="text-lg font-bold text-red-600 mb-1">4</p>
                         <p class="text-xs text-gray-600">Đợi thanh toán</p>
@@ -219,7 +221,7 @@
                             <i class="fas fa-truck text-emerald-600 text-sm"></i>
                         </div>
                         <p class="text-lg font-bold text-emerald-600 mb-1">3</p>
-                        <p class="text-xs text-gray-600">Sẵn chuyển</p>
+                        <p class="text-xs text-gray-600">Sẵn sàng chuyển</p>
                     </div>
                 </div>
                 
@@ -273,15 +275,18 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <!-- Order 1 - Pending Approval -->
-                            <tr class="hover:bg-gray-50">
+                            <!-- Order 1 - Pending Approval (Self-created) -->
+                            <tr class="hover:bg-gray-50 bg-orange-25">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div>
                                         <div class="text-sm font-medium text-gray-900">#ORD001234</div>
                                         <div class="text-sm text-gray-500">24/12/2024 09:15</div>
-                                        <div class="mt-1">
-                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-orange-100 text-orange-800">
-                                                <i class="fas fa-user-tie mr-1"></i>Admin tạo
+                                        <div class="mt-1 flex space-x-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+                                                <i class="fas fa-user mr-1"></i>Tự tạo
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                                                <i class="fas fa-shield-alt mr-1"></i>Có BH
                                             </span>
                                         </div>
                                     </div>
@@ -292,26 +297,34 @@
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">iPhone 15 Pro Max 256GB</div>
                                             <div class="text-sm text-gray-500">Natural Titanium • Amazon JP</div>
+                                            <div class="text-xs text-blue-600 mt-1">
+                                                <i class="fas fa-link mr-1"></i>amazon.co.jp/dp/B0CHX...
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 animate-pulse">
                                         <i class="fas fa-clock mr-1"></i>Đợi duyệt
                                     </span>
+                                    <div class="text-xs text-gray-500 mt-1">Admin chưa duyệt</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span class="text-gray-400">Chưa có</span>
+                                    <div class="text-xs text-gray-400 mt-1">Sẽ có sau khi duyệt</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">1,850,000 ₫</div>
-                                    <div class="text-sm text-gray-500">Cần đặt cọc: 925,000 ₫</div>
+                                    <div class="text-sm font-medium text-gray-900">2,887,000 ₫</div>
+                                    <div class="text-sm text-orange-600">Cần cọc: 1,443,500 ₫</div>
+                                    <div class="text-xs text-green-600 mt-1">
+                                        <i class="fas fa-shield-alt mr-1"></i>+BH: 57,740 ₫
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
-                                        <button onclick="handleOrderAction('ORD001234', 'approve')" class="action-btn text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-md border border-green-200">
-                                            <i class="fas fa-check mr-1"></i>Xác nhận
-                                        </button>
+                                        <span class="action-btn text-orange-600 bg-orange-50 px-3 py-1 rounded-md border border-orange-200 text-xs">
+                                            <i class="fas fa-hourglass-half mr-1"></i>Chờ duyệt
+                                        </span>
                                         <button onclick="showOrderDetail('ORD001234')" class="text-blue-600 hover:text-blue-900 p-1">
                                             <i class="fas fa-eye"></i>
                                         </button>
@@ -319,12 +332,20 @@
                                 </td>
                             </tr>
 
-                            <!-- Order 2 - Waiting for Deposit -->
-                            <tr class="hover:bg-gray-50">
+                            <!-- Order 2 - Waiting for Deposit (Admin approved) -->
+                            <tr class="hover:bg-gray-50 bg-yellow-25">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div>
                                         <div class="text-sm font-medium text-gray-900">#ORD001233</div>
                                         <div class="text-sm text-gray-500">23/12/2024 14:30</div>
+                                        <div class="mt-1 flex space-x-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                                                <i class="fas fa-check mr-1"></i>Đã duyệt
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+                                                <i class="fas fa-tag mr-1"></i>Electronics
+                                            </span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -333,24 +354,32 @@
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">MacBook Air M2 2023</div>
                                             <div class="text-sm text-gray-500">Midnight, 256GB • Amazon JP</div>
+                                            <div class="text-xs text-gray-600 mt-1">
+                                                <i class="fas fa-yen-sign mr-1"></i>¥185,000 → 30,525,000₫
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 animate-bounce">
                                         <i class="fas fa-coins mr-1"></i>Đợi đặt cọc
                                     </span>
+                                    <div class="text-xs text-gray-500 mt-1">COD: Đợi tính sau</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="text-gray-400">Chưa có</span>
+                                    <div class="text-xs text-gray-500 mt-1">Sau khi mua hàng</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">2,450,000 ₫</div>
-                                    <div class="text-sm text-orange-600">Cần cọc: 1,225,000 ₫</div>
+                                    <div class="text-sm font-medium text-gray-900">32,050,000 ₫</div>
+                                    <div class="text-sm text-red-600 font-semibold animate-pulse">Cần cọc: 16,025,000 ₫</div>
+                                    <div class="text-xs text-gray-600 mt-1">
+                                        <i class="fas fa-calculator mr-1"></i>Phí DV: 1,525,000₫
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
-                                        <button onclick="handleOrderAction('ORD001233', 'deposit')" class="action-btn text-yellow-600 hover:text-yellow-900 bg-yellow-50 hover:bg-yellow-100 px-3 py-1 rounded-md border border-yellow-200">
+                                        <button onclick="handleOrderAction('ORD001233', 'deposit')" class="action-btn text-yellow-600 hover:text-yellow-900 bg-yellow-50 hover:bg-yellow-100 px-3 py-1 rounded-md border border-yellow-200 animate-pulse">
                                             <i class="fas fa-coins mr-1"></i>Đặt cọc
                                         </button>
                                         <button onclick="showOrderDetail('ORD001233')" class="text-blue-600 hover:text-blue-900 p-1">
@@ -449,15 +478,18 @@
                                 </td>
                             </tr>
 
-                            <!-- Order 5 - Waiting Payment -->
-                            <tr class="hover:bg-gray-50">
+                            <!-- Order 5 - Waiting Final Payment (Weight fees calculated) -->
+                            <tr class="hover:bg-gray-50 bg-red-25">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div>
                                         <div class="text-sm font-medium text-gray-900">#ORD001236</div>
                                         <div class="text-sm text-gray-500">25/12/2024 08:30</div>
-                                        <div class="mt-1">
+                                        <div class="mt-1 flex space-x-1">
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-100 text-purple-800">
                                                 <i class="fas fa-gavel mr-1"></i>Đấu giá
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-teal-100 text-teal-800">
+                                                <i class="fas fa-check mr-1"></i>Đã kiểm
                                             </span>
                                         </div>
                                     </div>
@@ -468,26 +500,34 @@
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">Apple Watch Series 9</div>
                                             <div class="text-sm text-gray-500">Midnight, 45mm • Yahoo Auctions</div>
+                                            <div class="text-xs text-green-600 mt-1">
+                                                <i class="fas fa-weight mr-1"></i>Cân nặng: 0.3kg (thực tế)
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 animate-pulse">
                                         <i class="fas fa-credit-card mr-1"></i>Đợi thanh toán
                                     </span>
+                                    <div class="text-xs text-red-600 mt-1 font-medium">Phí đã tính xong</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <a href="#" class="text-blue-600 hover:text-blue-900 text-sm font-medium">JP9876543210</a>
-                                    <div class="text-xs text-gray-500">Dự kiến: 28/12/2024</div>
+                                    <a href="#" class="text-blue-600 hover:text-blue-900 text-sm font-medium">VN-HN-007</a>
+                                    <div class="text-xs text-green-600 font-medium">Đã về kho VN</div>
+                                    <div class="text-xs text-gray-500">COD: 25,000₫</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">1,350,000 ₫</div>
-                                    <div class="text-sm text-orange-600">Còn lại: 675,000 ₫</div>
+                                    <div class="text-sm font-medium text-gray-900">7,425,000 ₫</div>
+                                    <div class="text-sm text-red-600 font-bold animate-bounce">Còn lại: 3,740,000 ₫</div>
+                                    <div class="text-xs text-orange-600 mt-1">
+                                        <i class="fas fa-plus mr-1"></i>Phí cân nặng: +15,000₫
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
-                                        <button onclick="handleOrderAction('ORD001236', 'payment')" class="action-btn text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md border border-red-200">
-                                            <i class="fas fa-credit-card mr-1"></i>Thanh toán
+                                        <button onclick="handleOrderAction('ORD001236', 'final_payment')" class="action-btn text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md border border-red-200 animate-pulse font-medium">
+                                            <i class="fas fa-credit-card mr-1"></i>Thanh toán cuối
                                         </button>
                                         <button onclick="showOrderDetail('ORD001236')" class="text-blue-600 hover:text-blue-900 p-1">
                                             <i class="fas fa-eye"></i>
@@ -515,7 +555,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                                        <i class="fas fa-truck mr-1"></i>Sẵn chuyển
+                                        <i class="fas fa-truck mr-1"></i>Sẵn sàng chuyển
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -1001,7 +1041,7 @@
                             <div class="text-sm text-green-800">
                                 <p class="font-medium mb-1">Sau khi thanh toán:</p>
                                 <ul class="list-disc list-inside space-y-1 text-xs">
-                                    <li>Đơn hàng sẽ chuyển sang trạng thái "Sẵn chuyển"</li>
+                                    <li>Đơn hàng sẽ chuyển sang trạng thái "Sẵn sàng chuyển"</li>
                                     <li>Chúng tôi sẽ liên hệ để sắp xếp giao hàng</li>
                                     <li>Thời gian giao hàng: 1-3 ngày làm việc</li>
                                 </ul>
@@ -1158,6 +1198,9 @@
                     showDepositModal(orderId);
                     break;
                 case 'payment':
+                    showPaymentModal(orderId, 675000);
+                    break;
+                case 'final_payment':
                     showFinalPaymentModal(orderId);
                     break;
                 case 'check':
@@ -1347,7 +1390,7 @@
             const orderId = document.getElementById('final-payment-order-id').textContent.replace('#', '');
             
             if (selectedMethod === 'wallet') {
-                showNotification('Đang xử lý thanh toán cuối...', 'info');
+                showNotification('Đang xử lý thanh toán cuối cùng...', 'info');
                 
                 // Simulate payment processing
                 setTimeout(() => {
@@ -1357,15 +1400,25 @@
                         const statusBadge = orderRow.querySelector('td:nth-child(3) span');
                         if (statusBadge) {
                             statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800';
-                            statusBadge.innerHTML = '<i class="fas fa-truck mr-1"></i>Sẵn chuyển';
+                            statusBadge.innerHTML = '<i class="fas fa-truck mr-1"></i>Sẵn sàng chuyển';
+                            
+                            // Update the status subtitle
+                            const statusSubtitle = statusBadge.parentNode.querySelector('.text-xs');
+                            if (statusSubtitle) {
+                                statusSubtitle.textContent = 'Chờ sắp xếp giao hàng';
+                                statusSubtitle.className = 'text-xs text-emerald-600 mt-1 font-medium';
+                            }
                         }
                         
                         // Update payment info
                         const paymentCell = orderRow.querySelector('td:nth-child(5)');
                         if (paymentCell) {
                             paymentCell.innerHTML = `
-                                <div class="text-sm font-medium text-gray-900">${document.getElementById('final-total-value').textContent}</div>
-                                <div class="text-sm text-green-600">Đã thanh toán đủ</div>
+                                <div class="text-sm font-medium text-gray-900">7,425,000 ₫</div>
+                                <div class="text-sm text-green-600 font-bold">Đã thanh toán đủ</div>
+                                <div class="text-xs text-green-600 mt-1">
+                                    <i class="fas fa-check-circle mr-1"></i>Bao gồm phí phát sinh
+                                </div>
                             `;
                         }
                         
@@ -1374,8 +1427,8 @@
                         if (actionsCell) {
                             actionsCell.innerHTML = `
                                 <div class="flex space-x-2">
-                                    <span class="text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200 text-xs">
-                                        <i class="fas fa-truck mr-1"></i>Sẵn giao
+                                    <span class="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200 text-xs font-medium">
+                                        <i class="fas fa-truck mr-1"></i>Sẵn giao hàng
                                     </span>
                                     <button onclick="showOrderDetail('${orderId}')" class="text-blue-600 hover:text-blue-900 p-1">
                                         <i class="fas fa-eye"></i>
@@ -1383,15 +1436,39 @@
                                 </div>
                             `;
                         }
+                        
+                        // Remove background highlight
+                        orderRow.classList.remove('bg-red-25');
+                        orderRow.classList.add('bg-emerald-25');
                     }
                     
-                    showNotification('Thanh toán thành công! Đơn hàng đã chuyển sang trạng thái "Sẵn chuyển".', 'success');
-                }, 1500);
+                    showNotification('✅ Thanh toán cuối thành công! Đơn hàng #' + orderId + ' đã chuyển sang trạng thái "Sẵn sàng chuyển". Chúng tôi sẽ liên hệ sắp xếp giao hàng trong 1-2 ngày làm việc.', 'success');
+                    
+                    // Update status card counts
+                    updateStatusCounts();
+                }, 2000);
             } else {
                 showNotification('Đã tạo lệnh chuyển khoản thanh toán cuối. Vui lòng kiểm tra email để biết thông tin chi tiết.', 'info');
             }
             
             hideModal('final-payment-modal');
+        }
+        
+        // Update status card counts after actions
+        function updateStatusCounts() {
+            // This would normally fetch from API, but for demo we'll update manually
+            const waitingPaymentCard = document.querySelector('[data-status="waiting_payment"] .text-lg');
+            const readyToShipCard = document.querySelector('[data-status="ready_to_ship"] .text-lg');
+            
+            if (waitingPaymentCard) {
+                const currentCount = parseInt(waitingPaymentCard.textContent);
+                waitingPaymentCard.textContent = Math.max(0, currentCount - 1);
+            }
+            
+            if (readyToShipCard) {
+                const currentCount = parseInt(readyToShipCard.textContent);
+                readyToShipCard.textContent = currentCount + 1;
+            }
         }
 
         // Initialize page

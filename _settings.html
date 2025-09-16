@@ -4,37 +4,57 @@
             <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Cài đặt Tài chính</h3>
             <div class="space-y-4 text-sm">
                 <div>
-                    <h4 class="font-semibold mb-2">Tỷ giá ngoại tệ thống nhất</h4>
+                    <h4 class="font-semibold mb-2">Tỷ giá ngoại tệ thống nhất - Dream Cargo</h4>
                     <div class="bg-blue-50 p-3 rounded-lg mb-4 text-sm">
                         <p class="font-medium text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Lưu ý quan trọng:</p>
-                        <p class="text-blue-700">Tỷ giá này sẽ được áp dụng thống nhất cho tất cả khách hàng và mọi giao dịch trong hệ thống. Không có cài đặt tỷ giá riêng cho từng khách hàng.</p>
+                        <p class="text-blue-700 mb-2">Tỷ giá này sẽ được áp dụng thống nhất cho tất cả khách hàng và mọi giao dịch trong hệ thống. Không có cài đặt tỷ giá riêng cho từng khách hàng.</p>
+                        <p class="text-blue-700">Tỷ giá áp dụng theo ngày mua hàng và được cập nhật trên trang chủ Dreamcargo.vn</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div><label class="block text-gray-600">1 USD = (VND)</label><input type="number" value="25450" class="mt-1 w-full p-2 border rounded-lg"></div>
                         <div><label class="block text-gray-600">1 JPY = (VND)</label><input type="number" value="162" class="mt-1 w-full p-2 border rounded-lg"></div>
                     </div>
                     <div class="mt-3 text-sm text-gray-600">
-                        <p><i class="fas fa-clock mr-2"></i>Cập nhật lần cuối: 08/08/2025 14:30 bởi Admin</p>
+                        <p><i class="fas fa-clock mr-2"></i>Cập nhật lần cuối: 16/09/2025 14:30 bởi Admin</p>
                         <p><i class="fas fa-users mr-2"></i>Áp dụng cho: Tất cả khách hàng</p>
+                        <p><i class="fas fa-globe mr-2"></i>Theo dõi tại: <strong>Dreamcargo.vn</strong></p>
                     </div>
                 </div>
                 <div class="border-t pt-4">
                      <a href="#" data-target-page="_financial-management.html" data-target-tab="#bank-settings" data-target-title="Quản lý Tài chính" class="nav-link block w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-medium"><i class="fas fa-university w-6 mr-2"></i>Quản lý Tài khoản Ngân hàng</a>
+                </div>
+                
+                <!-- Thông tin liên hệ Dream Cargo -->
+                <div class="bg-green-50 p-3 rounded-lg mt-4">
+                    <h5 class="font-medium text-green-800 mb-2"><i class="fas fa-phone mr-2"></i>Thông tin Liên hệ</h5>
+                    <div class="text-green-700 text-xs space-y-1">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>N02-T3 Khu Ngoại Giao Đoàn, Xuân Tảo, Bắc Từ Liêm, Hà Nội</p>
+                        <p><i class="fas fa-phone mr-2"></i>Hotline: <strong>096.55.44444</strong></p>
+                        <p><i class="fab fa-telegram mr-2"></i>Zalo: <strong>097.11.68686</strong></p>
+                    </div>
                 </div>
                 <div class="text-right mt-4"><button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">Lưu Tỷ giá</button></div>
             </div>
         </div>
 
         <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
-            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Cài đặt Phí Dịch vụ</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Cài đặt Phí Dịch vụ Dream Cargo</h3>
             <div class="flex-grow space-y-3 text-sm">
-                <p class="text-gray-600">Thiết lập các loại phí mặc định của hệ thống. Các chính sách phí riêng cho từng loại khách hàng sẽ ghi đè lên các cài đặt này.</p>
-                <ul class="list-disc pl-5 text-gray-700">
-                    <li>Phí mua hộ</li>
-                    <li>Phí vận chuyển quốc tế</li>
-                    <li>Phụ phí theo loại sản phẩm</li>
-                    <li>Các loại phí khác...</li>
-                </ul>
+                <p class="text-gray-600">Thiết lập các loại phí mặc định của Dream Cargo. Các chính sách phí riêng cho từng loại khách hàng sẽ ghi đè lên các cài đặt này.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ul class="list-disc pl-5 text-gray-700">
+                        <li>Phí mua hộ Mỹ: 4%</li>
+                        <li>Phí mua hộ Nhật: từ 3%</li>
+                        <li>Phí vận chuyển quốc tế</li>
+                        <li>Phụ phí theo loại sản phẩm</li>
+                    </ul>
+                    <ul class="list-disc pl-5 text-gray-700">
+                        <li>Phí gia cố: 5.000 VNĐ/Kg</li>
+                        <li>Phí bảo hiểm: 3%</li>
+                        <li>Phí giao hàng Hà Nội</li>
+                        <li>Phí lưu kho: 1.000 VNĐ/kg/ngày</li>
+                    </ul>
+                </div>
             </div>
             <div class="mt-4">
                  <a href="#" data-target-page="_fee-management.html" data-target-title="Quản lý Phí Dịch vụ" class="nav-link block w-full text-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg font-medium text-blue-700">
@@ -50,6 +70,14 @@
             <div class="space-y-3">
                 <a href="#" data-target-page="_website-management.html" data-target-title="Quản lý Website" class="nav-link block w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-medium"><i class="fas fa-globe w-6 mr-2"></i>Quản lý Website được hỗ trợ</a>
                 <a href="#" data-target-page="_product-category-management.html" data-target-title="Quản lý Loại sản phẩm" class="nav-link block w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg font-medium"><i class="fas fa-tags w-6 mr-2"></i>Quản lý Loại sản phẩm & Phí</a>
+            </div>
+            
+            <!-- Hàng hóa không nhận vận chuyển -->
+            <div class="bg-red-50 p-3 rounded-lg mt-4 border-l-4 border-red-400">
+                <h4 class="font-medium text-red-800 mb-2"><i class="fas fa-ban mr-2"></i>Hàng hóa Không nhận vận chuyển</h4>
+                <div class="text-red-700 text-xs">
+                    <p>Hàng dạng xịt, hàng dễ cháy nổ, vũ khí, văn hóa phẩm đồi trụy, thiết bị y tế, ô tô, xe máy, thuốc lá điện tử, vape, ma túy, ngoại tệ, vàng, kim cương</p>
+                </div>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
