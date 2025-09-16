@@ -4728,14 +4728,23 @@ Noi dung: Rut tien ${withdrawalId}`;
         };
 
         window.handleAdminAction = function(orderId, action) {
-            console.log('Admin action:', orderId, action);
+            console.log('=== ADMIN ACTION CALLED ===');
+            console.log('Order ID:', orderId, 'Action:', action);
+            
+            // Prevent any default behavior
+            if (typeof event !== 'undefined') {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             
             switch(action) {
                 case 'approve':
+                    console.log('Calling showApproveModal for:', orderId);
                     showApproveModal(orderId);
                     break;
                     
                 case 'add_tracking':
+                    console.log('Calling showTrackingModal for:', orderId);
                     showTrackingModal(orderId);
                     break;
                     
@@ -4748,11 +4757,7 @@ Noi dung: Rut tien ${withdrawalId}`;
                     break;
                     
                 case 'check_goods':
-                    showNotification('Đang kiểm hàng...', 'info');
-                    setTimeout(() => {
-                        updateAdminOrderStatus(orderId, 'checking', 'Đang kiểm hàng');
-                        showNotification('Bắt đầu kiểm hàng ' + orderId, 'success');
-                    }, 800);
+                    showGoodsInspectionModal(orderId);
                     break;
                     
                 case 'complete_check':
@@ -4857,9 +4862,21 @@ Noi dung: Rut tien ${withdrawalId}`;
 
         // Show approve order modal function
         window.showApproveModal = function(orderId) {
+            console.log('=== SHOW APPROVE MODAL ===');
+            console.log('Order ID:', orderId);
+            
+            // Check if modal exists
+            const modal = document.getElementById('approve-order-modal');
+            if (!modal) {
+                console.error('Approve modal not found!');
+                showNotification('Không tìm thấy modal duyệt đơn hàng', 'error');
+                return;
+            }
+            
             const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
             if (orderRow) {
                 const customer = orderRow.getAttribute('data-customer') || 'N/A';
+                console.log('Found order row, customer:', customer);
                 
                 // Update approve modal content
                 const approveOrderId = document.getElementById('approve-order-id');
@@ -4867,16 +4884,44 @@ Noi dung: Rut tien ${withdrawalId}`;
                 
                 if (approveOrderId) approveOrderId.textContent = '#' + orderId;
                 if (approveCustomer) approveCustomer.textContent = customer;
+                
+                console.log('Updated modal content');
+            } else {
+                console.warn('Order row not found for ID:', orderId);
             }
             
-            openModal('approve-order-modal');
+            // Set up COD fee toggle functionality (includes setting default state)
+            setupCODFeeToggle();
+            
+            // Try both openModal function and direct show
+            if (typeof openModal === 'function') {
+                console.log('Using openModal function');
+                openModal('approve-order-modal');
+            } else {
+                console.log('Using direct modal show');
+                modal.classList.remove('hidden');
+            }
+            
+            console.log('Modal should now be visible');
         };
 
         // Show tracking modal function
         window.showTrackingModal = function(orderId) {
+            console.log('=== SHOW TRACKING MODAL ===');
+            console.log('Order ID:', orderId);
+            
+            // Check if modal exists
+            const modal = document.getElementById('tracking-modal');
+            if (!modal) {
+                console.error('Tracking modal not found!');
+                showNotification('Không tìm thấy modal tracking', 'error');
+                return;
+            }
+            
             const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
             if (orderRow) {
                 const customer = orderRow.getAttribute('data-customer') || 'N/A';
+                console.log('Found order row, customer:', customer);
                 
                 // Update tracking modal content
                 const trackingOrderId = document.getElementById('tracking-order-id');
@@ -4884,9 +4929,51 @@ Noi dung: Rut tien ${withdrawalId}`;
                 
                 if (trackingOrderId) trackingOrderId.textContent = '#' + orderId;
                 if (trackingCustomer) trackingCustomer.textContent = customer;
+                
+                console.log('Updated tracking modal content');
+            } else {
+                console.warn('Order row not found for ID:', orderId);
             }
             
-            openModal('tracking-modal');
+            // Try both openModal function and direct show
+            if (typeof openModal === 'function') {
+                console.log('Using openModal function');
+                openModal('tracking-modal');
+            } else {
+                console.log('Using direct modal show');
+                modal.classList.remove('hidden');
+            }
+            
+            console.log('Tracking modal should now be visible');
+        };
+
+        // Global notification function
+        window.showNotification = function(message, type = 'info') {
+            console.log('Notification:', message, type);
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
         };
 
         // Edit order function
@@ -4897,7 +4984,211 @@ Noi dung: Rut tien ${withdrawalId}`;
 
         // Create order functionality
         window.showCreateOrderModal = function() {
-            openModal('admin-create-order-modal');
+            if (typeof openModal === 'function') {
+                openModal('admin-create-order-modal');
+            } else {
+                const modal = document.getElementById('admin-create-order-modal');
+                if (modal) modal.classList.remove('hidden');
+            }
+        };
+
+        // Make openModal globally accessible if it exists
+        if (typeof openModal !== 'undefined') {
+            window.openModal = openModal;
+        } else {
+            // Define openModal if it doesn't exist
+            window.openModal = function(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.remove('hidden');
+                } else {
+                    console.error('Modal not found:', modalId);
+                }
+            };
+        }
+
+        // COD Fee Toggle Setup Function
+        window.setupCODFeeToggle = function() {
+            console.log('Setting up COD fee toggle');
+            
+            // Wait for modal content to be fully loaded
+            setTimeout(() => {
+                const radios = document.querySelectorAll('input[name="cod-fee-type"]');
+                const fixedSection = document.getElementById('fixed-cod-section');
+                
+                console.log('Found COD fee radios:', radios.length);
+                console.log('Found fixed section:', !!fixedSection);
+                
+                if (radios.length === 0) {
+                    console.error('No COD fee radio buttons found!');
+                    return;
+                }
+                
+                // Remove existing event listeners to avoid duplicates
+                radios.forEach(radio => {
+                    // Clone node to remove all event listeners
+                    const newRadio = radio.cloneNode(true);
+                    radio.parentNode.replaceChild(newRadio, radio);
+                });
+                
+                // Add new event listeners to the updated radios
+                document.querySelectorAll('input[name="cod-fee-type"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        console.log('COD fee type changed to:', this.value);
+                        const fixedSection = document.getElementById('fixed-cod-section');
+                        const fixedAmountInput = document.getElementById('fixed-cod-amount');
+                        
+                        if (fixedSection) {
+                            if (this.value === 'fixed') {
+                                console.log('Showing fixed COD input');
+                                fixedSection.classList.remove('hidden');
+                                // Focus on input when shown
+                                if (fixedAmountInput) {
+                                    setTimeout(() => fixedAmountInput.focus(), 100);
+                                }
+                            } else {
+                                console.log('Hiding fixed COD input');
+                                fixedSection.classList.add('hidden');
+                                // Clear input when hidden
+                                if (fixedAmountInput) {
+                                    fixedAmountInput.value = '';
+                                }
+                            }
+                        } else {
+                            console.error('Fixed COD section not found!');
+                        }
+                    });
+                });
+                
+                // Set default state - "calculate later" should be selected
+                const calculateLaterRadio = document.querySelector('input[name="cod-fee-type"][value="calculated"]');
+                if (calculateLaterRadio && fixedSection) {
+                    calculateLaterRadio.checked = true;
+                    fixedSection.classList.add('hidden');
+                    console.log('Set default: calculate later with hidden input');
+                } else {
+                    console.error('Could not set default state - elements not found');
+                }
+            }, 200);
+        };
+
+        // Show Goods Inspection Modal Function
+        window.showGoodsInspectionModal = function(orderId) {
+            console.log('=== SHOW GOODS INSPECTION MODAL ===');
+            console.log('Order ID:', orderId);
+            
+            const modal = document.getElementById('goods-inspection-modal');
+            if (!modal) {
+                console.error('Goods inspection modal not found!');
+                showNotification('Không tìm thấy modal kiểm hàng', 'error');
+                return;
+            }
+            
+            // Get order information from the table row
+            const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+            let customer = 'N/A';
+            let product = 'N/A';
+            let codFeeSet = true; // Assume COD fee is set by default
+            
+            if (orderRow) {
+                customer = orderRow.getAttribute('data-customer') || 'N/A';
+                product = orderRow.getAttribute('data-product') || 'N/A';
+                // Check if COD fee was set during approval - for demo, we'll show COD section randomly
+                codFeeSet = Math.random() > 0.5; // Simulating some orders having COD fee set, others not
+            }
+            
+            // Populate modal with order information
+            document.getElementById('inspection-order-id').textContent = '#' + orderId;
+            document.getElementById('inspection-customer').textContent = customer;
+            document.getElementById('inspection-product').textContent = product;
+            
+            // Show/hide COD fee section based on whether it was previously set
+            const codFeeSection = document.getElementById('cod-fee-section');
+            if (!codFeeSet && codFeeSection) {
+                codFeeSection.classList.remove('hidden');
+                setupInspectionCODToggle();
+            } else if (codFeeSection) {
+                codFeeSection.classList.add('hidden');
+            }
+            
+            // Reset form
+            document.getElementById('goods-inspection-form').reset();
+            document.getElementById('inspection-weight-rate').value = '50000';
+            updateInspectionCalculation();
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            
+            // Focus on weight input
+            setTimeout(() => {
+                const weightInput = document.getElementById('inspection-weight');
+                if (weightInput) weightInput.focus();
+            }, 300);
+        };
+
+        // Setup COD fee toggle for inspection modal
+        window.setupInspectionCODToggle = function() {
+            console.log('Setting up inspection COD fee toggle');
+            
+            setTimeout(() => {
+                const radios = document.querySelectorAll('input[name="inspection-cod-type"]');
+                console.log('Found inspection COD radios:', radios.length);
+                
+                radios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        console.log('Inspection COD type changed to:', this.value);
+                        const fixedSection = document.getElementById('inspection-fixed-cod-section');
+                        const fixedAmountInput = document.getElementById('inspection-cod-amount');
+                        
+                        if (fixedSection) {
+                            if (this.value === 'fixed') {
+                                fixedSection.classList.remove('hidden');
+                                if (fixedAmountInput) {
+                                    setTimeout(() => fixedAmountInput.focus(), 100);
+                                }
+                            } else {
+                                fixedSection.classList.add('hidden');
+                                if (fixedAmountInput) {
+                                    fixedAmountInput.value = '';
+                                }
+                            }
+                            updateInspectionCalculation();
+                        }
+                    });
+                });
+                
+                // Set default to "calculate later"
+                const calculateLaterRadio = document.querySelector('input[name="inspection-cod-type"][value="calculated"]');
+                if (calculateLaterRadio) {
+                    calculateLaterRadio.checked = true;
+                }
+            }, 100);
+        };
+
+        // Update inspection calculation
+        window.updateInspectionCalculation = function() {
+            const weight = parseFloat(document.getElementById('inspection-weight')?.value) || 0;
+            const weightRate = parseFloat(document.getElementById('inspection-weight-rate')?.value) || 50000;
+            const codAmount = parseFloat(document.getElementById('inspection-cod-amount')?.value) || 0;
+            const codType = document.querySelector('input[name="inspection-cod-type"]:checked')?.value;
+            
+            const weightFee = weight * weightRate;
+            let codFee = 0;
+            let codDisplay = 'Chưa thiết lập';
+            
+            if (codType === 'fixed' && codAmount > 0) {
+                codFee = codAmount;
+                codDisplay = codAmount.toLocaleString('vi-VN') + ' ₫';
+            } else if (codType === 'calculated') {
+                codDisplay = 'Tính sau';
+            }
+            
+            const total = weightFee + (codType === 'fixed' ? codFee : 0);
+            
+            // Update display
+            document.getElementById('calc-inspection-weight-fee').textContent = weightFee.toLocaleString('vi-VN') + ' ₫';
+            document.getElementById('calc-inspection-cod-fee').textContent = codDisplay;
+            document.getElementById('calc-inspection-total').textContent = total.toLocaleString('vi-VN') + ' ₫';
         };
 
         // Handle form submissions for order management
@@ -4933,35 +5224,127 @@ Noi dung: Rut tien ${withdrawalId}`;
                 trackingForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     const orderId = document.getElementById('tracking-order-id').textContent.replace('#', '');
-                    const trackingCode = document.getElementById('tracking-code').value;
+                    const trackingCode = document.getElementById('tracking-code').value.trim();
+                    const carrier = document.getElementById('shipping-carrier').value;
                     
-                    if (!trackingCode.trim()) {
-                        showNotification('Vui lòng nhập mã tracking!', 'error');
-                        return;
-                    }
-                    
-                    showNotification('Đang thêm tracking code...', 'info');
-                    setTimeout(() => {
-                        updateAdminOrderStatus(orderId, 'in_transit_jp', 'Đến kho Nhật');
-                        showNotification('Tracking code đã được thêm!', 'success');
-                        
-                        // Update tracking in table
-                        const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
-                        if (orderRow) {
-                            const trackingCell = orderRow.querySelector('td:nth-child(4)');
-                            if (trackingCell) {
-                                trackingCell.innerHTML = `
-                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">${trackingCode}</a>
-                                    <div class="text-xs text-gray-500">Cân nặng: 0.0kg</div>
-                                `;
+                    // Tracking code is optional
+                    if (trackingCode || carrier) {
+                        showNotification('Đang cập nhật thông tin vận chuyển...', 'info');
+                        setTimeout(() => {
+                            updateAdminOrderStatus(orderId, 'in_transit_jp', 'Đến kho Nhật');
+                            
+                            // Update tracking in table
+                            const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+                            if (orderRow) {
+                                const trackingCell = orderRow.querySelector('td:nth-child(4)');
+                                if (trackingCell) {
+                                    if (trackingCode) {
+                                        trackingCell.innerHTML = `
+                                            <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">${trackingCode}</a>
+                                            <div class="text-xs text-gray-500">Cân nặng: 0.0kg</div>
+                                        `;
+                                    } else {
+                                        trackingCell.innerHTML = `
+                                            <span class="text-gray-500 text-xs">Chưa có tracking</span>
+                                            <div class="text-xs text-gray-500">Cân nặng: 0.0kg</div>
+                                        `;
+                                    }
+                                }
                             }
-                        }
-                    }, 800);
+                            
+                            if (trackingCode) {
+                                showNotification('Tracking code đã được thêm!', 'success');
+                            } else {
+                                showNotification('Đơn hàng đã chuyển sang trạng thái "Đến kho Nhật"!', 'success');
+                            }
+                        }, 800);
+                    } else {
+                        // Even without tracking, we can still update status
+                        showNotification('Đang cập nhật trạng thái đơn hàng...', 'info');
+                        setTimeout(() => {
+                            updateAdminOrderStatus(orderId, 'in_transit_jp', 'Đến kho Nhật');
+                            showNotification('Đơn hàng đã chuyển sang trạng thái "Đến kho Nhật"!', 'success');
+                        }, 800);
+                    }
                     
                     closeModal('tracking-modal');
                     trackingForm.reset();
                 });
             }
+            
+            // Goods inspection form submission
+            const inspectionForm = document.getElementById('goods-inspection-form');
+            if (inspectionForm) {
+                inspectionForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const orderId = document.getElementById('inspection-order-id').textContent.replace('#', '');
+                    const weight = parseFloat(document.getElementById('inspection-weight').value);
+                    const weightRate = parseFloat(document.getElementById('inspection-weight-rate').value) || 50000;
+                    const notes = document.getElementById('inspection-notes').value.trim();
+                    
+                    if (!weight || weight <= 0) {
+                        showNotification('Vui lòng nhập cân nặng hợp lệ!', 'error');
+                        return;
+                    }
+                    
+                    // Check COD fee if section is visible
+                    const codSection = document.getElementById('cod-fee-section');
+                    let codInfo = 'Đã thiết lập trước đó';
+                    if (!codSection.classList.contains('hidden')) {
+                        const codType = document.querySelector('input[name="inspection-cod-type"]:checked')?.value;
+                        if (codType === 'fixed') {
+                            const codAmount = parseFloat(document.getElementById('inspection-cod-amount').value);
+                            if (!codAmount || codAmount <= 0) {
+                                showNotification('Vui lòng nhập phí COD hợp lệ!', 'error');
+                                return;
+                            }
+                            codInfo = `Phí COD: ${codAmount.toLocaleString('vi-VN')} ₫`;
+                        } else {
+                            codInfo = 'COD: Tính sau';
+                        }
+                    }
+                    
+                    const weightFee = weight * weightRate;
+                    
+                    showNotification('Đang xử lý kiểm hàng...', 'info');
+                    setTimeout(() => {
+                        // Update order status to "ready for delivery"
+                        updateAdminOrderStatus(orderId, 'ready_delivery', 'Sẵn sàng giao');
+                        
+                        // Update weight information in table
+                        const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+                        if (orderRow) {
+                            const trackingCell = orderRow.querySelector('td:nth-child(4)');
+                            if (trackingCell) {
+                                const existingTracking = trackingCell.querySelector('a')?.textContent || 'Chưa có tracking';
+                                trackingCell.innerHTML = `
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium">${existingTracking}</a>
+                                    <div class="text-xs text-gray-500">Cân nặng: ${weight}kg</div>
+                                    <div class="text-xs text-green-600">Phí cân: ${weightFee.toLocaleString('vi-VN')} ₫</div>
+                                `;
+                            }
+                        }
+                        
+                        let successMsg = `Kiểm hàng hoàn tất! Cân nặng: ${weight}kg, Phí: ${weightFee.toLocaleString('vi-VN')} ₫`;
+                        if (codInfo !== 'Đã thiết lập trước đó') {
+                            successMsg += `, ${codInfo}`;
+                        }
+                        showNotification(successMsg, 'success');
+                    }, 1000);
+                    
+                    closeModal('goods-inspection-modal');
+                    inspectionForm.reset();
+                });
+            }
+            
+            // Add event listeners for real-time calculation updates in inspection modal
+            document.addEventListener('input', function(e) {
+                if (e.target.id === 'inspection-weight' || 
+                    e.target.id === 'inspection-weight-rate' || 
+                    e.target.id === 'inspection-cod-amount') {
+                    updateInspectionCalculation();
+                }
+            });
             
             // COD fee type toggle
             document.querySelectorAll('input[name="cod-fee-type"]').forEach(radio => {

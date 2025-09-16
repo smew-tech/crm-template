@@ -870,3 +870,104 @@
     </div>
 </div>
 
+<!-- Goods Inspection Modal -->
+<div id="goods-inspection-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Kiểm hàng và tính phí</h3>
+                <button class="close-modal-btn text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <form id="goods-inspection-form" class="p-6">
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-blue-900 mb-2">Thông tin đơn hàng</h4>
+                    <p><strong>Mã đơn:</strong> <span id="inspection-order-id"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="inspection-customer"></span></p>
+                    <p><strong>Sản phẩm:</strong> <span id="inspection-product"></span></p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cân nặng thực tế (kg) *</label>
+                        <input type="number" step="0.1" id="inspection-weight" required 
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                               placeholder="0.0">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí cân nặng (VND/kg)</label>
+                        <input type="number" id="inspection-weight-rate" 
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" 
+                               value="50000" placeholder="50000">
+                    </div>
+                </div>
+                
+                <!-- COD Fee Section (only shown if not previously set) -->
+                <div id="cod-fee-section" class="hidden">
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                        <h5 class="font-semibold text-yellow-800 mb-2">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            Phí COD chưa được thiết lập
+                        </h5>
+                        <p class="text-sm text-yellow-700">Đơn hàng này chưa có phí COD. Vui lòng thiết lập phí COD bên dưới.</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phí COD *</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="inspection-cod-type" value="fixed" class="mr-3">
+                                <span>Điền phí cố định</span>
+                            </label>
+                            <div id="inspection-fixed-cod-section" class="ml-6 hidden">
+                                <input type="number" id="inspection-cod-amount" placeholder="Nhập số tiền COD" 
+                                       class="w-full p-2 border border-gray-300 rounded-lg">
+                            </div>
+                            
+                            <label class="flex items-center">
+                                <input type="radio" name="inspection-cod-type" value="calculated" class="mr-3" checked>
+                                <span>Đợi tính phí sau</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-gray-700 mb-3">Tính toán phí</h5>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Phí cân nặng:</span>
+                            <span id="calc-inspection-weight-fee">0 ₫</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Phí COD:</span>
+                            <span id="calc-inspection-cod-fee">Chưa thiết lập</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg border-t pt-2">
+                            <span>Tổng phí phát sinh:</span>
+                            <span id="calc-inspection-total" class="text-red-600">0 ₫</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú kiểm hàng</label>
+                    <textarea id="inspection-notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" 
+                              placeholder="Ghi chú về tình trạng hàng hóa, phí phát sinh..."></textarea>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                <button type="button" class="close-modal-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Hủy</button>
+                <button type="submit" class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                    <i class="fas fa-check mr-2"></i>Xác nhận kiểm hàng
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
