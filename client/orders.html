@@ -97,11 +97,6 @@
                         </div>
                     </div>
                     
-                    <!-- Create Order Button -->
-                    <a href="create-order.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
-                        <i class="fas fa-plus mr-2"></i>Tạo đơn hàng
-                    </a>
-                    
                     <!-- Notifications -->
                     <div class="relative">
                         <button class="relative text-gray-500 hover:text-gray-700">
@@ -131,114 +126,64 @@
 
         <!-- Page content -->
         <main class="p-6">
-            <!-- Status Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3 mb-8">
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-blue-500 transform scale-105" data-status="all">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-list text-blue-600 text-sm"></i>
-                        </div>
-                        <p class="text-lg font-bold text-blue-600 mb-1">32</p>
-                        <p class="text-xs text-gray-600">Tất cả</p>
-                    </div>
+            <!-- Status Tabs and Financial Stats -->
+            <div class="bg-white rounded-lg shadow-sm mb-6">
+                <!-- Status Tabs -->
+                <div class="border-b border-gray-200">
+                    <nav class="flex space-x-8 px-6 py-3" aria-label="Status Tabs">
+                        <button class="status-tab border-b-2 border-blue-500 text-blue-600 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="all">
+                            Tất cả (7)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="pending_approval">
+                            Đợi duyệt (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="waiting_deposit">
+                            Đợi đặt cọc (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="in_transit_jp">
+                            Đến kho Nhật (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="in_transit_vn">
+                            Hàng về kho VN (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="waiting_payment">
+                            Đợi thanh toán (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="ready_to_ship">
+                            Sẵn sàng chuyển (1)
+                        </button>
+                        <button class="status-tab border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium whitespace-nowrap" data-status="delivered">
+                            Đã giao hàng (1)
+                        </button>
+                    </nav>
                 </div>
                 
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-orange-300 hover:shadow-md transition-all" data-status="pending_approval">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 relative">
-                            <i class="fas fa-clock text-orange-600 text-sm"></i>
-                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                <!-- Financial Statistics -->
+                <div class="p-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900" id="total-amount">98,320,000 ₫</div>
+                            <div class="text-sm text-gray-600 mt-1">Tổng tiền</div>
                         </div>
-                        <p class="text-lg font-bold text-orange-600 mb-1">3</p>
-                        <p class="text-xs text-gray-600">Đợi duyệt</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-yellow-300 hover:shadow-md transition-all" data-status="waiting_deposit">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-coins text-yellow-600 text-sm"></i>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600" id="paid-amount">35,650,000 ₫</div>
+                            <div class="text-sm text-gray-600 mt-1">Đã thanh toán</div>
                         </div>
-                        <p class="text-lg font-bold text-yellow-600 mb-1">2</p>
-                        <p class="text-xs text-gray-600">Đợi đặt cọc</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-blue-300 hover:shadow-md transition-all" data-status="ordered">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-check-circle text-blue-600 text-sm"></i>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="will-pay-later">28,200,000 ₫</div>
+                            <div class="text-sm text-gray-600 mt-1">Sẽ thanh toán sau</div>
                         </div>
-                        <p class="text-lg font-bold text-blue-600 mb-1">4</p>
-                        <p class="text-xs text-gray-600">Đã cọc</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-indigo-300 hover:shadow-md transition-all" data-status="in_transit_jp">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-warehouse text-indigo-600 text-sm"></i>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-red-600" id="need-pay-now">34,470,000 ₫</div>
+                            <div class="text-sm text-gray-600 mt-1">Cần thanh toán ngay</div>
                         </div>
-                        <p class="text-lg font-bold text-indigo-600 mb-1">6</p>
-                        <p class="text-xs text-gray-600">Đến kho Nhật</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-cyan-300 hover:shadow-md transition-all" data-status="in_transit_vn">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-shipping-fast text-cyan-600 text-sm"></i>
-                        </div>
-                        <p class="text-lg font-bold text-cyan-600 mb-1">5</p>
-                        <p class="text-xs text-gray-600">Đến kho Việt</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-teal-300 hover:shadow-md transition-all" data-status="checking">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-search text-teal-600 text-sm"></i>
-                        </div>
-                        <p class="text-lg font-bold text-teal-600 mb-1">3</p>
-                        <p class="text-xs text-gray-600">Đang kiểm hàng</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-red-300 hover:shadow-md transition-all" data-status="waiting_payment">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2 relative">
-                            <i class="fas fa-credit-card text-red-600 text-sm"></i>
-                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
-                        </div>
-                        <p class="text-lg font-bold text-red-600 mb-1">4</p>
-                        <p class="text-xs text-gray-600">Đợi thanh toán</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-emerald-300 hover:shadow-md transition-all" data-status="ready_to_ship">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-truck text-emerald-600 text-sm"></i>
-                        </div>
-                        <p class="text-lg font-bold text-emerald-600 mb-1">3</p>
-                        <p class="text-xs text-gray-600">Sẵn sàng chuyển</p>
-                    </div>
-                </div>
-                
-                <div class="status-card bg-white rounded-xl shadow-sm p-3 cursor-pointer border-2 border-transparent hover:border-green-300 hover:shadow-md transition-all" data-status="delivered">
-                    <div class="text-center">
-                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="fas fa-check-circle text-green-600 text-sm"></i>
-                        </div>
-                        <p class="text-lg font-bold text-green-600 mb-1">2</p>
-                        <p class="text-xs text-gray-600">Đã giao hàng</p>
                     </div>
                 </div>
             </div>
 
             <!-- Filters and Search -->
             <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div>
                         <input type="text" placeholder="Tìm theo mã đơn, tên sản phẩm..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
@@ -256,6 +201,11 @@
                         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm">
                             <i class="fas fa-search mr-2"></i>Tìm kiếm
                         </button>
+                    </div>
+                    <div>
+                        <a href="create-order.html" class="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>Tạo đơn hàng mới
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1271,25 +1221,97 @@
             }
         });
 
-        // Status filter cards
-        document.querySelectorAll('.status-card').forEach(card => {
-            card.addEventListener('click', function() {
-                // Update card states
-                document.querySelectorAll('.status-card').forEach(c => {
-                    c.classList.remove('border-blue-500', 'transform', 'scale-105');
-                    c.classList.add('border-transparent');
+        // Status filter tabs
+        document.querySelectorAll('.status-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update tab states
+                document.querySelectorAll('.status-tab').forEach(t => {
+                    t.classList.remove('border-blue-500', 'text-blue-600');
+                    t.classList.add('border-transparent', 'text-gray-500');
                 });
-                this.classList.add('border-blue-500', 'transform', 'scale-105');
-                this.classList.remove('border-transparent');
+                this.classList.add('border-blue-500', 'text-blue-600');
+                this.classList.remove('border-transparent', 'text-gray-500');
                 
-                // Filter orders (mock implementation)
+                // Filter orders and update financial stats
                 filterOrders(this.dataset.status);
+                updateFinancialStats(this.dataset.status);
             });
         });
 
         function filterOrders(status) {
             // Mock filter implementation
-            showNotification(`Đã lọc đơn hàng theo trạng thái: ${status}`);
+            const statusNames = {
+                'all': 'Tất cả',
+                'pending_approval': 'Đợi duyệt', 
+                'waiting_deposit': 'Đợi đặt cọc',
+                'in_transit_jp': 'Đến kho Nhật',
+                'in_transit_vn': 'Hàng về kho VN', 
+                'waiting_payment': 'Đợi thanh toán',
+                'ready_to_ship': 'Sẵn sàng chuyển',
+                'delivered': 'Đã giao hàng'
+            };
+            showNotification(`Đã lọc đơn hàng theo trạng thái: ${statusNames[status] || status}`);
+        }
+
+        function updateFinancialStats(status) {
+            // Mock financial calculations based on status filter
+            const mockStats = {
+                'all': {
+                    total: '98,320,000 ₫',
+                    paid: '35,650,000 ₫', 
+                    willPayLater: '28,200,000 ₫',
+                    needPayNow: '34,470,000 ₫'
+                },
+                'pending_approval': {
+                    total: '2,887,000 ₫',
+                    paid: '0 ₫',
+                    willPayLater: '2,887,000 ₫', 
+                    needPayNow: '0 ₫'
+                },
+                'waiting_deposit': {
+                    total: '32,050,000 ₫',
+                    paid: '0 ₫',
+                    willPayLater: '0 ₫',
+                    needPayNow: '32,050,000 ₫'
+                },
+                'in_transit_jp': {
+                    total: '12,850,000 ₫',
+                    paid: '6,425,000 ₫',
+                    willPayLater: '6,425,000 ₫',
+                    needPayNow: '0 ₫'
+                },
+                'in_transit_vn': {
+                    total: '8,640,000 ₫',
+                    paid: '8,640,000 ₫',
+                    willPayLater: '0 ₫',
+                    needPayNow: '0 ₫'
+                },
+                'waiting_payment': {
+                    total: '15,420,000 ₫',
+                    paid: '0 ₫',
+                    willPayLater: '0 ₫',
+                    needPayNow: '15,420,000 ₫'
+                },
+                'ready_to_ship': {
+                    total: '18,750,000 ₫',
+                    paid: '18,750,000 ₫',
+                    willPayLater: '0 ₫',
+                    needPayNow: '0 ₫'
+                },
+                'delivered': {
+                    total: '7,723,000 ₫',
+                    paid: '7,723,000 ₫',
+                    willPayLater: '0 ₫',
+                    needPayNow: '0 ₫'
+                }
+            };
+            
+            const stats = mockStats[status] || mockStats['all'];
+            
+            document.getElementById('total-amount').textContent = stats.total;
+            document.getElementById('paid-amount').textContent = stats.paid;
+            document.getElementById('will-pay-later').textContent = stats.willPayLater;
+            document.getElementById('need-pay-now').textContent = stats.needPayNow;
         }
 
         // Modal controls
@@ -1745,20 +1767,31 @@
             hideModal('final-payment-modal');
         }
         
-        // Update status card counts after actions
+        // Update status tab counts after actions
         function updateStatusCounts() {
             // This would normally fetch from API, but for demo we'll update manually
-            const waitingPaymentCard = document.querySelector('[data-status="waiting_payment"] .text-lg');
-            const readyToShipCard = document.querySelector('[data-status="ready_to_ship"] .text-lg');
+            const waitingPaymentTab = document.querySelector('[data-status="waiting_payment"]');
+            const readyToShipTab = document.querySelector('[data-status="ready_to_ship"]');
+            const allTab = document.querySelector('[data-status="all"]');
             
-            if (waitingPaymentCard) {
-                const currentCount = parseInt(waitingPaymentCard.textContent);
-                waitingPaymentCard.textContent = Math.max(0, currentCount - 1);
+            if (waitingPaymentTab) {
+                const currentText = waitingPaymentTab.textContent;
+                const currentCount = parseInt(currentText.match(/\((\d+)\)/)[1]);
+                const newCount = Math.max(0, currentCount - 1);
+                waitingPaymentTab.textContent = `Đợi thanh toán (${newCount})`;
             }
             
-            if (readyToShipCard) {
-                const currentCount = parseInt(readyToShipCard.textContent);
-                readyToShipCard.textContent = currentCount + 1;
+            if (readyToShipTab) {
+                const currentText = readyToShipTab.textContent;
+                const currentCount = parseInt(currentText.match(/\((\d+)\)/)[1]);
+                const newCount = currentCount + 1;
+                readyToShipTab.textContent = `Sẵn sàng chuyển (${newCount})`;
+            }
+            
+            // Update financial stats for current active tab
+            const activeTab = document.querySelector('.status-tab.border-blue-500');
+            if (activeTab) {
+                updateFinancialStats(activeTab.dataset.status);
             }
         }
 
