@@ -6059,11 +6059,6 @@ Noi dung: Rut tien ${withdrawalId}`;
                         return;
                     }
                     
-                    if (detailedCountCompleted && !detailedActualQuantity) {
-                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm chi tiết.');
-                        return;
-                    }
-                    
                     // Log warehouse actions
                     console.log('Warehouse actions saved:', {
                         photoCompleted,
@@ -6276,17 +6271,11 @@ Noi dung: Rut tien ${withdrawalId}`;
                         return;
                     }
                     
-                    if (detailedCountCompleted && !detailedActualQuantity) {
-                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm chi tiết.');
-                        return;
-                    }
-                    
                     // Simulate saving warehouse actions
                     const actions = [];
                     if (photoCompleted) actions.push('Chụp ảnh');
                     if (repackageCompleted) actions.push('Repackage');
                     if (basicCountCompleted) actions.push('Kiểm đếm');
-                    if (detailedCountCompleted) actions.push('Kiểm đếm chi tiết');
                     
                     alert(`Đã lưu thành công các thao tác kho hàng: ${actions.join(', ')}`);
                     
