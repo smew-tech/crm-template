@@ -1531,6 +1531,61 @@
                     return;
                 }
 
+                // XỬ LÝ ORDER MANAGEMENT ACTIONS FIRST (before sales buttons)
+                // Handle order management buttons using data attributes
+                const orderButton = target.closest('button[data-action][data-order-id]');
+                if (orderButton) {
+                    event.preventDefault();
+                    const action = orderButton.getAttribute('data-action');
+                    const orderId = orderButton.getAttribute('data-order-id');
+                    
+                    console.log('Order button clicked - Action:', action, 'Order ID:', orderId);
+                    
+                    if (action === 'warehouse') {
+                        console.log('Opening warehouse actions for:', orderId);
+                        if (window.showWarehouseActions) {
+                            window.showWarehouseActions(orderId);
+                        } else {
+                            console.error('showWarehouseActions function not available');
+                        }
+                    } else if (action === 'detail') {
+                        console.log('Opening order detail for:', orderId);
+                        if (window.showOrderDetail) {
+                            window.showOrderDetail(orderId);
+                        } else {
+                            console.error('showOrderDetail function not available');
+                        }
+                    } else if (action === 'ship_to_vn') {
+                        console.log('Ship to VN action for:', orderId);
+                        // Handle ship to VN action here
+                        alert(`Chuyển đơn hàng ${orderId} sang kho VN`);
+                    } else if (action === 'approve') {
+                        console.log('Approve action for:', orderId);
+                        if (window.showApproveModal) {
+                            window.showApproveModal(orderId);
+                        }
+                    } else if (action === 'edit') {
+                        console.log('Edit action for:', orderId);
+                        alert(`Chỉnh sửa đơn hàng ${orderId}`);
+                    } else if (action === 'add_tracking') {
+                        console.log('Add tracking action for:', orderId);
+                        alert(`Thêm tracking cho đơn hàng ${orderId}`);
+                    } else if (action === 'check_goods') {
+                        console.log('Check goods action for:', orderId);
+                        alert(`Kiểm hàng cho đơn hàng ${orderId}`);
+                    } else if (action === 'complete_check') {
+                        console.log('Complete check action for:', orderId);
+                        alert(`Hoàn thành kiểm hàng cho đơn hàng ${orderId}`);
+                    } else if (action === 'ship_order') {
+                        console.log('Ship order action for:', orderId);
+                        alert(`Giao hàng cho đơn hàng ${orderId}`);
+                    } else if (action === 'update_status') {
+                        console.log('Update status action for:', orderId);
+                        alert(`Cập nhật trạng thái cho đơn hàng ${orderId}`);
+                    }
+                    return;
+                }
+
                 // XỬ LÝ SALES BUTTONS
                 const salesDetailBtn = target.closest('button');
                 if (salesDetailBtn && salesDetailBtn.textContent.includes('Chi tiết')) {
@@ -5838,6 +5893,443 @@ Noi dung: Rut tien ${withdrawalId}`;
                     console.log('Telesales management initialized');
                 }, 300);
             }
+            
+            // Initialize order management functions
+            if (url.includes('_order-management.html')) {
+                console.log('Order management loaded, initializing...');
+                setTimeout(() => {
+                    if (window.initOrderManagement) {
+                        window.initOrderManagement();
+                        console.log('Order management initialized');
+                    } else {
+                        console.error('initOrderManagement function not found');
+                    }
+                }, 500);
+            }
+        };
+        
+        // === DEFINE ORDER MANAGEMENT FUNCTIONS BEFORE INITIALIZATION ===
+        // Define essential functions that need to be available immediately
+        
+        // Warehouse actions modal functionality
+        window.showWarehouseActions = function(orderId) {
+            console.log('showWarehouseActions called with orderId:', orderId);
+            const modal = document.getElementById('warehouse-actions-modal');
+            const titleElement = document.getElementById('warehouse-order-title');
+            
+            // Update modal title with order ID
+            if (titleElement) {
+                titleElement.textContent = `Đơn hàng #${orderId}`;
+            }
+            
+            // Show modal
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        };
+
+        // Show warehouse services section for orders with status "Đến kho Nhật" or later
+        window.showOrderDetail = function(orderId) {
+            console.log('showOrderDetail called with orderId:', orderId);
+            const modal = document.getElementById('order-detail-modal');
+            const warehouseSection = document.getElementById('warehouse-services-section');
+            
+            // Get order row to check status
+            const orderRow = document.querySelector(`[data-order-id="${orderId}"]`);
+            const status = orderRow ? orderRow.getAttribute('data-status') : '';
+            
+            // Show warehouse services section if order has reached Japan warehouse or later
+            const warehouseStatuses = ['in_transit_jp', 'in_transit_vn', 'checking', 'waiting_payment', 'ready_to_ship', 'delivered'];
+            if (warehouseStatuses.includes(status)) {
+                if (warehouseSection) {
+                    warehouseSection.classList.remove('hidden');
+                }
+            } else {
+                if (warehouseSection) {
+                    warehouseSection.classList.add('hidden');
+                }
+            }
+            
+            // Show modal
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+            
+            // Update modal content with order details (this would normally fetch from server)
+            const detailOrderId = document.getElementById('detail-order-id');
+            if (detailOrderId) {
+                detailOrderId.textContent = `#${orderId}`;
+            }
+        };
+        
+        // Initialize order management page
+        window.initOrderManagement = function() {
+            console.log('Initializing order management...');
+            
+            // Debug: Check all required elements
+            const warehouseModal = document.getElementById('warehouse-actions-modal');
+            const orderDetailModal = document.getElementById('order-detail-modal');
+            const warehouseForm = document.getElementById('warehouse-actions-form');
+            const warehousePhotos = document.getElementById('warehouse-photos');
+            
+            console.log('Debug - Found elements:');
+            console.log('- warehouse-actions-modal:', !!warehouseModal);
+            console.log('- order-detail-modal:', !!orderDetailModal);
+            console.log('- warehouse-actions-form:', !!warehouseForm);
+            console.log('- warehouse-photos:', !!warehousePhotos);
+            
+            // Make sure functions are globally available
+            if (!window.showWarehouseActions) {
+                console.error('showWarehouseActions function not found');
+            } else {
+                console.log('✓ showWarehouseActions function available');
+            }
+            if (!window.showOrderDetail) {
+                console.error('showOrderDetail function not found');
+            } else {
+                console.log('✓ showOrderDetail function available');
+            }
+            
+            // Photo upload preview
+            if (warehousePhotos) {
+                console.log('Found warehouse photos input, adding event listener');
+                warehousePhotos.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    const previewDiv = document.getElementById('photo-preview');
+                    const previewGrid = document.getElementById('photo-preview-grid');
+                    
+                    if (files.length > 0) {
+                        if (previewDiv) previewDiv.classList.remove('hidden');
+                        if (previewGrid) previewGrid.innerHTML = ''; // Clear previous previews
+                        
+                        Array.from(files).forEach((file, index) => {
+                            if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const imgDiv = document.createElement('div');
+                                    imgDiv.className = 'relative';
+                                    imgDiv.innerHTML = `
+                                        <img src="${e.target.result}" alt="Preview ${index + 1}" 
+                                             class="w-full h-20 object-cover rounded border">
+                                        <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+                                                onclick="this.parentElement.remove()">×</button>
+                                    `;
+                                    previewGrid.appendChild(imgDiv);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+                    } else {
+                        if (previewDiv) previewDiv.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Warehouse form submission
+            if (warehouseForm) {
+                warehouseForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const photoCompleted = document.getElementById('photo-completed')?.checked;
+                    const repackageCompleted = document.getElementById('repackage-completed')?.checked;
+                    const basicCountCompleted = document.getElementById('basic-count-completed')?.checked;
+                    const detailedCountCompleted = document.getElementById('detailed-count-completed')?.checked;
+                    
+                    const photoFiles = document.getElementById('warehouse-photos')?.files;
+                    const repackageNotes = document.getElementById('repackage-notes')?.value;
+                    const basicActualQuantity = document.getElementById('basic-actual-quantity')?.value;
+                    const detailedActualQuantity = document.getElementById('detailed-actual-quantity')?.value;
+                    const itemCondition = document.getElementById('item-condition')?.value;
+                    const detailedCountNotes = document.getElementById('detailed-count-notes')?.value;
+                    
+                    // Validate required actions
+                    if (photoCompleted && (!photoFiles || photoFiles.length === 0)) {
+                        alert('Vui lòng tải ảnh lên trước khi đánh dấu hoàn thành chụp ảnh.');
+                        return;
+                    }
+                    
+                    if (repackageCompleted && (!repackageNotes || !repackageNotes.trim())) {
+                        alert('Vui lòng nhập ghi chú đóng gói trước khi đánh dấu hoàn thành repackage.');
+                        return;
+                    }
+                    
+                    if (basicCountCompleted && !basicActualQuantity) {
+                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm.');
+                        return;
+                    }
+                    
+                    if (detailedCountCompleted && !detailedActualQuantity) {
+                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm chi tiết.');
+                        return;
+                    }
+                    
+                    // Log warehouse actions
+                    console.log('Warehouse actions saved:', {
+                        photoCompleted,
+                        repackageCompleted,
+                        basicCountCompleted,
+                        detailedCountCompleted,
+                        photoFiles: photoFiles ? photoFiles.length : 0,
+                        repackageNotes,
+                        basicActualQuantity,
+                        detailedActualQuantity,
+                        itemCondition,
+                        detailedCountNotes
+                    });
+                    
+                    alert('Đã lưu thao tác kho hàng thành công!');
+                    
+                    // Close modal
+                    const modal = document.getElementById('warehouse-actions-modal');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                    }
+                    
+                    // Reset form
+                    this.reset();
+                    const photoPreview = document.getElementById('photo-preview');
+                    if (photoPreview) {
+                        photoPreview.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Close modal handlers
+            const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+            console.log('Found', closeModalBtns.length, 'close modal buttons');
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    console.log('Close modal button clicked');
+                    const modal = this.closest('.modal-overlay');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                        console.log('Modal closed');
+                    }
+                });
+            });
+
+            // Close modal when clicking backdrop
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            console.log('Found', modalOverlays.length, 'modal overlays');
+            modalOverlays.forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                        console.log('Modal closed via backdrop click');
+                    }
+                });
+            });
+        };
+        
+        // === ORDER MANAGEMENT FUNCTIONS ===
+        // These functions need to be available globally for order management page
+        
+        // Define functions first before initialization
+        // Warehouse actions modal functionality
+        window.showWarehouseActions = function(orderId) {
+            console.log('showWarehouseActions called with orderId:', orderId);
+            const modal = document.getElementById('warehouse-actions-modal');
+            const titleElement = document.getElementById('warehouse-order-title');
+            
+            // Update modal title with order ID
+            if (titleElement) {
+                titleElement.textContent = `Đơn hàng #${orderId}`;
+            }
+            
+            // Show modal
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        };
+
+        // Show warehouse services section for orders with status "Đến kho Nhật" or later
+        window.showOrderDetail = function(orderId) {
+            console.log('showOrderDetail called with orderId:', orderId);
+            const modal = document.getElementById('order-detail-modal');
+            const warehouseSection = document.getElementById('warehouse-services-section');
+            
+            // Get order row to check status
+            const orderRow = document.querySelector(`[data-order-id="${orderId}"]`);
+            const status = orderRow ? orderRow.getAttribute('data-status') : '';
+            
+            // Show warehouse services section if order has reached Japan warehouse or later
+            const warehouseStatuses = ['in_transit_jp', 'in_transit_vn', 'checking', 'waiting_payment', 'ready_to_ship', 'delivered'];
+            if (warehouseStatuses.includes(status)) {
+                if (warehouseSection) {
+                    warehouseSection.classList.remove('hidden');
+                }
+            } else {
+                if (warehouseSection) {
+                    warehouseSection.classList.add('hidden');
+                }
+            }
+            
+            // Show modal
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+            
+            // Update modal content with order details (this would normally fetch from server)
+            const detailOrderId = document.getElementById('detail-order-id');
+            if (detailOrderId) {
+                detailOrderId.textContent = `#${orderId}`;
+            }
+        };
+        
+        // Initialize order management page
+        window.initOrderManagement = function() {
+            console.log('Initializing order management...');
+            
+            // Debug: Check all required elements
+            const warehouseModal = document.getElementById('warehouse-actions-modal');
+            const orderDetailModal = document.getElementById('order-detail-modal');
+            const warehouseForm = document.getElementById('warehouse-actions-form');
+            const warehousePhotos = document.getElementById('warehouse-photos');
+            
+            console.log('Debug - Found elements:');
+            console.log('- warehouse-actions-modal:', !!warehouseModal);
+            console.log('- order-detail-modal:', !!orderDetailModal);
+            console.log('- warehouse-actions-form:', !!warehouseForm);
+            console.log('- warehouse-photos:', !!warehousePhotos);
+            
+            // Make sure functions are globally available
+            if (!window.showWarehouseActions) {
+                console.error('showWarehouseActions function not found');
+            } else {
+                console.log('✓ showWarehouseActions function available');
+            }
+            if (!window.showOrderDetail) {
+                console.error('showOrderDetail function not found');
+            } else {
+                console.log('✓ showOrderDetail function available');
+            }
+            
+            // Photo upload preview
+            if (warehousePhotos) {
+                console.log('Found warehouse photos input, adding event listener');
+                warehousePhotos.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    const previewDiv = document.getElementById('photo-preview');
+                    const previewGrid = document.getElementById('photo-preview-grid');
+                    
+                    if (files.length > 0) {
+                        if (previewDiv) previewDiv.classList.remove('hidden');
+                        if (previewGrid) previewGrid.innerHTML = ''; // Clear previous previews
+                        
+                        Array.from(files).forEach((file, index) => {
+                            if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const imgDiv = document.createElement('div');
+                                    imgDiv.className = 'relative';
+                                    imgDiv.innerHTML = `
+                                        <img src="${e.target.result}" alt="Preview ${index + 1}" 
+                                             class="w-full h-20 object-cover rounded border">
+                                        <div class="absolute top-1 right-1 bg-black bg-opacity-50 text-white text-xs px-1 rounded">
+                                            ${index + 1}
+                                        </div>
+                                    `;
+                                    if (previewGrid) previewGrid.appendChild(imgDiv);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+                    } else {
+                        if (previewDiv) previewDiv.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Warehouse actions form submission
+            const warehouseActionsForm = document.getElementById('warehouse-actions-form');
+            if (warehouseActionsForm) {
+                console.log('Found warehouse actions form, adding submit event listener');
+                warehouseActionsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const photoCompleted = document.getElementById('photo-completed')?.checked;
+                    const repackageCompleted = document.getElementById('repackage-completed')?.checked;
+                    const basicCountCompleted = document.getElementById('basic-count-completed')?.checked;
+                    const detailedCountCompleted = document.getElementById('detailed-count-completed')?.checked;
+                    
+                    const photoFiles = document.getElementById('warehouse-photos')?.files;
+                    const repackageNotes = document.getElementById('repackage-notes')?.value;
+                    const basicActualQuantity = document.getElementById('basic-actual-quantity')?.value;
+                    const detailedActualQuantity = document.getElementById('detailed-actual-quantity')?.value;
+                    const itemCondition = document.getElementById('item-condition')?.value;
+                    const detailedCountNotes = document.getElementById('detailed-count-notes')?.value;
+                    
+                    // Validate required actions
+                    if (photoCompleted && (!photoFiles || photoFiles.length === 0)) {
+                        alert('Vui lòng tải ảnh lên trước khi đánh dấu hoàn thành chụp ảnh.');
+                        return;
+                    }
+                    
+                    if (repackageCompleted && (!repackageNotes || !repackageNotes.trim())) {
+                        alert('Vui lòng nhập ghi chú đóng gói trước khi đánh dấu hoàn thành repackage.');
+                        return;
+                    }
+                    
+                    if (basicCountCompleted && !basicActualQuantity) {
+                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm.');
+                        return;
+                    }
+                    
+                    if (detailedCountCompleted && !detailedActualQuantity) {
+                        alert('Vui lòng nhập số lượng thực tế trước khi đánh dấu hoàn thành kiểm đếm chi tiết.');
+                        return;
+                    }
+                    
+                    // Simulate saving warehouse actions
+                    const actions = [];
+                    if (photoCompleted) actions.push('Chụp ảnh');
+                    if (repackageCompleted) actions.push('Repackage');
+                    if (basicCountCompleted) actions.push('Kiểm đếm');
+                    if (detailedCountCompleted) actions.push('Kiểm đếm chi tiết');
+                    
+                    alert(`Đã lưu thành công các thao tác kho hàng: ${actions.join(', ')}`);
+                    
+                    // Close modal
+                    const modal = document.getElementById('warehouse-actions-modal');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                    }
+                    
+                    // Reset form
+                    this.reset();
+                    const photoPreview = document.getElementById('photo-preview');
+                    if (photoPreview) {
+                        photoPreview.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Close modal handlers
+            const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+            console.log('Found', closeModalBtns.length, 'close modal buttons');
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    console.log('Close modal button clicked');
+                    const modal = this.closest('.modal-overlay');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                        console.log('Modal closed');
+                    }
+                });
+            });
+
+            // Close modal when clicking backdrop
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            console.log('Found', modalOverlays.length, 'modal overlays');
+            modalOverlays.forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                        console.log('Modal closed via backdrop click');
+                    }
+                });
+            });
         };
     </script>
 </body>

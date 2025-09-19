@@ -389,6 +389,66 @@
                                 </td>
                             </tr>
 
+                            <!-- Order 2.5 - In Transit VN with Warehouse Services -->
+                            <tr class="hover:bg-gray-50 bg-blue-25">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">#ORD001235</div>
+                                        <div class="text-sm text-gray-500">23/12/2024 10:00</div>
+                                        <div class="mt-1 flex space-x-1">
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                                                <i class="fas fa-check mr-1"></i>Đã duyệt
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">
+                                                <i class="fas fa-camera mr-1"></i>Chụp ảnh
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+                                                <i class="fas fa-box mr-1"></i>Repackage
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <img class="h-10 w-10 rounded-lg object-cover" src="https://via.placeholder.com/60x60.png?text=Camera" alt="">
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">Canon EOS R50</div>
+                                            <div class="text-sm text-gray-500">Mirrorless Camera • Yodobashi</div>
+                                            <div class="text-xs text-gray-600 mt-1">
+                                                <i class="fas fa-yen-sign mr-1"></i>¥8,500 → 1,402,500₫
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <i class="fas fa-plane mr-1"></i>Hàng về kho VN
+                                    </span>
+                                    <div class="text-xs text-blue-600 mt-1 font-medium">Đã qua kho Nhật</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-blue-600 text-sm font-medium">JP1234567890</span>
+                                    <div class="text-xs text-gray-500 mt-1">Cân nặng: 2.1kg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">1,828,000 ₫</div>
+                                    <div class="text-sm text-green-600 font-medium">Đã thanh toán: 914,000 ₫</div>
+                                    <div class="text-xs text-gray-600 mt-1">
+                                        <i class="fas fa-plus mr-1"></i>Dịch vụ: 257,500₫
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <span class="text-blue-600 bg-blue-50 px-3 py-1 rounded-md border border-blue-200 text-xs font-medium">
+                                            <i class="fas fa-warehouse mr-1"></i>Kho VN
+                                        </span>
+                                        <button onclick="showOrderDetail('ORD001235')" class="text-blue-600 hover:text-blue-900 p-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
                             <!-- Order 3 - Delivered -->
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -885,6 +945,84 @@
                             </div>
                             <p class="text-xs text-gray-500 mt-1">Bảo hiểm toàn bộ giá trị đơn hàng trong quá trình vận chuyển</p>
                         </div>
+
+                        <!-- Warehouse Services Section (only show after Japan warehouse) -->
+                        <div id="detail-warehouse-services" class="bg-blue-50 border border-blue-200 rounded-lg p-4 hidden">
+                            <h4 class="font-semibold text-blue-900 mb-3">
+                                <i class="fas fa-warehouse mr-2"></i>Dịch vụ Kho hàng
+                            </h4>
+                            
+                            <!-- Service Tags -->
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                                    <i class="fas fa-camera mr-1"></i>Chụp ảnh
+                                </span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                                    <i class="fas fa-box mr-1"></i>Repackage
+                                </span>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                                    <i class="fas fa-list-ol mr-1"></i>Kiểm đếm
+                                </span>
+                            </div>
+                            
+                            <!-- Service Status -->
+                            <div class="space-y-3">
+                                <!-- Photo Service -->
+                                <div id="detail-photo-service" class="bg-white p-3 rounded-lg border">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm font-medium text-gray-800">
+                                            <i class="fas fa-camera text-blue-500 mr-2"></i>Chụp ảnh kho nhật
+                                        </span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                                            <i class="fas fa-check mr-1"></i>Hoàn thành
+                                        </span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2" id="detail-warehouse-photos">
+                                        <img src="https://via.placeholder.com/80x80.png?text=Photo+1" alt="Warehouse Photo 1" 
+                                             class="w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80"
+                                             onclick="openPhotoModal(this.src)">
+                                        <img src="https://via.placeholder.com/80x80.png?text=Photo+2" alt="Warehouse Photo 2" 
+                                             class="w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80"
+                                             onclick="openPhotoModal(this.src)">
+                                        <img src="https://via.placeholder.com/80x80.png?text=Photo+3" alt="Warehouse Photo 3" 
+                                             class="w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80"
+                                             onclick="openPhotoModal(this.src)">
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">Ấn vào ảnh để xem lớn</p>
+                                </div>
+                                
+                                <!-- Repackage Service -->
+                                <div id="detail-repackage-service" class="bg-white p-3 rounded-lg border">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm font-medium text-gray-800">
+                                            <i class="fas fa-box text-green-500 mr-2"></i>Repackage
+                                        </span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                                            <i class="fas fa-check mr-1"></i>Đã đóng gói lại
+                                        </span>
+                                    </div>
+                                    <div class="bg-gray-50 p-2 rounded text-sm text-gray-700" id="detail-repackage-notes">
+                                        Đã đóng gói lại bằng bọt khí và thùng carton cứng. Sản phẩm được bảo vệ tốt cho quá trình vận chuyển.
+                                    </div>
+                                </div>
+                                
+                                <!-- Basic Count Service -->
+                                <div id="detail-count-service" class="bg-white p-3 rounded-lg border">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm font-medium text-gray-800">
+                                            <i class="fas fa-list-ol text-purple-500 mr-2"></i>Kiểm đếm
+                                        </span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                                            <i class="fas fa-check mr-1"></i>Hoàn thành
+                                        </span>
+                                    </div>
+                                    <div class="text-sm text-gray-700">
+                                        <span class="font-medium">Số lượng thực tế:</span>
+                                        <span id="detail-actual-quantity" class="ml-1 font-semibold text-purple-600">1 sản phẩm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Right Column - Financial & Tracking -->
@@ -893,8 +1031,16 @@
                             <h4 class="font-semibold text-gray-900 mb-3">Thông tin tài chính</h4>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-600">Giá sản phẩm:</span>
-                                    <span id="detail-product-price" class="font-semibold">1,850,000 ₫</span>
+                                    <span class="text-gray-600">Giá sản phẩm (JPY):</span>
+                                    <span id="detail-product-price-jpy" class="font-semibold">¥12,000</span>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Tỷ giá quy đổi:</span>
+                                    <span id="detail-exchange-rate">1 JPY = 165 VNĐ</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Giá sản phẩm (VNĐ):</span>
+                                    <span id="detail-product-price" class="font-semibold">1,980,000 ₫</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Phí dịch vụ:</span>
@@ -904,10 +1050,28 @@
                                     <span class="text-gray-600">Phí bảo hiểm:</span>
                                     <span id="detail-insurance-fee" class="font-semibold">37,000 ₫</span>
                                 </div>
+                                
+                                <!-- Additional Services -->
+                                <div id="detail-additional-services" class="space-y-1 border-t pt-2 mt-2">
+                                    <h5 class="text-xs font-medium text-gray-700 mb-1">Dịch vụ bổ sung:</h5>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Chụp ảnh kho nhật:</span>
+                                        <span id="detail-photo-fee" class="font-semibold">82,500 ₫</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Repackage:</span>
+                                        <span id="detail-repackage-fee" class="font-semibold">165,000 ₫</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Kiểm đếm:</span>
+                                        <span id="detail-count-fee" class="font-semibold">10,000 ₫</span>
+                                    </div>
+                                </div>
+                                
                                 <hr class="my-2">
                                 <div class="flex justify-between text-lg">
                                     <span class="font-bold text-gray-900">Tổng cộng:</span>
-                                    <span id="detail-total-amount" class="font-bold text-blue-600">2,072,000 ₫</span>
+                                    <span id="detail-total-amount" class="font-bold text-blue-600">2,479,500 ₫</span>
                                 </div>
                             </div>
                         </div>
@@ -1316,20 +1480,69 @@
                     code: 'ORD001234',
                     date: '24/12/2024',
                     status: 'Đợi duyệt',
+                    statusCode: 'pending_approval',
                     productImage: 'https://via.placeholder.com/60x60.png?text=iPhone',
                     productTitle: 'iPhone 15 Pro Max 256GB',
                     productDesc: 'Natural Titanium • Amazon JP',
                     productLink: 'https://amazon.co.jp/...',
                     insuranceStatus: 'Có bảo hiểm',
-                    productPrice: '1,850,000 ₫',
+                    productPriceJPY: '¥12,000',
+                    exchangeRate: '1 JPY = 165 VNĐ',
+                    productPrice: '1,980,000 ₫',
                     serviceFee: '185,000 ₫',
                     insuranceFee: '37,000 ₫',
-                    totalAmount: '2,072,000 ₫',
+                    photoFee: '82,500 ₫',
+                    repackageFee: '165,000 ₫',
+                    countFee: '10,000 ₫',
+                    totalAmount: '2,479,500 ₫',
                     deposited: '925,000 ₫',
-                    remaining: '1,147,000 ₫',
+                    remaining: '1,554,500 ₫',
                     trackingCode: 'Chưa có',
                     weight: 'Chưa cân',
                     estimatedDelivery: '28/12/2024'
+                },
+                'ORD001235': {
+                    code: 'ORD001235',
+                    date: '23/12/2024',
+                    status: 'Hàng về kho VN',
+                    statusCode: 'in_transit_vn',
+                    productImage: 'https://via.placeholder.com/60x60.png?text=Camera',
+                    productTitle: 'Canon EOS R50',
+                    productDesc: 'Mirrorless Camera • Yodobashi',
+                    productLink: 'https://yodobashi.com/product',
+                    insuranceStatus: 'Có bảo hiểm',
+                    productPriceJPY: '¥8,500',
+                    exchangeRate: '1 JPY = 165 VNĐ',
+                    productPrice: '1,402,500 ₫',
+                    serviceFee: '140,000 ₫',
+                    insuranceFee: '28,000 ₫',
+                    photoFee: '82,500 ₫',
+                    repackageFee: '165,000 ₫',
+                    countFee: '10,000 ₫',
+                    totalAmount: '1,828,000 ₫',
+                    deposited: '914,000 ₫',
+                    remaining: '914,000 ₫',
+                    trackingCode: 'JP1234567890',
+                    weight: '2.1kg',
+                    estimatedDelivery: '27/12/2024',
+                    warehouseServices: {
+                        photo: {
+                            completed: true,
+                            images: [
+                                'https://via.placeholder.com/300x300.png?text=Camera+Front',
+                                'https://via.placeholder.com/300x300.png?text=Camera+Box',
+                                'https://via.placeholder.com/300x300.png?text=Camera+Detail'
+                            ]
+                        },
+                        repackage: {
+                            completed: true,
+                            notes: 'Đã đóng gói lại bằng bọt khí và thùng carton cứng. Camera được bảo vệ tốt cho quá trình vận chuyển.'
+                        },
+                        count: {
+                            completed: true,
+                            actualQuantity: 1
+                        }
+                    }
                 }
             };
 
@@ -1344,15 +1557,93 @@
             document.getElementById('detail-product-desc').textContent = orderData.productDesc;
             document.getElementById('detail-product-link').href = orderData.productLink;
             document.getElementById('detail-insurance-status').textContent = orderData.insuranceStatus;
+            
+            // Update financial information with JPY conversion
+            document.getElementById('detail-product-price-jpy').textContent = orderData.productPriceJPY || '¥12,000';
+            document.getElementById('detail-exchange-rate').textContent = orderData.exchangeRate || '1 JPY = 165 VNĐ';
             document.getElementById('detail-product-price').textContent = orderData.productPrice;
             document.getElementById('detail-service-fee').textContent = orderData.serviceFee;
             document.getElementById('detail-insurance-fee').textContent = orderData.insuranceFee;
+            
+            // Update additional services fees
+            document.getElementById('detail-photo-fee').textContent = orderData.photoFee || '82,500 ₫';
+            document.getElementById('detail-repackage-fee').textContent = orderData.repackageFee || '165,000 ₫';
+            document.getElementById('detail-count-fee').textContent = orderData.countFee || '10,000 ₫';
+            
             document.getElementById('detail-total-amount').textContent = orderData.totalAmount;
             document.getElementById('detail-deposited').textContent = orderData.deposited;
             document.getElementById('detail-remaining').textContent = orderData.remaining;
             document.getElementById('detail-tracking-code').textContent = orderData.trackingCode;
             document.getElementById('detail-weight').textContent = orderData.weight;
             document.getElementById('detail-estimated-delivery').textContent = orderData.estimatedDelivery;
+            
+            // Show warehouse services section if order has reached Japan warehouse or later
+            const warehouseStatuses = ['in_transit_jp', 'in_transit_vn', 'checking', 'waiting_payment', 'ready_to_ship', 'delivered'];
+            const warehouseSection = document.getElementById('detail-warehouse-services');
+            
+            if (warehouseStatuses.includes(orderData.statusCode) || orderData.status.includes('kho') || orderData.status.includes('VN')) {
+                warehouseSection.classList.remove('hidden');
+                
+                // Update warehouse service information if available
+                if (orderData.warehouseServices) {
+                    updateWarehouseServices(orderData.warehouseServices);
+                }
+            } else {
+                warehouseSection.classList.add('hidden');
+            }
+        }
+
+        // Photo Modal Functions
+        function openPhotoModal(imageSrc) {
+            document.getElementById('photo-modal-image').src = imageSrc;
+            showModal('photo-modal');
+        }
+
+        // Update warehouse services information
+        function updateWarehouseServices(services) {
+            // Update photo service
+            if (services.photo) {
+                const photoService = document.getElementById('detail-photo-service');
+                if (services.photo.completed) {
+                    // Update photos if available
+                    const photosContainer = document.getElementById('detail-warehouse-photos');
+                    if (services.photo.images && services.photo.images.length > 0) {
+                        photosContainer.innerHTML = '';
+                        services.photo.images.forEach((img, index) => {
+                            const imgElement = document.createElement('img');
+                            imgElement.src = img;
+                            imgElement.alt = `Warehouse Photo ${index + 1}`;
+                            imgElement.className = 'w-full h-16 object-cover rounded border cursor-pointer hover:opacity-80';
+                            imgElement.onclick = () => openPhotoModal(img);
+                            photosContainer.appendChild(imgElement);
+                        });
+                    }
+                } else {
+                    photoService.style.display = 'none';
+                }
+            }
+
+            // Update repackage service
+            if (services.repackage) {
+                const repackageService = document.getElementById('detail-repackage-service');
+                if (services.repackage.completed) {
+                    const notesElement = document.getElementById('detail-repackage-notes');
+                    notesElement.textContent = services.repackage.notes || 'Đã đóng gói lại sản phẩm.';
+                } else {
+                    repackageService.style.display = 'none';
+                }
+            }
+
+            // Update counting service
+            if (services.count) {
+                const countService = document.getElementById('detail-count-service');
+                if (services.count.completed) {
+                    const quantityElement = document.getElementById('detail-actual-quantity');
+                    quantityElement.textContent = `${services.count.actualQuantity || 1} sản phẩm`;
+                } else {
+                    countService.style.display = 'none';
+                }
+            }
         }
 
         // Final Payment Modal Functions
@@ -1476,5 +1767,28 @@
             // Any initialization code here
         });
     </script>
+
+    <!-- Photo Modal for viewing warehouse photos -->
+    <div id="photo-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-black bg-opacity-75 modal-backdrop"></div>
+            <div class="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Ảnh kho hàng</h3>
+                    <button class="modal-close text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <img id="photo-modal-image" src="" alt="Warehouse Photo" class="w-full max-h-96 object-contain rounded-lg">
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
