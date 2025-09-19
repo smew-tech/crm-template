@@ -40,30 +40,30 @@
         
         <nav class="mt-6">
             <div class="px-3">
-                <a href="dashboard.html" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
                     <i class="fas fa-home w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
                     <span class="ml-3">Dashboard</span>
                 </a>
-                <a href="orders.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
                     <i class="fas fa-shopping-cart w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
                     <span class="ml-3">Đơn hàng</span>
                     <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">5</span>
                 </a>
-                <a href="auction.html" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 mt-1 text-blue-600 bg-blue-50 rounded-lg transition-colors group">
                     <i class="fas fa-gavel w-5 h-5 text-blue-600"></i>
                     <span class="ml-3">Đấu giá</span>
                     <span class="ml-auto bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">3</span>
                 </a>
-                <a href="warehouse.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
                     <i class="fas fa-warehouse w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
                     <span class="ml-3">Kho hàng</span>
                     <span class="ml-auto bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">12</span>
                 </a>
-                <a href="wallet.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
                     <i class="fas fa-wallet w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
                     <span class="ml-3">Ví tiền</span>
                 </a>
-                <a href="account.html" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
+                <a href="#" class="nav-item flex items-center px-3 py-2 mt-1 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors group">
                     <i class="fas fa-user w-5 h-5 text-gray-400 group-hover:text-blue-600"></i>
                     <span class="ml-3">Tài khoản</span>
                 </a>
@@ -122,7 +122,7 @@
                             <i class="fas fa-chevron-down text-sm"></i>
                         </button>
                         <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tài khoản</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cài đặt</a>
                             <hr class="my-1">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
@@ -340,61 +340,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Cancelled Auction Item -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-gray-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Laptop" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">MacBook Pro 16" M3 Max</h4>
-                                        <p class="text-sm text-gray-600">¥280,000 → Đã hủy</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-gray-100 text-gray-800 rounded">Đã hủy</span>
-                                            <span class="text-sm text-gray-500">Hủy: 26/12/2024 09:15</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC004', 'MacBook Pro 16 M3 Max', '280000', '280000', 'Đã hủy')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cancelled Auction Item 2 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-gray-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Tablet" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">iPad Pro 12.9" M2 WiFi 256GB</h4>
-                                        <p class="text-sm text-gray-600">¥95,000 → Đã hủy</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-gray-100 text-gray-800 rounded">Đã hủy</span>
-                                            <span class="text-sm text-gray-500">Hủy: 24/12/2024 16:45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC005', 'iPad Pro 12.9 M2 WiFi 256GB', '95000', '95000', 'Đã hủy')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <!-- Won Auctions Tab -->
             <div id="won-tab" class="tab-content">
-                <div class="space-y-4">
-                    <!-- Won Auction Item 1 -->
+                 <div class="space-y-4">
                     <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
@@ -403,72 +354,10 @@
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-gray-900">PlayStation 5 Digital Edition</h4>
                                         <p class="text-sm text-gray-600">¥45,000 (Giá thắng) | Hoàn tất: 20/12/2024</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">Đã thắng</span>
-                                            <span class="text-sm text-gray-500">Đã thanh toán</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC201', 'PlayStation 5 Digital Edition', '45000', '45000', 'Đã thắng')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                                <button class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-shipping-fast mr-1"></i>Theo dõi
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Won Auction Item 2 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Watch" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">Apple Watch Ultra 2</h4>
-                                        <p class="text-sm text-gray-600">¥78,500 (Giá thắng) | Hoàn tất: 18/12/2024</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">Đã thắng</span>
-                                            <span class="text-sm text-gray-500">Đang giao hàng</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC202', 'Apple Watch Ultra 2', '78500', '78500', 'Đã thắng')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                                <button class="px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-truck mr-1"></i>Vận chuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Won Auction Item 3 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=MacBook" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">MacBook Air M3 15-inch</h4>
-                                        <p class="text-sm text-gray-600">¥135,000 (Giá thắng) | Hoàn tất: 15/12/2024</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">Đã thắng</span>
-                                            <span class="text-sm text-gray-500">Đã nhận hàng</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC203', 'MacBook Air M3 15-inch', '135000', '135000', 'Đã thắng')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
+                            <button class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm"><i class="fas fa-shipping-fast mr-1"></i>Theo dõi</button>
                         </div>
                     </div>
                 </div>
@@ -477,7 +366,6 @@
             <!-- Lost Auctions Tab -->
             <div id="lost-tab" class="tab-content">
                 <div class="space-y-4">
-                    <!-- Lost Auction Item 1 -->
                     <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
@@ -486,90 +374,10 @@
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-gray-900">iPhone 15 Pro Max 1TB</h4>
                                         <p class="text-sm text-gray-600">¥125,000 (Giá của bạn) vs ¥127,000 (Giá thắng)</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-red-100 text-red-800 rounded">Đã thua</span>
-                                            <span class="text-sm text-gray-500">22/12/2024 15:30</span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC301', 'iPhone 15 Pro Max 1TB', '127000', '125000', 'Đã thua')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lost Auction Item 2 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Bag" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">Louis Vuitton Neverfull MM</h4>
-                                        <p class="text-sm text-gray-600">¥85,000 (Giá của bạn) vs ¥88,500 (Giá thắng)</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-red-100 text-red-800 rounded">Đã thua</span>
-                                            <span class="text-sm text-gray-500">19/12/2024 20:15</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC302', 'Louis Vuitton Neverfull MM', '88500', '85000', 'Đã thua')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lost Auction Item 3 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Shoes" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">Nike Air Jordan 1 Retro High</h4>
-                                        <p class="text-sm text-gray-600">¥35,000 (Giá của bạn) vs ¥42,000 (Giá thắng)</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-red-100 text-red-800 rounded">Đã thua</span>
-                                            <span class="text-sm text-gray-500">17/12/2024 11:20</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC303', 'Nike Air Jordan 1 Retro High', '42000', '35000', 'Đã thua')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lost Auction Item 4 -->
-                    <div class="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://via.placeholder.com/60x60.png?text=Lens" alt="Product" class="w-16 h-16 rounded-lg object-cover">
-                                    <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">Canon RF 70-200mm F2.8L IS USM</h4>
-                                        <p class="text-sm text-gray-600">¥180,000 (Giá của bạn) vs ¥195,000 (Giá thắng)</p>
-                                        <div class="flex items-center space-x-4 mt-1">
-                                            <span class="text-xs px-2 py-1 bg-red-100 text-red-800 rounded">Đã thua</span>
-                                            <span class="text-sm text-gray-500">14/12/2024 16:45</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="showAuctionDetail('AUC304', 'Canon RF 70-200mm F2.8L IS USM', '195000', '180000', 'Đã thua')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-                                    <i class="fas fa-eye mr-1"></i>Chi tiết
-                                </button>
-                            </div>
+                            <button onclick="showAuctionDetail('AUC301', 'iPhone 15 Pro Max 1TB', '127000', '125000', 'Đã thua')" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"><i class="fas fa-eye mr-1"></i>Chi tiết</button>
                         </div>
                     </div>
                 </div>
@@ -578,6 +386,7 @@
         </main>
     </div>
 
+    <!-- Modals -->
     <!-- Bid Modal -->
     <div id="bid-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
@@ -585,72 +394,25 @@
             <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Thay đổi giá đấu giá</h3>
-                    <button class="modal-close text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="modal-close text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
                 </div>
-                
                 <div class="space-y-4">
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <h4 class="font-medium text-gray-900 mb-2" id="bid-product-name">Rolex Submariner</h4>
                         <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <span class="text-gray-600">Giá hiện tại:</span>
-                                <span class="font-medium text-purple-600" id="current-price">¥580,000</span>
-                            </div>
-                            <div>
-                                <span class="text-gray-600">Bước giá:</span>
-                                <span class="font-medium" id="bid-step">¥5,000</span>
-                            </div>
+                            <div><span class="text-gray-600">Giá hiện tại:</span> <span class="font-medium text-purple-600" id="current-price">¥580,000</span></div>
+                            <div><span class="text-gray-600">Bước giá:</span> <span class="font-medium" id="bid-step">¥5,000</span></div>
                         </div>
                     </div>
-                    
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Giá đặt tối đa (¥) *</label>
                         <input type="number" id="max-bid" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="585000" min="585000">
                         <p class="text-xs text-gray-500 mt-1">Tối thiểu: ¥<span id="min-bid">585,000</span></p>
                     </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Loại đặt giá</label>
-                            <select id="bid-type" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                                <option value="normal">Đặt giá thường</option>
-                                <option value="snipe">Săn phút chót</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tiền cọc (10%)</label>
-                            <input type="text" id="deposit-amount" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="¥58,500">
-                        </div>
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
+                        <button type="button" onclick="placeBid()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Cập nhật giá</button>
                     </div>
-                    
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <div class="flex">
-                            <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                            <div class="text-sm text-blue-800">
-                                <p class="font-medium">Thay đổi giá đặt:</p>
-                                <ul class="mt-1 list-disc list-inside space-y-1">
-                                    <li>Có thể thay đổi giá nhiều lần cho đến khi kết thúc đấu giá</li>
-                                    <li>Chỉ trừ tiền cọc cho giá cao nhất</li>
-                                    <li>Săn phút chót áp dụng trong 6 phút cuối</li>
-                                    <li>Lịch sử thay đổi sẽ được lưu lại</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium text-blue-900">Số dư ví hiện tại:</span>
-                            <span class="text-lg font-bold text-blue-900">15,750,000 ₫</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
-                    <button type="button" onclick="placeBid()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Cập nhật giá</button>
                 </div>
             </div>
         </div>
@@ -658,61 +420,27 @@
 
     <!-- VIP Modal -->
     <div id="vip-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+         <div class="flex items-center justify-center min-h-screen px-4">
             <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
             <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
-                <div class="flex items-center justify-between mb-4">
+                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Gói đấu giá VIP</h3>
-                    <button class="modal-close text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="modal-close text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
                 </div>
-                
                 <div class="space-y-4">
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                        <div class="flex items-center mb-2">
-                            <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
-                            <span class="text-sm font-medium text-yellow-800">Chưa kích hoạt gói đấu giá</span>
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 cursor-pointer vip-package" data-package="vip1">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-lg">VIP 1</h4><span class="text-xl font-bold text-blue-600">1,000,000 ₫</span>
                         </div>
-                        <p class="text-sm text-yellow-700">Bạn cần kích hoạt gói VIP để tham gia đấu giá</p>
+                        <ul class="text-sm text-gray-600 space-y-1"><li>• Đấu giá tối đa 2 sản phẩm cùng lúc</li><li>• Phí hủy: 500,000₫/link</li><li>• Thời hạn: 30 ngày</li></ul>
                     </div>
-                    
-                    <div class="grid gap-4">
-                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 cursor-pointer vip-package" data-package="vip1">
-                            <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-semibold text-lg">VIP 1</h4>
-                                <span class="text-xl font-bold text-blue-600">1,000,000 ₫</span>
-                            </div>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• Đấu giá tối đa 2 sản phẩm cùng lúc</li>
-                                <li>• Phí hủy: 500,000₫/link</li>
-                                <li>• Thời hạn: 30 ngày</li>
-                            </ul>
-                            <div class="mt-3 text-sm text-orange-600">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Cần nạp thêm 1,000,000 ₫
-                            </div>
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 cursor-pointer vip-package" data-package="vip2">
+                         <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-lg">VIP 2</h4><span class="text-xl font-bold text-blue-600">2,000,000 ₫</span>
                         </div>
-                        
-                        <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 cursor-pointer vip-package" data-package="vip2">
-                            <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-semibold text-lg">VIP 2</h4>
-                                <span class="text-xl font-bold text-blue-600">2,000,000 ₫</span>
-                            </div>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• Đấu giá tối đa 50 sản phẩm cùng lúc</li>
-                                <li>• Không giới hạn số tiền</li>
-                                <li>• Phí hủy: 500,000₫/link</li>
-                                <li>• Thời hạn: 30 ngày</li>
-                            </ul>
-                            <div class="mt-3 text-sm text-orange-600">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Cần nạp thêm 2,000,000 ₫
-                            </div>
-                        </div>
+                        <ul class="text-sm text-gray-600 space-y-1"><li>• Đấu giá tối đa 50 sản phẩm cùng lúc</li><li>• Không giới hạn số tiền</li><li>• Phí hủy: 500,000₫/link</li><li>• Thời hạn: 30 ngày</li></ul>
                     </div>
                 </div>
-                
                 <div class="flex justify-end space-x-3 mt-6">
                     <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Hủy</button>
                     <button type="button" id="activate-vip" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" disabled>Kích hoạt gói</button>
@@ -720,51 +448,40 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancel-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div class="flex items-start space-x-3 mb-4">
+                <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-yellow-100">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Xóa phiên đấu giá này?</h3>
+                </div>
+            </div>
+            <div class="text-sm text-gray-600 space-y-3 mb-6">
+                <p><span class="font-semibold">Lưu ý:</span> Thao tác này chỉ ẩn phiên đấu giá trong danh sách sản phẩm đấu giá của bạn trên hệ thống. Phiên đấu giá vẫn tồn tại và các lượt đặt giá của bạn không bị xoá trên hệ thống của Yahoo Auction.</p>
+                <p>Sau khi xóa, bạn vẫn có thể thắng phiên đấu giá này nếu nhà bán hủy giá thầu của các tài khoản có giá đấu cao hơn. Trong trường hợp này, chúng tôi sẽ tự động lên đơn hàng cho bạn!</p>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button type="button" class="modal-close px-5 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium">Không</button>
+                <button type="button" id="confirm-cancel-button" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium">Đã hiểu, xóa!</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Bid History Modal -->
     <div id="bid-history-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div class="flex items-center justify-center min-h-screen px-4">
             <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
             <div class="inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
-                <div class="flex items-center justify-between mb-4">
+                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Lịch sử thay đổi giá</h3>
-                    <button class="modal-close text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="modal-close text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
                 </div>
-                
                 <div class="space-y-3" id="bid-history-content">
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-3">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-medium text-green-800">Giá hiện tại</span>
-                            <span class="text-xs text-green-600">25/12/2024 14:30</span>
-                        </div>
-                        <p class="text-lg font-bold text-green-900">¥580,000</p>
-                        <p class="text-xs text-green-700">Loại: Săn phút chót</p>
-                    </div>
-                    
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Lần thay đổi trước</span>
-                            <span class="text-xs text-gray-600">25/12/2024 10:15</span>
-                        </div>
-                        <p class="text-lg font-semibold text-gray-800">¥550,000</p>
-                        <p class="text-xs text-gray-600">Loại: Đặt giá thường</p>
-                    </div>
-                    
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-medium text-gray-700">Giá ban đầu</span>
-                            <span class="text-xs text-gray-600">24/12/2024 16:20</span>
-                        </div>
-                        <p class="text-lg font-semibold text-gray-800">¥500,000</p>
-                        <p class="text-xs text-gray-600">Loại: Đặt giá thường</p>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
-                    <button type="button" onclick="showBidModal('current-auction-id', 'current-product-name', 'current-price')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Thay đổi giá</button>
+                    <!-- History items will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -772,120 +489,15 @@
 
     <!-- Auction Detail Modal -->
     <div id="auction-detail-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
+        <div class="flex items-center justify-center min-h-screen px-4">
+             <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 modal-backdrop"></div>
             <div class="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-xl">
-                <div class="flex items-center justify-between mb-6">
+                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-semibold text-gray-900">Chi tiết đấu giá</h3>
-                    <button class="modal-close text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="modal-close text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
                 </div>
-                
                 <div class="space-y-6" id="auction-detail-content">
-                    <!-- Product Info -->
-                    <div class="flex items-start space-x-4">
-                        <img id="detail-product-image" src="https://via.placeholder.com/120x120.png?text=Product" alt="Product" class="w-30 h-30 rounded-lg object-cover">
-                        <div class="flex-1">
-                            <h4 id="detail-product-name" class="text-lg font-semibold text-gray-900 mb-2">Rolex Submariner Date</h4>
-                            <p id="detail-product-desc" class="text-sm text-gray-600 mb-3">Automatic, Black Dial, Stainless Steel - Excellent Condition</p>
-                            
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <p class="text-sm text-gray-500">Người bán</p>
-                                    <p id="detail-seller" class="font-medium">luxury_watches_jp</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500">Đánh giá</p>
-                                    <div class="flex items-center space-x-1">
-                                        <div class="flex text-yellow-400 text-xs">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span class="text-sm text-gray-500">(4.9)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Price Info -->
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <h5 class="font-medium text-gray-900 mb-3">Thông tin giá</h5>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Giá hiện tại</p>
-                                <p id="detail-current-price" class="text-lg font-bold text-purple-600">¥580,000</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Giá của bạn</p>
-                                <p id="detail-your-price" class="text-lg font-bold text-green-600">¥580,000</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Bước giá</p>
-                                <p id="detail-bid-step" class="text-lg font-semibold">¥5,000</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Auction Info -->
-                    <div class="bg-blue-50 rounded-lg p-4">
-                        <h5 class="font-medium text-gray-900 mb-3">Thông tin đấu giá</h5>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Thời gian còn lại</p>
-                                <p id="detail-time-left" class="text-lg font-bold text-orange-600">02:14:35</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Loại đặt giá</p>
-                                <p id="detail-bid-type" class="text-lg font-semibold">Săn phút chót</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Trạng thái</p>
-                                <span id="detail-status" class="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full">Đang dẫn đầu</span>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">ID đấu giá</p>
-                                <p id="detail-auction-id" class="font-mono text-sm">#AUC001</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bid History -->
-                    <div>
-                        <h5 class="font-medium text-gray-900 mb-3">Lịch sử đặt giá</h5>
-                        <div class="space-y-2">
-                            <div class="bg-green-50 border border-green-200 rounded-lg p-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-green-800">¥580,000 (Hiện tại)</span>
-                                    <span class="text-xs text-green-600">25/12/2024 14:30</span>
-                                </div>
-                                <p class="text-xs text-green-700">Loại: Săn phút chót</p>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-gray-700">¥550,000</span>
-                                    <span class="text-xs text-gray-600">25/12/2024 10:15</span>
-                                </div>
-                                <p class="text-xs text-gray-600">Loại: Đặt giá thường</p>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-gray-700">¥500,000</span>
-                                    <span class="text-xs text-gray-600">24/12/2024 16:20</span>
-                                </div>
-                                <p class="text-xs text-gray-600">Loại: Đặt giá thường (Ban đầu)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button" class="modal-close px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Đóng</button>
-                    <button type="button" id="change-price-btn" onclick="showBidModal('current-auction-id', 'current-product-name', 'current-price')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Thay đổi giá</button>
+                    <!-- Detail content will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -893,33 +505,31 @@
 
     <script>
         let selectedVipPackage = null;
+        let auctionToCancelId = null; 
 
         // Mobile sidebar toggle
-        document.getElementById('open-sidebar').addEventListener('click', function() {
+        document.getElementById('open-sidebar').addEventListener('click', () => {
             document.getElementById('sidebar').classList.remove('-translate-x-full');
             document.getElementById('mobile-overlay').classList.remove('hidden');
         });
 
-        document.getElementById('close-sidebar').addEventListener('click', function() {
+        const closeSidebar = () => {
             document.getElementById('sidebar').classList.add('-translate-x-full');
             document.getElementById('mobile-overlay').classList.add('hidden');
-        });
+        };
 
-        document.getElementById('mobile-overlay').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.add('-translate-x-full');
-            document.getElementById('mobile-overlay').classList.add('hidden');
-        });
+        document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+        document.getElementById('mobile-overlay').addEventListener('click', closeSidebar);
 
         // User menu toggle
-        document.getElementById('user-menu-button').addEventListener('click', function() {
+        document.getElementById('user-menu-button').addEventListener('click', () => {
             document.getElementById('user-menu').classList.toggle('hidden');
         });
 
-        // Close user menu when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', event => {
             const userMenu = document.getElementById('user-menu');
             const userMenuButton = document.getElementById('user-menu-button');
-            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+            if (userMenu && !userMenu.contains(event.target) && userMenuButton && !userMenuButton.contains(event.target)) {
                 userMenu.classList.add('hidden');
             }
         });
@@ -929,109 +539,108 @@
             button.addEventListener('click', function() {
                 const tabId = this.dataset.tab;
                 
-                // Update button states
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     btn.classList.remove('border-blue-500', 'text-blue-600');
                     btn.classList.add('border-transparent', 'text-gray-500');
                 });
                 this.classList.add('border-blue-500', 'text-blue-600');
-                this.classList.remove('border-transparent', 'text-gray-500');
                 
-                // Update content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 document.getElementById(tabId + '-tab').classList.add('active');
             });
         });
 
-        // Countdown timers
-        function updateCountdowns() {
-            document.querySelectorAll('.countdown-timer').forEach(timer => {
-                const endTime = new Date(timer.dataset.end).getTime();
-                const now = new Date().getTime();
-                const distance = endTime - now;
-
-                if (distance > 0) {
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    if (days > 0) {
-                        timer.textContent = `${days}d ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    } else {
-                        timer.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    }
-                } else {
-                    timer.textContent = "Đã kết thúc";
-                    timer.classList.remove('text-orange-600', 'text-blue-600', 'text-red-600');
-                    timer.classList.add('text-gray-500');
-                }
-            });
-        }
-
         // Modal controls
         function showModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                if (modalId === 'cancel-modal') modal.classList.add('flex');
+            }
         }
 
         function hideModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
+             const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                if (modalId === 'cancel-modal') modal.classList.remove('flex');
+            }
         }
 
-        // Close modal events
-        document.querySelectorAll('.modal-close').forEach(button => {
-            button.addEventListener('click', function() {
-                this.closest('.fixed').classList.add('hidden');
+        document.querySelectorAll('.modal-close, .modal-backdrop').forEach(el => {
+            el.addEventListener('click', function() {
+                const modal = this.closest('.fixed');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    if (modal.id === 'cancel-modal') modal.classList.remove('flex');
+                }
             });
         });
 
-        // Close modal when clicking backdrop
-        document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-            backdrop.addEventListener('click', function() {
-                this.closest('.fixed').classList.add('hidden');
-            });
-        });
-
-        // Bid modal
+        // Bid modal logic
         function showBidModal(auctionId, productName, currentPrice) {
             document.getElementById('bid-product-name').textContent = productName;
             document.getElementById('current-price').textContent = '¥' + Number(currentPrice).toLocaleString();
-            
             const minBid = parseInt(currentPrice) + 5000;
             document.getElementById('min-bid').textContent = minBid.toLocaleString();
             document.getElementById('max-bid').min = minBid;
             document.getElementById('max-bid').placeholder = minBid;
-            
             showModal('bid-modal');
         }
 
-        // Calculate deposit
-        document.getElementById('max-bid').addEventListener('input', function() {
-            const maxBid = parseInt(this.value) || 0;
-            const deposit = Math.floor(maxBid * 0.1);
-            document.getElementById('deposit-amount').value = '¥' + deposit.toLocaleString();
-        });
-
-        // Place bid
         function placeBid() {
             const maxBid = document.getElementById('max-bid').value;
-            const bidType = document.getElementById('bid-type').value;
-            
-            if (!maxBid || maxBid < parseInt(document.getElementById('max-bid').min)) {
+            if (!maxBid || parseInt(maxBid) < parseInt(document.getElementById('max-bid').min)) {
                 showNotification('Vui lòng nhập giá đặt hợp lệ!', 'error');
                 return;
             }
-            
-            const typeText = bidType === 'snipe' ? 'săn phút chót' : 'thường';
-            showNotification(`Đã đặt giá ${typeText} ¥${Number(maxBid).toLocaleString()} thành công!`);
+            showNotification(`Đã cập nhật giá thành công!`);
             hideModal('bid-modal');
         }
+        
+        // Cancel Auction Logic
+        function cancelAuction(auctionId) {
+            auctionToCancelId = auctionId;
+            showModal('cancel-modal');
+        }
 
-        // VIP package selection
-        document.querySelectorAll('.vip-package').forEach(package => {
-            package.addEventListener('click', function() {
+        document.getElementById('confirm-cancel-button').addEventListener('click', () => {
+            if (auctionToCancelId) {
+                showNotification(`Đã hủy đấu giá ${auctionToCancelId}. Phí hủy: 500,000₫`, 'error');
+                hideModal('cancel-modal');
+                auctionToCancelId = null;
+            }
+        });
+        
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            
+            notification.className = `fixed top-4 right-4 z-50 max-w-sm p-4 rounded-lg shadow-lg text-white ${bgColor}`;
+            notification.innerHTML = `<div class="flex items-center"><i class="fas fa-${icon} mr-2"></i><span>${message}</span></div>`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 5000);
+        }
+
+        // Create auction function
+        function createAuction() {
+            const url = document.getElementById('auction-url').value.trim();
+            const maxBid = document.getElementById('max-bid-input').value;
+            if (!url || !maxBid || !url.includes('auctions.yahoo.co.jp')) {
+                showNotification('Vui lòng điền URL Yahoo Auction và giá hợp lệ!', 'error');
+                return;
+            }
+            showNotification(`Đã tạo đấu giá thành công!`);
+            document.getElementById('auction-url').value = '';
+            document.getElementById('max-bid-input').value = '';
+        }
+
+        // VIP Package Selection
+         document.querySelectorAll('.vip-package').forEach(packageEl => {
+            packageEl.addEventListener('click', function() {
                 document.querySelectorAll('.vip-package').forEach(p => p.classList.remove('border-blue-500', 'bg-blue-50'));
                 this.classList.add('border-blue-500', 'bg-blue-50');
                 selectedVipPackage = this.dataset.package;
@@ -1040,139 +649,33 @@
         });
 
         // Activate VIP
-        document.getElementById('activate-vip').addEventListener('click', function() {
+        document.getElementById('activate-vip').addEventListener('click', () => {
             if (selectedVipPackage) {
                 showNotification(`Đã kích hoạt gói ${selectedVipPackage.toUpperCase()} thành công!`);
                 hideModal('vip-modal');
             }
         });
 
-        // Global search functionality
-        document.getElementById('global-search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const query = this.value.trim();
-                if (query) {
-                    if (query.includes('yahoo') || query.includes('auctions.yahoo')) {
-                        showNotification('Đã thêm vào danh sách theo dõi!');
-                    } else {
-                        showNotification(`Tìm kiếm: ${query}`);
-                    }
-                    this.value = '';
-                }
-            }
-        });
-
-        // Notification system
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 max-w-sm p-4 rounded-lg shadow-lg ${
-                type === 'success' ? 'bg-green-500 text-white' : 
-                type === 'error' ? 'bg-red-500 text-white' : 
-                'bg-blue-500 text-white'
-            }`;
-            notification.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'} mr-2"></i>
-                    <span>${message}</span>
+        // Show auction detail
+        function showAuctionDetail(auctionId, productName, currentPrice, yourPrice, status) {
+            // This is a placeholder. In a real app, you would fetch and build the detail content.
+            const detailContent = `
+                <div class="flex items-start space-x-4">
+                    <img src="https://via.placeholder.com/120x120.png?text=${productName.split(' ')[0]}" alt="Product" class="w-30 h-30 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">${productName}</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><p class="text-sm text-gray-500">Giá hiện tại</p><p class="text-lg font-bold text-purple-600">¥${Number(currentPrice).toLocaleString()}</p></div>
+                            <div><p class="text-sm text-gray-500">Giá của bạn</p><p class="text-lg font-bold text-green-600">¥${Number(yourPrice).toLocaleString()}</p></div>
+                            <div><p class="text-sm text-gray-500">Trạng thái</p><span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">${status}</span></div>
+                            <div><p class="text-sm text-gray-500">ID</p><p class="font-mono text-sm">#${auctionId}</p></div>
+                        </div>
+                    </div>
                 </div>
             `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
-
-        // Create auction function
-        function createAuction() {
-            const url = document.getElementById('auction-url').value.trim();
-            const maxBid = document.getElementById('max-bid-input').value;
-            const auctionType = document.getElementById('auction-type').value;
-            
-            if (!url) {
-                showNotification('Vui lòng nhập URL Yahoo Auctions!', 'error');
-                return;
-            }
-            
-            if (!url.includes('yahoo') && !url.includes('auctions')) {
-                showNotification('URL không hợp lệ! Vui lòng nhập link Yahoo Auctions.', 'error');
-                return;
-            }
-            
-            if (!maxBid || maxBid < 1000) {
-                showNotification('Vui lòng nhập giá đặt tối đa hợp lệ (tối thiểu ¥1,000)!', 'error');
-                return;
-            }
-            
-            const typeText = auctionType === 'snipe' ? 'săn phút chót' : 'thường';
-            showNotification(`Đã tạo đấu giá ${typeText} với giá tối đa ¥${Number(maxBid).toLocaleString()} thành công!`);
-            
-            // Clear form
-            document.getElementById('auction-url').value = '';
-            document.getElementById('max-bid-input').value = '';
-            document.getElementById('auction-type').value = 'normal';
-        }
-
-        // Cancel auction function
-        function cancelAuction(auctionId) {
-            if (confirm('Bạn có chắc chắn muốn hủy đấu giá này? Phí hủy sẽ được áp dụng.')) {
-                showNotification(`Đã hủy đấu giá ${auctionId}. Phí hủy: 500,000₫`, 'error');
-            }
-        }
-
-        // Show bid history function
-        function showBidHistory(auctionId) {
-            // Update modal content with auction specific data
-            showModal('bid-history-modal');
-            
-            // Here you would normally load actual bid history from server
-            // For demo purposes, we're using static content
-        }
-
-        // Show auction detail function
-        function showAuctionDetail(auctionId, productName, currentPrice, yourPrice, status) {
-            // Update modal content with auction specific data
-            document.getElementById('detail-product-name').textContent = productName;
-            document.getElementById('detail-current-price').textContent = '¥' + Number(currentPrice).toLocaleString();
-            document.getElementById('detail-your-price').textContent = '¥' + Number(yourPrice).toLocaleString();
-            document.getElementById('detail-auction-id').textContent = auctionId;
-            
-            // Update status
-            const statusElement = document.getElementById('detail-status');
-            statusElement.textContent = status;
-            
-            // Update status styling based on status
-            statusElement.className = 'px-3 py-1 text-sm rounded-full';
-            if (status === 'Đang dẫn đầu') {
-                statusElement.classList.add('bg-green-100', 'text-green-800');
-            } else if (status === 'Bị vượt qua') {
-                statusElement.classList.add('bg-red-100', 'text-red-800');
-            } else if (status === 'Đã thắng') {
-                statusElement.classList.add('bg-green-100', 'text-green-800');
-            } else if (status === 'Đã thua') {
-                statusElement.classList.add('bg-red-100', 'text-red-800');
-            } else if (status === 'Đã hủy') {
-                statusElement.classList.add('bg-gray-100', 'text-gray-800');
-            } else {
-                statusElement.classList.add('bg-blue-100', 'text-blue-800');
-            }
-            
-            // Hide/show change price button based on status
-            const changePriceBtn = document.getElementById('change-price-btn');
-            if (status === 'Đã hủy') {
-                changePriceBtn.style.display = 'none';
-            } else {
-                changePriceBtn.style.display = 'inline-block';
-            }
-            
+            document.getElementById('auction-detail-content').innerHTML = detailContent;
             showModal('auction-detail-modal');
         }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCountdowns();
-            setInterval(updateCountdowns, 1000);
-        });
     </script>
 </body>
 </html>
