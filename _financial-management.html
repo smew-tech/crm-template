@@ -10,11 +10,15 @@
             </a>
             <a href="#bank-settings"
                 class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                <i class="fas fa-university mr-2"></i> Cài đặt Ngân hàng
+                <i class="fas fa-building mr-2"></i> Tài khoản Cty
             </a>
-            <a href="#debt"
+            <a href="#partner-accounts"
                 class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                <i class="fas fa-file-invoice-dollar mr-2"></i> Công nợ & Đối soát
+                <i class="fas fa-handshake mr-2"></i> Tài khoản Đối tác
+            </a>
+            <a href="#debt-management"
+                class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <i class="fas fa-balance-scale mr-2"></i> Quản lý Công nợ
             </a>
         </nav>
     </div>
@@ -274,7 +278,7 @@
         <div class="bg-white rounded-lg shadow-md">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Cài đặt Tài khoản Ngân hàng Công ty</h3>
+                    <h3 class="text-xl font-bold text-gray-800">Tài khoản Ngân hàng Công ty</h3>
                     <button id="add-bank-account-btn"
                         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm"><i
                             class="fas fa-plus mr-2"></i>Thêm tài khoản</button>
@@ -307,7 +311,7 @@
                                         class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
                                         quyền</a> |
                                     <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-bank-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
-                                    <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
+                                    <a href="#" class="toggle-bank-status-link text-orange-600 hover:underline text-xs">Tạm dừng</a>
                                 </td>
                             </tr>
                             <tr data-bank-name="Techcombank" data-account-number="9876543210"
@@ -325,7 +329,7 @@
                                         class="assign-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
                                         quyền</a> |
                                     <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-bank-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
-                                    <a href="#" class="text-red-600 hover:underline text-xs">Xóa</a>
+                                    <a href="#" class="toggle-bank-status-link text-green-600 hover:underline text-xs">Chạy</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -335,151 +339,388 @@
         </div>
     </div>
 
-    <div id="debt" class="tab-content hidden">
+    <!-- Partner Accounts Tab -->
+    <div id="partner-accounts" class="tab-content hidden">
         <div class="bg-white rounded-lg shadow-md">
-            <div class="p-6 border-b">
-                <h3 class="text-xl font-bold text-gray-800">Đối soát Giao dịch Ngân hàng</h3>
-                <p class="text-sm text-gray-500 mt-1">Tải lên file sao kê (.pdf, .xlsx) để hệ thống tự động đối soát với
-                    các lệnh nạp tiền trên hệ thống.</p>
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Tài khoản Ngân hàng Đối tác</h3>
+                    <button id="add-partner-account-btn"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm"><i
+                            class="fas fa-plus mr-2"></i>Thêm tài khoản</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-100 text-left">
+                            <tr>
+                                <th class="p-3 font-semibold">Tên gợi nhớ</th>
+                                <th class="p-3 font-semibold">Ngân hàng</th>
+                                <th class="p-3 font-semibold">Số tài khoản</th>
+                                <th class="p-3 font-semibold">Chủ tài khoản</th>
+                                <th class="p-3 font-semibold text-right">Hạn mức/ngày (VND)</th>
+                                <th class="p-3 font-semibold text-center">Trạng thái</th>
+                                <th class="p-3 font-semibold text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr data-bank-name="Vietcombank" data-account-number="0123456789012"
+                                data-account-name="TOKYO ABC VIETNAM" data-limit="200000000" data-status="active">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">Tokyo ABC - VCB</div>
+                                    <div class="text-xs text-gray-500">Nhà cung cấp chính Nhật Bản</div>
+                                </td>
+                                <td class="p-3">Vietcombank</td>
+                                <td class="p-3 font-mono">0123456789012</td>
+                                <td class="p-3">TOKYO ABC VIETNAM</td>
+                                <td class="p-3 text-right">200,000,000</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
+                                        động</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <a href="#" class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                    <a href="#"
+                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
+                                        quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
+                                    <a href="#" class="toggle-partner-status-link text-orange-600 hover:underline text-xs">Tạm dừng</a>
+                                </td>
+                            </tr>
+                            <tr data-bank-name="BIDV" data-account-number="9876543210987"
+                                data-account-name="BIDV PARTNER ACCOUNT" data-limit="150000000" data-status="active">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">Đối tác BIDV</div>
+                                    <div class="text-xs text-gray-500">Tài khoản thanh toán phụ</div>
+                                </td>
+                                <td class="p-3">BIDV</td>
+                                <td class="p-3 font-mono">9876543210987</td>
+                                <td class="p-3">BIDV PARTNER ACCOUNT</td>
+                                <td class="p-3 text-right">150,000,000</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
+                                        động</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <a href="#" class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                    <a href="#"
+                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
+                                        quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
+                                    <a href="#" class="toggle-partner-status-link text-orange-600 hover:underline text-xs">Tạm dừng</a>
+                                </td>
+                            </tr>
+                            <tr data-bank-name="Techcombank" data-account-number="1111222233334444"
+                                data-account-name="OSAKA MATERIALS VIETNAM" data-limit="300000000" data-status="paused">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">Osaka Materials - TCB</div>
+                                    <div class="text-xs text-gray-500">Nhà cung cấp vật liệu xây dựng</div>
+                                </td>
+                                <td class="p-3">Techcombank</td>
+                                <td class="p-3 font-mono">1111222233334444</td>
+                                <td class="p-3">OSAKA MATERIALS VIETNAM</td>
+                                <td class="p-3 text-right">300,000,000</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded-full font-medium">Tạm
+                                        dừng</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <a href="#" class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                    <a href="#"
+                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
+                                        quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
+                                    <a href="#" class="toggle-partner-status-link text-green-600 hover:underline text-xs">Chạy</a>
+                                </td>
+                            </tr>
+                            <tr data-bank-name="VietinBank" data-account-number="5555666677778888"
+                                data-account-name="KYOTO STEEL VIETNAM" data-limit="250000000" data-status="active">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">Kyoto Steel - VTB</div>
+                                    <div class="text-xs text-gray-500">Nhà cung cấp thép chất lượng cao</div>
+                                </td>
+                                <td class="p-3">VietinBank</td>
+                                <td class="p-3 font-mono">5555666677778888</td>
+                                <td class="p-3">KYOTO STEEL VIETNAM</td>
+                                <td class="p-3 text-right">250,000,000</td>
+                                <td class="p-3 text-center"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
+                                        động</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <a href="#" class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a> |
+                                    <a href="#"
+                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
+                                        quyền</a> |
+                                    <a href="#" data-target-page="_bank-transaction-history.html" data-target-title="Lịch sử Giao dịch Ngân hàng" class="nav-link view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch sử</a> |
+                                    <a href="#" class="toggle-partner-status-link text-orange-600 hover:underline text-xs">Tạm dừng</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="p-6 grid grid-cols-1 lg:grid-cols-5 gap-8">
-
-                <div class="lg:col-span-2 space-y-6">
-                    <div>
-                        <label for="statement-upload"
-                            class="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Nhấn để tải lên</span>
-                                    hoặc kéo thả file</p>
-                                <p class="text-xs text-gray-500">PDF, XLSX, or CSV</p>
+    <!-- Debt Management Tab -->
+    <div id="debt-management" class="tab-content hidden">
+        <div class="bg-white rounded-lg shadow-md">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Tình trạng Công nợ với Đối tác</h3>
+                
+                <!-- Quick Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-red-900">Mình đang nợ</h4>
+                                <p class="text-3xl font-bold text-red-600 mt-2">85,500,000 ₫</p>
+                                <p class="text-sm text-red-700 mt-1">3 đối tác</p>
                             </div>
-                            <input id="statement-upload" type="file" class="hidden" />
-                        </label>
+                            <i class="fas fa-exclamation-triangle text-red-500 text-3xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-green-900">Đối tác giữ thừa</h4>
+                                <p class="text-3xl font-bold text-green-600 mt-2">42,300,000 ₫</p>
+                                <p class="text-sm text-green-700 mt-1">2 đối tác</p>
+                            </div>
+                            <i class="fas fa-money-bill-wave text-green-500 text-3xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-gray-400">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-900">Cân bằng</h4>
+                                <p class="text-3xl font-bold text-gray-600 mt-2">0 ₫</p>
+                                <p class="text-sm text-gray-700 mt-1">1 đối tác</p>
+                            </div>
+                            <i class="fas fa-balance-scale text-gray-500 text-3xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partner Debt Details -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Chi tiết theo Đối tác</h4>
+                    
+                    <!-- Partner 1: Admin owes -->
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h5 class="font-semibold text-red-900">Tokyo ABC Supply - VCB</h5>
+                                    <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Mình nợ</span>
+                                </div>
+                                <p class="text-sm text-red-700 mb-3">
+                                    Khách hàng chưa nạp đủ tiền nhưng đã mua hàng. Đối tác cần tiền để thanh toán cho nhà cung cấp.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Tổng đơn hàng:</span>
+                                        <span class="font-semibold">65,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Khách đã nạp:</span>
+                                        <span class="font-semibold">20,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-red-700">Số nợ:</span>
+                                        <span class="font-bold text-red-600">45,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Ngày gần nhất:</span>
+                                        <span class="font-semibold">15/09/2025</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ml-4 flex flex-col space-y-2">
+                                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-credit-card mr-1"></i>Tạo lệnh tất toán
+                                </button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Xem chi tiết
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-gray-50 p-4 rounded-lg border">
-                        <h4 class="font-semibold mb-3 text-gray-700">Kết quả Đối soát (Demo)</h4>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Tổng tiền sao kê:</span>
-                                <span class="font-bold text-lg">15,500,000 ₫</span>
+                    <!-- Partner 2: Admin owes -->
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h5 class="font-semibold text-red-900">Osaka Steel Corp - TCB</h5>
+                                    <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Mình nợ</span>
+                                </div>
+                                <p class="text-sm text-red-700 mb-3">
+                                    Đối tác đã ứng tiền mua hàng, chờ khách hàng nạp tiền vào tài khoản.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Tổng đơn hàng:</span>
+                                        <span class="font-semibold">28,500,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Khách đã nạp:</span>
+                                        <span class="font-semibold">0 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-red-700">Số nợ:</span>
+                                        <span class="font-bold text-red-600">28,500,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Ngày gần nhất:</span>
+                                        <span class="font-semibold">18/09/2025</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Tổng GD trên sao kê:</span>
-                                <span class="font-bold text-lg">4</span>
+                            <div class="ml-4 flex flex-col space-y-2">
+                                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-credit-card mr-1"></i>Tạo lệnh tất toán
+                                </button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Xem chi tiết
+                                </button>
                             </div>
-                            <hr>
-                            <div class="flex justify-between items-center">
-                                <span class="text-green-600 flex items-center"><i
-                                        class="fas fa-check-circle mr-2"></i>Khớp tự động:</span>
-                                <span class="font-semibold text-green-600">10,000,000 ₫ (2)</span>
+                        </div>
+                    </div>
+
+                    <!-- Partner 3: Partner holds excess -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h5 class="font-semibold text-green-900">Kyoto Electronics - VTB</h5>
+                                    <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Đối tác giữ thừa</span>
+                                </div>
+                                <p class="text-sm text-green-700 mb-3">
+                                    Khách hàng nạp tiền nhiều hơn cần thiết, có thể yêu cầu hoàn trả số dư thừa.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Tổng đơn hàng:</span>
+                                        <span class="font-semibold">35,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Khách đã nạp:</span>
+                                        <span class="font-semibold">50,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-green-700">Số dư thừa:</span>
+                                        <span class="font-bold text-green-600">15,000,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Ngày gần nhất:</span>
+                                        <span class="font-semibold">17/09/2025</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-yellow-600 flex items-center"><i
-                                        class="fas fa-exclamation-triangle mr-2"></i>Gợi ý xử lý:</span>
-                                <span class="font-semibold text-yellow-600">5,000,000 ₫ (1)</span>
+                            <div class="ml-4 flex flex-col space-y-2">
+                                <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-arrow-left mr-1"></i>Yêu cầu hoàn trả
+                                </button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Xem chi tiết
+                                </button>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-red-600 flex items-center"><i
-                                        class="fas fa-question-circle mr-2"></i>Không tìm thấy:</span>
-                                <span class="font-semibold text-red-600">500,000 ₫ (1)</span>
+                        </div>
+                    </div>
+
+                    <!-- Partner 4: Partner holds excess -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h5 class="font-semibold text-green-900">Nagoya Parts Ltd - MB</h5>
+                                    <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Đối tác giữ thừa</span>
+                                </div>
+                                <p class="text-sm text-green-700 mb-3">
+                                    Đơn hàng bị hủy sau khi khách đã nạp tiền, cần yêu cầu đối tác hoàn trả.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Đơn hàng hủy:</span>
+                                        <span class="font-semibold">27,300,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Khách đã nạp:</span>
+                                        <span class="font-semibold">27,300,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-green-700">Cần hoàn trả:</span>
+                                        <span class="font-bold text-green-600">27,300,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Ngày hủy:</span>
+                                        <span class="font-semibold">19/09/2025</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ml-4 flex flex-col space-y-2">
+                                <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-arrow-left mr-1"></i>Yêu cầu hoàn trả
+                                </button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Xem chi tiết
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Partner 5: Balanced -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h5 class="font-semibold text-gray-900">Hiroshima Tech Co - BIDV</h5>
+                                    <span class="ml-2 px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Cân bằng</span>
+                                </div>
+                                <p class="text-sm text-gray-700 mb-3">
+                                    Tình trạng công nợ cân bằng, không có số tiền nợ hoặc thừa.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Tổng đơn hàng:</span>
+                                        <span class="font-semibold">15,800,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Khách đã nạp:</span>
+                                        <span class="font-semibold">15,800,000 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-700">Số dư:</span>
+                                        <span class="font-bold text-gray-600">0 ₫</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Ngày gần nhất:</span>
+                                        <span class="font-semibold">16/09/2025</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ml-4 flex flex-col space-y-2">
+                                <button class="bg-gray-400 text-white px-4 py-2 rounded text-sm cursor-not-allowed" disabled>
+                                    <i class="fas fa-check mr-1"></i>Đã cân bằng
+                                </button>
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                                    <i class="fas fa-eye mr-1"></i>Xem chi tiết
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-3">
-                    <h4 class="font-semibold mb-3 text-gray-700">Chi tiết Đối soát Giao dịch</h4>
-                    <div class="space-y-3">
-
-                        <div class="border-2 border-green-200 rounded-lg">
-                            <div class="p-3 bg-green-50">
-                                <div class="flex justify-between items-center">
-                                    <p class="font-semibold text-green-800">Giao dịch Khớp <i
-                                            class="fas fa-link ml-1"></i></p>
-                                    <span
-                                        class="text-xs font-mono bg-green-200 text-green-800 px-2 py-0.5 rounded">MATCHED</span>
-                                </div>
-                            </div>
-                            <div class="p-3 grid grid-cols-2 gap-4 text-xs">
-                                <div>
-                                    <p class="font-bold">TỪ SAO KÊ NGÂN HÀNG</p>
-                                    <p class="mt-1"><span class="text-gray-500">Số tiền:</span> <strong
-                                            class="font-mono">10,000,000</strong></p>
-                                    <p><span class="text-gray-500">Nội dung:</span> <strong
-                                            class="font-mono">N-0805-2</strong></p>
-                                </div>
-                                <div>
-                                    <p class="font-bold">LỆNH NẠP TIỀN HỆ THỐNG</p>
-                                    <p class="mt-1"><span class="text-gray-500">Số tiền:</span> <strong
-                                            class="font-mono">10,000,000</strong></p>
-                                    <p><span class="text-gray-500">Mã lệnh:</span> <strong
-                                            class="font-mono">N-0805-2</strong></p>
-                                    <p><span class="text-gray-500">Khách hàng:</span> <strong>Trần Thị B</strong></p>
-                                </div>
-                            </div>
-                            <div class="p-2 bg-green-50 text-right border-t">
-                                <button class="text-xs bg-green-600 text-white font-bold py-1 px-3 rounded-md">Xác nhận
-                                    Giao dịch</button>
-                            </div>
-                        </div>
-
-                        <div class="border-2 border-yellow-200 rounded-lg">
-                            <div class="p-3 bg-yellow-50">
-                                <div class="flex justify-between items-center">
-                                    <p class="font-semibold text-yellow-800">Gợi ý Xử lý (Sai nội dung)</p>
-                                    <span
-                                        class="text-xs font-mono bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">SUGGESTION</span>
-                                </div>
-                            </div>
-                            <div class="p-3 grid grid-cols-2 gap-4 text-xs">
-                                <div>
-                                    <p class="font-bold">TỪ SAO KÊ NGÂN HÀNG</p>
-                                    <p class="mt-1"><span class="text-gray-500">Số tiền:</span> <strong
-                                            class="font-mono">5,000,000</strong></p>
-                                    <p><span class="text-gray-500">Nội dung:</span> <strong
-                                            class="font-mono text-red-600">CK Mua Hang</strong></p>
-                                </div>
-                                <div>
-                                    <p class="font-bold">LỆNH NẠP TIỀN HỆ THỐNG</p>
-                                    <p class="mt-1"><span class="text-gray-500">Số tiền:</span> <strong
-                                            class="font-mono">5,000,000</strong></p>
-                                    <p><span class="text-gray-500">Mã lệnh:</span> <strong
-                                            class="font-mono text-blue-600">N-0805-1</strong></p>
-                                    <p><span class="text-gray-500">Khách hàng:</span> <strong>Nguyễn Văn A</strong></p>
-                                </div>
-                            </div>
-                            <div class="p-2 bg-yellow-50 text-right border-t space-x-2">
-                                <button class="text-xs bg-gray-500 text-white font-bold py-1 px-3 rounded-md">Bỏ
-                                    qua</button>
-                                <button class="text-xs bg-blue-600 text-white font-bold py-1 px-3 rounded-md">Gán và Xác
-                                    nhận</button>
-                            </div>
-                        </div>
-
-                        <div class="border-2 border-red-200 rounded-lg">
-                            <div class="p-3 bg-red-50">
-                                <div class="flex justify-between items-center">
-                                    <p class="font-semibold text-red-800">Không tìm thấy Lệnh nạp</p>
-                                    <span
-                                        class="text-xs font-mono bg-red-200 text-red-800 px-2 py-0.5 rounded">UNMATCHED</span>
-                                </div>
-                            </div>
-                            <div class="p-3 text-xs">
-                                <p class="font-bold">TỪ SAO KÊ NGÂN HÀNG</p>
-                                <p class="mt-1"><span class="text-gray-500">Số tiền:</span> <strong
-                                        class="font-mono">500,000</strong></p>
-                                <p><span class="text-gray-500">Nội dung:</span> <strong class="font-mono">NGUYEN VAN AN
-                                        CK</strong></p>
-                            </div>
-                            <div class="p-2 bg-red-50 text-right border-t">
-                                <button class="text-xs bg-green-600 text-white font-bold py-1 px-3 rounded-md">Tạo lệnh
-                                    Nạp tay...</button>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Action Buttons -->
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Tất toán tất cả nợ (85,500,000 ₫)
+                    </button>
+                    <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
+                        <i class="fas fa-arrow-left mr-2"></i>Yêu cầu hoàn trả tất cả (42,300,000 ₫)
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+                        <i class="fas fa-file-export mr-2"></i>Xuất báo cáo công nợ
+                    </button>
                 </div>
             </div>
         </div>
@@ -601,5 +842,6 @@
             </div>
         </div>
     </div>
+
 </div>
 

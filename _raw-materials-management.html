@@ -2,11 +2,11 @@
     <div class="border-b border-gray-200 mb-6">
         <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
             <a href="#materials-overview" class="tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-tab">
-                <i class="fas fa-chart-pie mr-2"></i> Tổng quan Quản lý Nguyên liệu (JPY)
+                <i class="fas fa-chart-pie mr-2"></i> Quản lý (JPY)
             </a>
-            <a href="#partner-accounts"
+            <a href="#usd-management"
                 class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                <i class="fas fa-university mr-2"></i> Tài khoản Đối tác
+                <i class="fas fa-dollar-sign mr-2"></i> Quản lý (USD)
             </a>
         </nav>
     </div>
@@ -16,7 +16,7 @@
         <!-- Statistics and Overview -->
         <div class="bg-white rounded-lg shadow-md mb-6">
             <div class="p-6">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">Tổng quan Quản lý Nguyên liệu (JPY)</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Tổng quan Quản lý JPY</h3>
 
                 <!-- Statistics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -40,23 +40,13 @@
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-4 text-white">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm opacity-80">Tổng Công nợ (VNĐ)</p>
-                                <p class="text-2xl font-bold" id="total-debt-vnd">0 đ</p>
-                            </div>
-                            <i class="fas fa-exclamation-triangle text-2xl opacity-80"></i>
-                        </div>
-                    </div>
-
                     <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-4 text-white">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm opacity-80">Đã Thanh toán (VNĐ)</p>
-                                <p class="text-2xl font-bold" id="total-paid-vnd">0 đ</p>
+                                <p class="text-sm opacity-80">Tổng còn lại (JPY) </p>
+                                <p class="text-2xl font-bold" id="total-paid-vnd">0 ¥</p>
                             </div>
-                            <i class="fas fa-check-circle text-2xl opacity-80"></i>
+                            <i class="fas fa-yen-sign text-2xl opacity-80"></i>
                         </div>
                     </div>
                 </div>
@@ -140,10 +130,9 @@
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-100 text-left">
                             <tr>
-                                <th class="p-3 font-semibold">Đối tác</th>
+                                <th class="p-3 font-semibold">Từ</th>
                                 <th class="p-3 font-semibold text-right">Tổng Mua (JPY)</th>
                                 <th class="p-3 font-semibold text-center">Tỷ giá</th>
-                                <th class="p-3 font-semibold text-right">Công nợ Hiện tại (VNĐ)</th>
                                 <th class="p-3 font-semibold text-center">Ngày Tạo</th>
                                 <th class="p-3 font-semibold text-center">Hành động</th>
                             </tr>
@@ -154,46 +143,11 @@
                                     <div class="font-medium text-gray-900">Nhà cung cấp Tokyo ABC</div>
                                     <div class="text-xs text-gray-500">Nguyên liệu điện tử chất lượng cao</div>
                                 </td>
-                                <td class="p-3 text-right font-mono">250,000 ¥</td>
-                                <td class="p-3 text-center font-mono">1 ¥ = 175 đ</td>
-                                <td class="p-3 text-right text-red-600 font-semibold">16,750,000 đ</td>
+                                <td class="p-3 text-right text-green-500 font-mono">+220,000 ¥</td>
+                                <td class="p-3 text-center font-mono">175 đ</td>
                                 <td class="p-3 text-center text-sm text-gray-500">15/01/2024</td>
                                 <td class="p-3 text-center">
                                     <button class="text-red-600 hover:text-red-800 text-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 text-sm">
-                                <td class="p-2 pl-8 text-gray-600">
-                                    <a href="_financial-management.html"
-                                        class="text-blue-600 hover:text-blue-800 underline font-medium">
-                                        #N-0805-2
-                                    </a>
-                                </td>
-                                <td class="p-2 text-right text-gray-600">-</td>
-                                <td class="p-2 text-center text-gray-600">-</td>
-                                <td class="p-2 text-right text-green-600 font-semibold">-15,000,000 đ</td>
-                                <td class="p-2 text-center text-gray-500">16/01/2024 10:20</td>
-                                <td class="p-2 text-center">
-                                    <button class="text-red-600 hover:text-red-800 text-xs">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 text-sm">
-                                <td class="p-2 pl-8 text-gray-600">
-                                    <a href="_financial-management.html"
-                                        class="text-blue-600 hover:text-blue-800 underline font-medium">
-                                        #N-0805-2
-                                    </a>
-                                </td>
-                                <td class="p-2 text-right text-gray-600">-</td>
-                                <td class="p-2 text-center text-gray-600">-</td>
-                                <td class="p-2 text-right text-green-600 font-semibold">-12,000,000 đ</td>
-                                <td class="p-2 text-center text-gray-500">19/01/2024 09:15</td>
-                                <td class="p-2 text-center">
-                                    <button class="text-red-600 hover:text-red-800 text-xs">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -204,29 +158,11 @@
                                     <div class="font-medium text-gray-900">Osaka Materials Ltd</div>
                                     <div class="text-xs text-gray-500">Nhà cung cấp vật liệu xây dựng</div>
                                 </td>
-                                <td class="p-3 text-right font-mono">180,000 ¥</td>
-                                <td class="p-3 text-center font-mono">1 ¥ = 178 đ</td>
-                                <td class="p-3 text-right text-red-600 font-semibold">24,040,000 đ</td>
+                               <td class="p-3 text-right text-green-500 font-mono">+180,000 ¥</td>
+                                <td class="p-3 text-center font-mono">178 đ</td>
                                 <td class="p-3 text-center text-sm text-gray-500">10/01/2024</td>
                                 <td class="p-3 text-center">
                                     <button class="text-red-600 hover:text-red-800 text-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 text-sm">
-                                <td class="p-2 pl-8 text-gray-600">
-                                    <a href="_financial-management.html"
-                                        class="text-blue-600 hover:text-blue-800 underline font-medium">
-                                        #N-0805-2
-                                    </a>
-                                </td>
-                                <td class="p-2 text-right text-gray-600">-</td>
-                                <td class="p-2 text-center text-gray-600">-</td>
-                                <td class="p-2 text-right text-green-600 font-semibold">-8,000,000 đ</td>
-                                <td class="p-2 text-center text-gray-500">12/01/2024 14:35</td>
-                                <td class="p-2 text-center">
-                                    <button class="text-red-600 hover:text-red-800 text-xs">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -237,9 +173,23 @@
                                     <div class="font-medium text-gray-900">Kyoto Steel Co.</div>
                                     <div class="text-xs text-gray-500">Thép và kim loại cao cấp</div>
                                 </td>
-                                <td class="p-3 text-right font-mono">320,000 ¥</td>
-                                <td class="p-3 text-center font-mono">1 ¥ = 172 đ</td>
-                                <td class="p-3 text-right text-green-600 font-semibold">-5,040,000 đ</td>
+                                <td class="p-3 text-right text-green-500 font-mono">+320,000 ¥</td>
+                                <td class="p-3 text-center font-mono">172 đ</td>
+                                <td class="p-3 text-center text-sm text-gray-500">08/01/2024</td>
+                                <td class="p-3 text-center">
+                                    <button class="text-red-600 hover:text-red-800 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-3">
+                                    <a href="#" class="font-medium text-blue-500 underline">Đơn #AG-88673</a>
+                                    <div class="text-xs text-gray-500">Thép và kim loại cao cấp</div>
+                                </td>
+                                <td class="p-3 text-right text-red-500 font-mono">-320,000 ¥</td>
+                                <td class="p-3 text-center font-mono">180 đ</td>
                                 <td class="p-3 text-center text-sm text-gray-500">08/01/2024</td>
                                 <td class="p-3 text-center">
                                     <button class="text-red-600 hover:text-red-800 text-sm">
@@ -255,128 +205,161 @@
     </div>
 
 
-    <!-- Partner Accounts Tab -->
-    <div id="partner-accounts" class="tab-content hidden">
+    <!-- USD Management Tab -->
+    <div id="usd-management" class="tab-content hidden">
+        <!-- Statistics and Overview -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Tổng quan Quản lý USD</h3>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Tổng Đối tác</p>
+                                <p class="text-2xl font-bold" id="total-usd-suppliers">0</p>
+                            </div>
+                            <i class="fas fa-users text-2xl opacity-80"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Tổng Mua (USD)</p>
+                                <p class="text-2xl font-bold" id="total-purchase-usd">0 $</p>
+                            </div>
+                            <i class="fas fa-dollar-sign text-2xl opacity-80"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Transaction Form -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="p-4">
+                <h4 class="text-lg font-semibold text-gray-800 mb-4">Thêm Giao dịch Mua Nguyên liệu (USD)</h4>
+
+                <form id="add-usd-transaction-form" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                    <div>
+                        <label for="usd-supplier-select" class="block text-sm font-medium text-gray-700 mb-1">Đối tác *</label>
+                        <select id="usd-supplier-select"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            required>
+                            <option value="">-- Chọn đối tác --</option>
+                            <option value="USA Materials Corp">USA Materials Corp</option>
+                            <option value="California Supplies LLC">California Supplies LLC</option>
+                            <option value="Texas Industrial Co.">Texas Industrial Co.</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="usd-amount" class="block text-sm font-medium text-gray-700 mb-1">Số tiền USD *</label>
+                        <div class="relative">
+                            <input type="number" id="usd-amount" step="0.01" min="0"
+                                class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                placeholder="0" required>
+                            <span class="absolute right-2 top-2 text-gray-500 text-sm">$</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="usd-exchange-rate" class="block text-sm font-medium text-gray-700 mb-1">Tỷ giá *</label>
+                        <div class="relative">
+                            <input type="number" id="usd-exchange-rate" step="0.01" min="0"
+                                class="w-full px-3 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                placeholder="24000" required>
+                            <span class="absolute right-2 top-2 text-gray-500 text-sm">đ</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="usd-transaction-note" class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
+                        <input type="text" id="usd-transaction-note"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            placeholder="Ghi chú...">
+                    </div>
+
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
+                            <i class="fas fa-plus mr-1"></i>Thêm
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- USD Suppliers List -->
         <div class="bg-white rounded-lg shadow-md">
             <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Cài đặt Tài khoản Ngân hàng Đối tác</h3>
-                    <button id="add-partner-account-btn"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm"><i
-                            class="fas fa-plus mr-2"></i>Thêm tài khoản</button>
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">Danh sách Đối tác USD và Công nợ</h3>
+                    <div class="flex space-x-2">
+                        <input type="text" id="search-usd-suppliers" placeholder="Tìm kiếm đối tác..."
+                            class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <button class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-100 text-left">
                             <tr>
                                 <th class="p-3 font-semibold">Đối tác</th>
-                                <th class="p-3 font-semibold">Ngân hàng</th>
-                                <th class="p-3 font-semibold">Số tài khoản</th>
-                                <th class="p-3 font-semibold">Chủ tài khoản</th>
-                                <th class="p-3 font-semibold text-right">Hạn mức/ngày (VND)</th>
-                                <th class="p-3 font-semibold text-center">Trạng thái</th>
+                                <th class="p-3 font-semibold text-right">Tổng Mua (USD)</th>
+                                <th class="p-3 font-semibold text-center">Tỷ giá</th>
+                                <th class="p-3 font-semibold text-center">Ngày Tạo</th>
                                 <th class="p-3 font-semibold text-center">Hành động</th>
                             </tr>
                         </thead>
-                        <tbody id="accounts-table-body" class="divide-y divide-gray-200">
-                            <tr data-supplier-name="Nhà cung cấp Tokyo ABC" data-bank-name="Vietcombank"
-                                data-account-number="0123456789012" data-account-name="TOKYO ABC VIETNAM"
-                                data-limit="200000000" data-status="active">
-                                <td class="p-3">Nhà cung cấp Tokyo ABC</td>
-                                <td class="p-3">Vietcombank</td>
-                                <td class="p-3 font-mono">0123456789012</td>
-                                <td class="p-3">TOKYO ABC VIETNAM</td>
-                                <td class="p-3 text-right">200,000,000</td>
-                                <td class="p-3 text-center"><span
-                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
-                                        động</span></td>
-                                <td class="p-3 text-center space-x-2">
-                                    <a href="#"
-                                        class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a>
-                                    |
-                                    <a href="#"
-                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
-                                        quyền</a> |
-                                    <a href="#"
-                                        class="view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch
-                                        sử</a> |
-                                    <a href="#"
-                                        class="delete-partner-account-link text-red-600 hover:underline text-xs">Xóa</a>
+                        <tbody id="usd-suppliers-table-body" class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">USA Materials Corp</div>
+                                    <div class="text-xs text-gray-500">Nhà cung cấp vật liệu công nghiệp Mỹ</div>
+                                </td>
+                                <td class="p-3 text-right font-mono">15,000 $</td>
+                                <td class="p-3 text-center font-mono">1 $ = 24,500 đ</td>
+                                <td class="p-3 text-center text-sm text-gray-500">20/01/2024</td>
+                                <td class="p-3 text-center">
+                                    <button class="text-red-600 hover:text-red-800 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
-                            <tr data-supplier-name="Nhà cung cấp Tokyo ABC" data-bank-name="BIDV"
-                                data-account-number="9876543210987" data-account-name="TOKYO ABC VIETNAM"
-                                data-limit="150000000" data-status="active">
-                                <td class="p-3">Nhà cung cấp Tokyo ABC</td>
-                                <td class="p-3">BIDV</td>
-                                <td class="p-3 font-mono">9876543210987</td>
-                                <td class="p-3">TOKYO ABC VIETNAM</td>
-                                <td class="p-3 text-right">150,000,000</td>
-                                <td class="p-3 text-center"><span
-                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
-                                        động</span></td>
-                                <td class="p-3 text-center space-x-2">
-                                    <a href="#"
-                                        class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a>
-                                    |
-                                    <a href="#"
-                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
-                                        quyền</a> |
-                                    <a href="#"
-                                        class="view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch
-                                        sử</a> |
-                                    <a href="#"
-                                        class="delete-partner-account-link text-red-600 hover:underline text-xs">Xóa</a>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">California Supplies LLC</div>
+                                    <div class="text-xs text-gray-500">Thiết bị và linh kiện điện tử</div>
+                                </td>
+                                <td class="p-3 text-right font-mono">8,500 $</td>
+                                <td class="p-3 text-center font-mono">1 $ = 24,200 đ</td>
+                                <td class="p-3 text-center text-sm text-gray-500">18/01/2024</td>
+                                <td class="p-3 text-center">
+                                    <button class="text-red-600 hover:text-red-800 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
-                            <tr data-supplier-name="Osaka Materials Ltd" data-bank-name="Techcombank"
-                                data-account-number="1111222233334444" data-account-name="OSAKA MATERIALS VIETNAM"
-                                data-limit="300000000" data-status="active">
-                                <td class="p-3">Osaka Materials Ltd</td>
-                                <td class="p-3">Techcombank</td>
-                                <td class="p-3 font-mono">1111222233334444</td>
-                                <td class="p-3">OSAKA MATERIALS VIETNAM</td>
-                                <td class="p-3 text-right">300,000,000</td>
-                                <td class="p-3 text-center"><span
-                                        class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Hoạt
-                                        động</span></td>
-                                <td class="p-3 text-center space-x-2">
-                                    <a href="#"
-                                        class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a>
-                                    |
-                                    <a href="#"
-                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
-                                        quyền</a> |
-                                    <a href="#"
-                                        class="view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch
-                                        sử</a> |
-                                    <a href="#"
-                                        class="delete-partner-account-link text-red-600 hover:underline text-xs">Xóa</a>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-3">
+                                    <div class="font-medium text-gray-900">Texas Industrial Co.</div>
+                                    <div class="text-xs text-gray-500">Máy móc và thiết bị nặng</div>
                                 </td>
-                            </tr>
-                            <tr data-supplier-name="Kyoto Steel Co." data-bank-name="VietinBank"
-                                data-account-number="5555666677778888" data-account-name="KYOTO STEEL VIETNAM"
-                                data-limit="250000000" data-status="paused">
-                                <td class="p-3">Kyoto Steel Co.</td>
-                                <td class="p-3">VietinBank</td>
-                                <td class="p-3 font-mono">5555666677778888</td>
-                                <td class="p-3">KYOTO STEEL VIETNAM</td>
-                                <td class="p-3 text-right">250,000,000</td>
-                                <td class="p-3 text-center"><span
-                                        class="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded-full font-medium">Tạm
-                                        dừng</span></td>
-                                <td class="p-3 text-center space-x-2">
-                                    <a href="#"
-                                        class="edit-partner-account-link text-indigo-600 hover:underline text-xs">Sửa</a>
-                                    |
-                                    <a href="#"
-                                        class="assign-partner-permission-link text-green-600 hover:underline text-xs font-semibold">Gán
-                                        quyền</a> |
-                                    <a href="#"
-                                        class="view-partner-account-history-link text-blue-600 hover:underline text-xs font-semibold">Lịch
-                                        sử</a> |
-                                    <a href="#"
-                                        class="delete-partner-account-link text-red-600 hover:underline text-xs">Xóa</a>
+                                <td class="p-3 text-right font-mono">22,000 $</td>
+                                <td class="p-3 text-center font-mono">1 $ = 24,800 đ</td>
+                                <td class="p-3 text-center text-sm text-gray-500">15/01/2024</td>
+                                <td class="p-3 text-center">
+                                    <button class="text-red-600 hover:text-red-800 text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -446,6 +429,37 @@
                             row.style.display = 'none';
                         }
                     });
+                },
+
+                // USD transaction handler
+                addUsdTransaction: function () {
+                    const supplierName = document.getElementById('usd-supplier-select').value.trim();
+                    const usdAmount = parseFloat(document.getElementById('usd-amount').value);
+                    const exchangeRate = parseFloat(document.getElementById('usd-exchange-rate').value);
+                    const note = document.getElementById('usd-transaction-note').value.trim();
+
+                    if (!supplierName || !usdAmount || !exchangeRate) {
+                        this.showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
+                        return;
+                    }
+
+                    // Reset form
+                    document.getElementById('add-usd-transaction-form').reset();
+
+                    this.showNotification('Thêm giao dịch USD thành công!', 'success');
+                },
+
+                // USD search function
+                filterUsdSuppliers: function (searchTerm) {
+                    const rows = document.querySelectorAll('#usd-suppliers-table-body tr');
+                    rows.forEach(row => {
+                        const supplierName = row.cells[0]?.textContent.toLowerCase() || '';
+                        if (supplierName.includes(searchTerm.toLowerCase())) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
                 }
             };
 
@@ -465,6 +479,23 @@
                 });
             }
 
+            // USD form handler
+            const addUsdTransactionForm = document.getElementById('add-usd-transaction-form');
+            if (addUsdTransactionForm) {
+                addUsdTransactionForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    window.rawMaterialsManager.addUsdTransaction();
+                });
+            }
+
+            // USD search handler
+            const searchUsdInput = document.getElementById('search-usd-suppliers');
+            if (searchUsdInput) {
+                searchUsdInput.addEventListener('input', (e) => {
+                    window.rawMaterialsManager.filterUsdSuppliers(e.target.value);
+                });
+            }
+
             const addAccountBtn = document.getElementById('add-partner-account-btn');
             if (addAccountBtn) {
                 addAccountBtn.addEventListener('click', () => {
@@ -479,6 +510,12 @@
                     document.getElementById('total-purchase-jpy').textContent = '750,000 ¥';
                     document.getElementById('total-debt-vnd').textContent = '35,750,000 ₫';
                     document.getElementById('total-paid-vnd').textContent = '35,000,000 ₫';
+                }
+                if (document.getElementById('total-usd-suppliers')) {
+                    document.getElementById('total-usd-suppliers').textContent = '3';
+                    document.getElementById('total-purchase-usd').textContent = '45,500 $';
+                    document.getElementById('total-usd-debt-vnd').textContent = '527,600,000 ₫';
+                    document.getElementById('total-usd-paid-vnd').textContent = '482,000,000 ₫';
                 }
             };
 
