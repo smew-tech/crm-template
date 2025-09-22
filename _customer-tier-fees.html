@@ -1,649 +1,374 @@
 <div class="space-y-6">
-    <!-- Header -->
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-white rounded-lg shadow-md p-6 tab-container">
         <div class="flex justify-between items-center mb-4">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Cài đặt phí riêng cho loại Khách hàng</h1>
-                <div class="flex items-center space-x-4 text-sm text-gray-600 mt-2">
-                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium">VIP Gold</span>
-                    <span>25 khách hàng áp dụng</span>
-                    <span>Cập nhật lần cuối: 16/09/2025</span>
-                </div>
-            </div>
-            <div class="flex space-x-3">
-                <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm">
-                    <i class="fas fa-save mr-2"></i>Lưu tất cả thay đổi
+            <h2 class="text-xl font-bold text-gray-800">Chính sách Phí riêng cho Khách hàng</h2>
+            <div class="flex gap-3">
+                <button id="save-all-settings-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
+                    <i class="fas fa-save mr-2"></i>Lưu tất cả
                 </button>
-                <a href="#" data-target-page="_user-management.html" data-target-tab="#customer-tiers" data-target-title="Quản lý Người dùng" class="nav-link text-sm text-gray-600 hover:text-gray-800 px-4 py-2 border rounded-lg">
-                    <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                <a href="#" data-target-page="_customer-detail-360.html" data-target-title="Chi tiết 360° Khách hàng" class="nav-link text-sm text-blue-600 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i>Quay lại Chi tiết 360°
                 </a>
             </div>
         </div>
         
-        <!-- Tier selector -->
-        <div class="border-t pt-4">
-            <div class="flex items-center space-x-4">
-                <span class="text-sm font-medium text-gray-700">Chọn loại khách hàng:</span>
-                <select id="tier-selector" class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-blue-500 focus:border-blue-500">
-                    <option value="vip-gold" selected>VIP Gold (25 khách hàng)</option>
-                    <option value="bac">Bạc (52 khách hàng)</option>
-                    <option value="dong">Đồng (120 khách hàng)</option>
-                </select>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
-                    <i class="fas fa-plus mr-1"></i>Tạo loại mới
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <!-- Lưu ý quan trọng -->
-        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400 mb-6">
-            <p class="font-medium text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Lưu ý quan trọng:</p>
-            <p class="text-blue-700 text-sm mb-2">Các cài đặt phí riêng này sẽ ghi đè lên phí mặc định của hệ thống. Áp dụng cho tất cả khách hàng thuộc loại <strong>VIP Gold</strong>.</p>
-            <p class="text-blue-700 text-sm mb-2"><strong>Bao gồm:</strong> Tỷ giá riêng, phí vận chuyển, phụ thu theo sản phẩm, bảo hiểm, giao hàng và tất cả các loại phí khác.</p>
-            <p class="text-blue-700 text-xs mt-2"><i class="fas fa-users mr-1"></i><strong>Khách hàng áp dụng:</strong> Nguyễn Văn A, Trần Thị B, Lê Văn C và 22 khách hàng VIP Gold khác</p>
-        </div>
-        
-        <!-- Tỷ giá riêng -->
-        <div class="mb-8">
-            <h4 class="text-lg font-bold text-gray-800 mb-4">Tỷ giá Ngoại tệ Riêng</h4>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Tỷ giá USD -->
-                <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-green-800">
-                            <i class="fas fa-dollar-sign mr-2"></i>Tỷ giá USD Riêng
-                        </h5>
-                        <button class="text-green-600 hover:text-green-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Tỷ giá riêng:</span>
-                            <span class="font-medium text-green-600">25.200 VNĐ (giảm 250)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Tỷ giá hệ thống:</span>
-                            <span class="text-gray-500">25.450 VNĐ</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Áp dụng cho:</span>
-                            <span class="font-medium">Tất cả KH VIP Gold - tuyến Mỹ</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Trạng thái:</span>
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tỷ giá JPY -->
-                <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-blue-800">
-                            <i class="fas fa-yen-sign mr-2"></i>Tỷ giá JPY Riêng
-                        </h5>
-                        <button class="text-blue-600 hover:text-blue-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Tỷ giá riêng:</span>
-                            <span class="font-medium text-green-600">160 VNĐ (giảm 2)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Tỷ giá hệ thống:</span>
-                            <span class="text-gray-500">162 VNĐ</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Áp dụng cho:</span>
-                            <span class="font-medium">Tất cả KH VIP Gold - tuyến Nhật</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Trạng thái:</span>
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Phí cơ bản -->
-        <div class="mb-8">
-            <h4 class="text-lg font-bold text-gray-800 mb-4">Phí Cơ bản & Dịch vụ</h4>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-                <!-- Phí đặt cọc -->
-                <div class="bg-yellow-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-yellow-800">
-                            <i class="fas fa-piggy-bank mr-2"></i>Đặt cọc
-                        </h5>
-                        <button class="text-yellow-600 hover:text-yellow-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Tối thiểu:</span>
-                            <span class="font-medium text-green-600">60% (thay vì 70%)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Mặc định:</span>
-                            <span class="text-gray-500">70%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Phí lưu kho -->
-                <div class="bg-purple-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-purple-800">
-                            <i class="fas fa-warehouse mr-2"></i>Lưu kho
-                        </h5>
-                        <button class="text-purple-600 hover:text-purple-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Miễn phí:</span>
-                            <span class="font-medium text-green-600">15 ngày (thay vì 10)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Sau đó:</span>
-                            <span class="font-medium">800 VNĐ/kg/ngày</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Phí gia cố -->
-                <div class="bg-orange-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-orange-800">
-                            <i class="fas fa-tools mr-2"></i>Gia cố
-                        </h5>
-                        <button class="text-orange-600 hover:text-orange-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Phí riêng:</span>
-                            <span class="font-medium text-green-600">4.000 VNĐ/Kg</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Mặc định:</span>
-                            <span class="text-gray-500">5.000 VNĐ/Kg</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Shipping Route Specific Fees -->
-        <div class="mb-8">
-            <h4 class="text-lg font-bold text-gray-800 mb-4">Phí Vận chuyển Riêng theo Tuyến</h4>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Tuyến Nhật -->
-                <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-blue-800">
-                            <i class="fas fa-flag mr-2"></i>Tuyến Nhật Bản
-                        </h5>
-                        <button class="text-blue-600 hover:text-blue-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Phí mua hộ:</span>
-                            <span class="font-medium text-green-600">2.5% (thay vì 3%)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Phí vận chuyển:</span>
-                            <span class="font-medium">165.000 VNĐ/Kg (giảm 10.000)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Phí kiểm đếm:</span>
-                            <span class="font-medium">8.000 VNĐ (giảm 2.000)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Chụp ảnh kho nhật:</span>
-                            <span class="font-medium">400 JPY (giảm 100)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Repackage:</span>
-                            <span class="font-medium">800 JPY (giảm 200)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Trạng thái:</span>
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tuyến Mỹ -->
-                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
-                    <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-semibold text-red-800">
-                            <i class="fas fa-flag mr-2"></i>Tuyến Hoa Kỳ
-                        </h5>
-                        <button class="text-red-600 hover:text-red-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Phí mua hộ:</span>
-                            <span class="font-medium text-green-600">3.5% (thay vì 4%)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Phí vận chuyển:</span>
-                            <span class="font-medium">220.000 VNĐ/Kg (giảm 15.000)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Phí kiểm đếm:</span>
-                            <span class="font-medium">4 USD (giảm 1 USD)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Chụp ảnh kho:</span>
-                            <span class="font-medium">2.5 USD (giảm 0.5)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Repackage:</span>
-                            <span class="font-medium">6 USD (giảm 1)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Kiểm đếm:</span>
-                            <span class="font-medium">7 USD (giảm 1)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Trạng thái:</span>
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium text-xs">Đang áp dụng</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Fee Categories -->
-        <div class="mb-8">
-            <h4 class="text-lg font-bold text-gray-800 mb-4">Các Phí Khác</h4>
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <!-- Giao hàng Hà Nội -->
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="font-semibold text-green-800">
-                            <i class="fas fa-truck mr-2"></i>Giao hàng HN
-                        </h4>
-                        <button class="text-green-600 hover:text-green-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Khu vực ưu tiên:</span>
-                            <span class="font-medium">KV1 - Miễn phí</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Điều kiện:</span>
-                            <span class="font-medium">M7 >8Kg, JP >4Kg</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bảo hiểm -->
-                <div class="bg-purple-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="font-semibold text-purple-800">
-                            <i class="fas fa-shield-alt mr-2"></i>Bảo hiểm
-                        </h4>
-                        <button class="text-purple-600 hover:text-purple-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Phí bảo hiểm:</span>
-                            <span class="font-medium text-green-600">2.5% (thay vì 3%)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Bồi thường:</span>
-                            <span class="font-medium">100% giá trị</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phí kiểm đếm và chụp ảnh -->
-                <div class="bg-cyan-50 p-4 rounded-lg">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="font-semibold text-cyan-800">
-                            <i class="fas fa-camera mr-2"></i>Kiểm đếm
-                        </h4>
-                        <button class="text-cyan-600 hover:text-cyan-800 text-sm">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Tuyến Mỹ:</span>
-                            <span class="font-medium text-green-600">4 USD (giảm 1)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Tuyến Nhật:</span>
-                            <span class="font-medium text-green-600">8.000 VNĐ (giảm 2K)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Đặc quyền VIP -->
-                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg border-l-4 border-yellow-400">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="font-semibold text-orange-800">
-                            <i class="fas fa-crown mr-2"></i>Đặc quyền VIP
-                        </h4>
-                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium text-xs">GOLD</span>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span>Giảm giá tổng thể:</span>
-                            <span class="font-medium text-green-600">5-10%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Ưu tiên xử lý:</span>
-                            <span class="font-medium">Ưu tiên cao</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-yellow-50 p-4 rounded-lg mb-6 text-sm border-l-4 border-yellow-400">
+            <p class="font-medium text-yellow-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Thông tin về Chính sách Phí riêng:</p>
+            <p class="text-yellow-700 mb-2">Đây là cài đặt phí riêng cho khách hàng cụ thể, sẽ ghi đè lên các cài đặt mặc định của hệ thống.</p>
+            <p class="text-yellow-700">
+                <strong>Để áp dụng phí mặc định:</strong> Vui lòng để trống các trường hoặc nhập giá trị 0.
+            </p>
         </div>
 
-        <!-- Product Category Surcharges -->
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-4">
-                <h4 class="text-lg font-bold text-gray-800">Phụ thu Riêng theo Loại sản phẩm</h4>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
-                    <i class="fas fa-plus mr-2"></i>Thêm phụ thu
-                </button>
-            </div>
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+                <a href="#exchange-rates" class="tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-tab">
+                    <i class="fas fa-exchange-alt mr-2"></i>Tỷ giá riêng
+                </a>
+                <a href="#shipping-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-shipping-fast mr-2"></i>Phí vận chuyển
+                </a>
+                <a href="#surcharges" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-plus-circle mr-2"></i>Phụ thu sản phẩm
+                </a>
+                <a href="#service-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-cogs mr-2"></i>Phí dịch vụ
+                </a>
+                <a href="#delivery-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-truck mr-2"></i>Phí giao hàng
+                </a>
+                <a href="#insurance-settings" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-shield-alt mr-2"></i>Bảo hiểm
+                </a>
+                <a href="#storage-settings" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-warehouse mr-2"></i>Lưu kho
+                </a>
+            </nav>
+        </div>
 
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="p-3 text-left font-semibold">Tuyến</th>
-                            <th class="p-3 text-left font-semibold">Loại sản phẩm</th>
-                            <th class="p-3 text-left font-semibold">Giá trị</th>
-                            <th class="p-3 text-center font-semibold">Phụ thu riêng</th>
-                            <th class="p-3 text-center font-semibold">Phụ thu mặc định</th>
-                            <th class="p-3 text-center font-semibold">Tiết kiệm</th>
-                            <th class="p-3 text-center font-semibold">Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr class="bg-blue-50">
-                            <td class="p-3">
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Nhật</span>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-mobile-alt text-blue-500 mr-2"></i>
-                                    iPhone 15, 16 pro max
+        <!-- Exchange Rates Tab -->
+        <div id="exchange-rates" class="tab-content">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Tỷ giá Ngoại tệ Riêng</h3>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6 text-sm border-l-4 border-blue-400">
+                        <p class="font-medium text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Lưu ý về Tỷ giá riêng:</p>
+                        <p class="text-blue-700 mb-2">Nếu có cài đặt tỷ giá riêng, hệ thống sẽ áp dụng tỷ giá này thay vì tỷ giá mặc định.</p>
+                        <p class="text-blue-700">Để sử dụng tỷ giá mặc định của hệ thống, vui lòng để trống các trường bên dưới.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-lg border">
+                            <h4 class="font-semibold text-gray-800 mb-3">Tỷ giá USD - VNĐ</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-gray-600 text-sm">1 USD = ? VNĐ</label>
+                                    <input type="number" step="0.01" placeholder="Để trống = dùng mặc định (25,450)" class="mt-1 w-full p-2 border rounded-lg">
                                 </div>
-                            </td>
-                            <td class="p-3">Bất kỳ</td>
-                            <td class="p-3 text-center font-bold text-green-600">800.000 VNĐ</td>
-                            <td class="p-3 text-center text-gray-500">1.000.000 VNĐ</td>
-                            <td class="p-3 text-center font-bold text-green-600">200.000 VNĐ</td>
-                            <td class="p-3 text-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
-                                <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-3">
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Nhật</span>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-laptop text-purple-500 mr-2"></i>
-                                    Laptop > 20 triệu VNĐ
+                                <div class="text-xs text-gray-500">
+                                    <p><i class="fas fa-info-circle mr-1"></i>Tỷ giá mặc định hiện tại: <strong>25,450 VNĐ</strong></p>
+                                    <p><i class="fas fa-clock mr-1"></i>Cập nhật: 16/09/2025 14:30</p>
                                 </div>
-                            </td>
-                            <td class="p-3"> > 20 triệu VNĐ</td>
-                            <td class="p-3 text-center font-bold text-green-600">2%</td>
-                            <td class="p-3 text-center text-gray-500">3%</td>
-                            <td class="p-3 text-center font-bold text-green-600">1%</td>
-                            <td class="p-3 text-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
-                                <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="bg-red-50">
-                            <td class="p-3">
-                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Mỹ</span>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-headphones text-blue-500 mr-2"></i>
-                                    Apple Watch, Airpod
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg border">
+                            <h4 class="font-semibold text-gray-800 mb-3">Tỷ giá JPY - VNĐ</h4>
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-gray-600 text-sm">1 JPY = ? VNĐ</label>
+                                    <input type="number" step="0.01" placeholder="Để trống = dùng mặc định (162)" class="mt-1 w-full p-2 border rounded-lg">
                                 </div>
-                            </td>
-                            <td class="p-3"> > 100 USD</td>
-                            <td class="p-3 text-center font-bold text-green-600">80.000 VNĐ</td>
-                            <td class="p-3 text-center text-gray-500">100.000 VNĐ</td>
-                            <td class="p-3 text-center font-bold text-green-600">20.000 VNĐ</td>
-                            <td class="p-3 text-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
-                                <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-3">
-                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">Mỹ</span>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-gem text-yellow-500 mr-2"></i>
-                                    Hàng giá trị cao 500-2000$
+                                <div class="text-xs text-gray-500">
+                                    <p><i class="fas fa-info-circle mr-1"></i>Tỷ giá mặc định hiện tại: <strong>162 VNĐ</strong></p>
+                                    <p><i class="fas fa-clock mr-1"></i>Cập nhật: 16/09/2025 14:30</p>
                                 </div>
-                            </td>
-                            <td class="p-3">500 - 2.000 USD</td>
-                            <td class="p-3 text-center font-bold text-green-600">2.5%</td>
-                            <td class="p-3 text-center text-gray-500">3%</td>
-                            <td class="p-3 text-center font-bold text-green-600">0.5%</td>
-                            <td class="p-3 text-center space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800 text-xs">Sửa</button>
-                                <button class="text-red-600 hover:text-red-800 text-xs">Xóa</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Tổng kết tiết kiệm -->
-            <div class="bg-green-50 p-4 rounded-lg mt-4 border-l-4 border-green-400">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h5 class="font-semibold text-green-800"><i class="fas fa-calculator mr-2"></i>Tổng tiết kiệm hàng tháng</h5>
-                        <p class="text-green-700 text-sm">Dựa trên đơn hàng trung bình của 25 khách hàng VIP Gold</p>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-2xl font-bold text-green-600">~45M VNĐ</div>
-                        <div class="text-sm text-green-700">Tiết kiệm/tháng (toàn bộ VIP Gold)</div>
-                    </div>
-                </div>
-                
-                <!-- Chi tiết tiết kiệm -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-                    <div class="bg-white p-2 rounded">
-                        <p class="font-medium">Tỷ giá ưu đãi</p>
-                        <p class="text-green-600 font-bold">~10M/tháng</p>
-                    </div>
-                    <div class="bg-white p-2 rounded">
-                        <p class="font-medium">Phí vận chuyển</p>
-                        <p class="text-green-600 font-bold">~15M/tháng</p>
-                    </div>
-                    <div class="bg-white p-2 rounded">
-                        <p class="font-medium">Phụ thu sản phẩm</p>
-                        <p class="text-green-600 font-bold">~20M/tháng</p>
-                    </div>
-                    <div class="bg-white p-2 rounded">
-                        <p class="font-medium">Trung bình/KH</p>
-                        <p class="text-green-600 font-bold">~1.8M/tháng</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Tất cả loại phí có thể cài đặt -->
-        <div>
-            <div class="flex justify-between items-center mb-4">
-                <h4 class="text-lg font-bold text-gray-800">Danh sách Đầy đủ Các Loại Phí Có thể Cài đặt cho Loại Khách hàng</h4>
-                <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
-                    <i class="fas fa-list mr-2"></i>Xem tất cả
-                </button>
-            </div>
-            
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                    <!-- Nhóm 1: Tỷ giá và Phí cơ bản -->
-                    <div class="bg-white p-3 rounded border-l-4 border-green-400">
-                        <h6 class="font-semibold text-green-800 mb-2"><i class="fas fa-coins mr-2"></i>Tỷ giá & Phí Cơ bản</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Tỷ giá USD riêng</li>
-                            <li>• Tỷ giá JPY riêng</li>
-                            <li>• Phí mua hộ tuyến Mỹ</li>
-                            <li>• Phí mua hộ tuyến Nhật</li>
-                            <li>• Tỉ lệ đặt cọc tối thiểu</li>
-                            <li>• Thời gian lưu kho miễn phí</li>
-                            <li>• Phí lưu kho sau đó</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Nhóm 2: Phí Vận chuyển -->
-                    <div class="bg-white p-3 rounded border-l-4 border-blue-400">
-                        <h6 class="font-semibold text-blue-800 mb-2"><i class="fas fa-shipping-fast mr-2"></i>Phí Vận chuyển</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Phí vận chuyển hàng thông thường Nhật</li>
-                            <li>• Phí vận chuyển linh kiện Nhật</li>
-                            <li>• Phí vận chuyển tuyến Mỹ</li>
-                            <li>• Phí kiểm đếm chụp ảnh Mỹ</li>
-                            <li>• Phí kiểm đếm chụp ảnh Nhật</li>
-                            <li>• Phí gia cố xử lý hàng</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Nhóm 3: Phụ thu theo sản phẩm -->
-                    <div class="bg-white p-3 rounded border-l-4 border-yellow-400">
-                        <h6 class="font-semibold text-yellow-800 mb-2"><i class="fas fa-tags mr-2"></i>Phụ thu Sản phẩm</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Phụ thu đồ giá trị cao 5-10tr VNĐ</li>
-                            <li>• Phụ thu đồ giá trị cao 10-30tr VNĐ</li>
-                            <li>• Phụ thu Apple Watch, Airpod</li>
-                            <li>• Phụ thu iPhone 12-14 pro max</li>
-                            <li>• Phụ thu iPhone 15, 16 pro max</li>
-                            <li>• Phụ thu Laptop <10tr, 10-20tr, >20tr</li>
-                            <li>• Phụ thu Loa đài ampli >20tr</li>
-                            <li>• Phụ thu hàng giá trị cao >50tr</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Nhóm 4: Phụ thu tuyến Mỹ -->
-                    <div class="bg-white p-3 rounded border-l-4 border-red-400">
-                        <h6 class="font-semibold text-red-800 mb-2"><i class="fas fa-flag mr-2"></i>Phụ thu Tuyến Mỹ</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Phụ thu đồ giá trị cao >100$</li>
-                            <li>• Phụ thu Apple Watch, Airpod >100$</li>
-                            <li>• Phụ thu Laptop iPad iPhone ≤300$</li>
-                            <li>• Phụ thu Laptop iPad iPhone 300-500$</li>
-                            <li>• Phụ thu hàng giá trị cao 500-2000$</li>
-                            <li>• Phụ thu hàng giá trị cao >2000$</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Nhóm 5: Bảo hiểm -->
-                    <div class="bg-white p-3 rounded border-l-4 border-purple-400">
-                        <h6 class="font-semibold text-purple-800 mb-2"><i class="fas fa-shield-alt mr-2"></i>Bảo hiểm</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Phí bảo hiểm hàng giá trị cao</li>
-                            <li>• Mức bồi thường tối đa</li>
-                            <li>• Điều kiện bảo hiểm</li>
-                            <li>• Thời gian cung cấp camera kho</li>
-                            <li>• Phí bảo hiểm đặc biệt</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Nhóm 6: Giao hàng -->
-                    <div class="bg-white p-3 rounded border-l-4 border-green-400">
-                        <h6 class="font-semibold text-green-800 mb-2"><i class="fas fa-truck mr-2"></i>Giao hàng Hà Nội</h6>
-                        <ul class="space-y-1 text-xs text-gray-700">
-                            <li>• Phí giao hàng KV1</li>
-                            <li>• Phí giao hàng KV2</li>
-                            <li>• Phí giao hàng KV3</li>
-                            <li>• Điều kiện miễn phí KV1</li>
-                            <li>• Điều kiện miễn phí KV2</li>
-                            <li>• Ưu tiên giao hàng</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Tổng số tham số -->
-                <div class="mt-4 text-center">
-                    <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg">
-                        <i class="fas fa-cog mr-2"></i>
-                        <span class="font-semibold">Tổng cộng: 40+ tham số có thể cài đặt cho loại khách hàng</span>
-                    </div>
-                    <p class="text-xs text-gray-600 mt-2">Mỗi loại khách hàng có thể có bảng giá hoàn toàn riêng biệt</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Fee History -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h4 class="text-lg font-bold text-gray-800 mb-4">Lịch sử Thay đổi Cài đặt Phí VIP Gold</h4>
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <div class="space-y-3 text-sm">
-                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                    <div>
-                        <strong>16/09/2025 10:30</strong> - Admin cập nhật tỷ giá USD riêng
-                        <div class="text-gray-600">Giảm tỷ giá USD từ 25.450 xuống 25.200 VNĐ cho VIP Gold</div>
+        <!-- Shipping Fees Tab -->
+        <div id="shipping-fees" class="tab-content hidden">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Phí Vận chuyển Riêng</h3>
+                    
+                    <!-- Tuyến Mỹ -->
+                    <div class="mb-8">
+                        <h4 class="font-semibold border-b pb-2 mb-4 text-red-700">
+                            <i class="fas fa-flag-usa mr-2"></i>TUYẾN MỸ -> VIỆT NAM
+                        </h4>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-red-800 mb-3">Phí Vận chuyển (VNĐ/Kg)</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 235,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Đồ giá trị cao >100$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Apple Watch, Airpod >100$</label><input type="number" placeholder="Mặc định: 245,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Laptop, iPad, iPhone ≤300$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Laptop, iPad, iPhone 300$-500$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Hàng giá trị cao 500$-2000$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Hàng giá trị cao >2000$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Tỷ giá USD</span>
-                </div>
-                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
+
+                    <!-- Tuyến Nhật -->
                     <div>
-                        <strong>12/09/2025 14:20</strong> - Trần Thị Bích cập nhật tỷ giá JPY riêng
-                        <div class="text-gray-600">Giảm tỷ giá JPY từ 162 xuống 160 VNĐ cho VIP Gold</div>
+                        <h4 class="font-semibold border-b pb-2 mb-4 text-blue-700">
+                            <i class="fas fa-flag mr-2"></i>TUYẾN NHẬT BẢN -> VIỆT NAM
+                        </h4>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-semibold text-blue-800 mb-3">Phí Vận chuyển (VNĐ/Kg) - Về Hà Nội</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 175,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Hàng lô linh kiện điện thoại, máy tính</label><input type="number" placeholder="Mặc định: 225,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Điện thoại iPhone 15, 16 pro max, Samsung S24</label><input type="number" placeholder="Mặc định: 175,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Tỷ giá JPY</span>
                 </div>
-                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                    <div>
-                        <strong>08/09/2025 16:45</strong> - Admin cập nhật phụ thu iPhone 15, 16 pro max
-                        <div class="text-gray-600">Giảm phụ thu từ 1.000.000 xuống 800.000 VNĐ</div>
-                    </div>
-                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Phụ thu</span>
-                </div>
-                <div class="flex justify-between items-center pb-2 border-b border-gray-200">
-                    <div>
-                        <strong>05/09/2025 11:30</strong> - Admin thêm đặc quyền VIP Gold
-                        <div class="text-gray-600">Nâng cấp từ VIP thường lên VIP Gold với nhiều ưu đãi</div>
-                    </div>
-                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">VIP Gold</span>
-                </div>
+            </div>
+        </div>
+
+        <!-- Surcharges Tab -->
+        <div id="surcharges" class="tab-content hidden">
+            <div class="space-y-6">
                 <div class="flex justify-between items-center">
-                    <div>
-                        <strong>01/09/2025 09:00</strong> - Hệ thống cập nhật bảng giá Dream Cargo mới
-                        <div class="text-gray-600">Áp dụng bảng giá và phụ thu mới theo chuẩn Dream Cargo cho VIP Gold</div>
-                    </div>
-                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Cập nhật hệ thống</span>
+                    <h3 class="text-lg font-bold text-gray-800">Phụ thu Sản phẩm Riêng</h3>
+                    <button id="add-custom-surcharge-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
+                        <i class="fas fa-plus mr-2"></i>Thêm Phụ thu tùy chỉnh
+                    </button>
                 </div>
+                
+                <!-- Country Tabs for Surcharges -->
+                <div class="border-b border-gray-200 mb-6">
+                    <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+                        <a href="#us-surcharges" class="surcharge-tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-surcharge-tab">
+                            <i class="fas fa-flag-usa mr-2"></i>Phụ thu Tuyến Mỹ
+                        </a>
+                        <a href="#japan-surcharges" class="surcharge-tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                            <i class="fas fa-flag mr-2"></i>Phụ thu Tuyến Nhật
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- US Surcharges -->
+                <div id="us-surcharges" class="surcharge-tab-content">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-red-800 mb-3">Phụ Thu Tuyến Mỹ (VNĐ)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Đồ giá trị cao >100$</label><input type="number" placeholder="Mặc định: 30,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Apple Watch, Airpod >100$</label><input type="number" placeholder="Mặc định: 100,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Laptop, iPad, iPhone ≤300$</label><input type="number" placeholder="Mặc định: 400,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Laptop, iPad, iPhone 300$-500$</label><input type="number" placeholder="Mặc định: 500,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Hàng giá trị cao 500$-2000$ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Hàng giá trị cao >2000$ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 5%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Japan Surcharges -->
+                <div id="japan-surcharges" class="surcharge-tab-content hidden">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-3">Phụ Thu Tuyến Nhật (VNĐ)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Hàng lô linh kiện</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Đồ giá trị cao 5-10 triệu VNĐ</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Đồ giá trị cao 10-30 triệu VNĐ</label><input type="number" placeholder="Mặc định: 250,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Apple Watch, Airpod</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">iPhone 12-14 pro max, Samsung</label><input type="number" placeholder="Mặc định: 300,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">iPhone 15, 16 pro max, Samsung S24 ultra</label><input type="number" placeholder="Mặc định: 1,000,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Laptop, iPad <10 triệu VNĐ</label><input type="number" placeholder="Mặc định: 200,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Laptop, iPad <20 triệu VNĐ</label><input type="number" placeholder="Mặc định: 300,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Laptop, iPad >20 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Loa, đài, ampli >20 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Hàng giá trị cao >50 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Fees Tab -->
+        <div id="service-fees" class="tab-content hidden">
+            <div class="space-y-6">
+                <h3 class="text-lg font-bold text-gray-800">Phí Dịch vụ Riêng</h3>
+                
+                <!-- Tuyến Mỹ Service Fees -->
+                <div>
+                    <h4 class="font-semibold border-b pb-2 mb-4 text-red-700">
+                        <i class="fas fa-flag-usa mr-2"></i>Phí Dịch vụ Tuyến Mỹ
+                    </h4>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div><label class="block text-gray-600">Phí mua hộ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 4%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Phí gia cố (VNĐ/Kg)</label><input type="number" placeholder="Mặc định: 5,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Phí kiểm đếm (USD/tracking)</label><input type="number" placeholder="Mặc định: 5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Chụp ảnh kho (USD/tracking)</label><input type="number" placeholder="Mặc định: 3" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Repackage (USD/tracking)</label><input type="number" placeholder="Mặc định: 7" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tuyến Nhật Service Fees -->
+                <div>
+                    <h4 class="font-semibold border-b pb-2 mb-4 text-blue-700">
+                        <i class="fas fa-flag mr-2"></i>Phí Dịch vụ Tuyến Nhật
+                    </h4>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div><label class="block text-gray-600">Phí mua hộ (%) từ</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Phí gia cố (VNĐ/Kg)</label><input type="number" placeholder="Mặc định: 5,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Phí kiểm đếm (VNĐ/tracking)</label><input type="number" placeholder="Mặc định: 10,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Chụp ảnh kho nhật (JPY/tracking)</label><input type="number" placeholder="Mặc định: 500" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Repackage (JPY/tracking)</label><input type="number" placeholder="Mặc định: 1,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Fees Tab -->
+        <div id="delivery-fees" class="tab-content hidden">
+            <div class="space-y-6">
+                <h3 class="text-lg font-bold text-gray-800">Phí Giao hàng Riêng</h3>
+                
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-green-800 mb-3">Phí Giao hàng theo Khu vực (Nội thành Hà Nội)</h4>
+                    <div class="space-y-4 text-sm">
+                        <div class="bg-white p-3 rounded border">
+                            <div class="font-medium mb-2">KV1 (Hoàn Kiếm, Ba Đình, Hai Bà Trưng, Tây Hồ, Đống Đa, Cầu Giấy, Thanh Xuân, Bắc Từ Liêm, Hoàng Mai, Hà Đông)</div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Miễn phí tuyến Mỹ >kg</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Miễn phí tuyến Nhật >kg</label><input type="number" placeholder="Mặc định: 5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-3 rounded border">
+                            <div class="font-medium mb-2">KV2 (Long Biên, Thanh Trì)</div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 100,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Miễn phí tuyến Mỹ >kg</label><input type="number" placeholder="Mặc định: 20" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div><label class="block text-gray-600">Miễn phí tuyến Nhật >kg</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-3 rounded border">
+                            <div class="font-medium mb-2">KV3 (Huyện Gia Lâm)</div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 200,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                                <div class="text-gray-500 text-center py-2">Không miễn phí</div>
+                                <div class="text-gray-500 text-center py-2">Không miễn phí</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insurance Settings Tab -->
+        <div id="insurance-settings" class="tab-content hidden">
+            <div class="space-y-6">
+                <h3 class="text-lg font-bold text-gray-800">Cài đặt Bảo hiểm Riêng</h3>
+                
+                <div class="bg-red-50 p-4 rounded-lg mb-6 border-l-4 border-red-400">
+                    <h4 class="font-semibold text-red-800 mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Lưu ý về Bảo hiểm</h4>
+                    <div class="text-red-700 text-sm space-y-1">
+                        <p>• Dream Cargo KHÔNG bảo hiểm: hàng dễ vỡ (gốm, thủy tinh), hàng không chứng minh được nguồn gốc, hàng cấm</p>
+                        <p>• Yêu cầu khách hàng quay video khi mở hàng để làm bằng chứng</p>
+                        <p>• Khiếu nại phải được gửi trong vòng 24h sau khi nhận hàng</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-4 rounded-lg border">
+                        <h4 class="font-semibold text-gray-800 mb-3">Bảo hiểm Cơ bản</h4>
+                        <div class="space-y-3 text-sm">
+                            <div><label class="block text-gray-600">Phí bảo hiểm (%)</label><input type="number" step="0.1" placeholder="Mặc định: 0%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Bồi thường tối đa Mỹ (USD/sản phẩm)</label><input type="number" placeholder="Mặc định: 100" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Bồi thường tối đa Nhật (VNĐ/sản phẩm)</label><input type="number" placeholder="Mặc định: 1,000,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg border">
+                        <h4 class="font-semibold text-gray-800 mb-3">Bảo hiểm Giá trị cao</h4>
+                        <div class="space-y-3 text-sm">
+                            <div><label class="block text-gray-600">Phí bảo hiểm (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div><label class="block text-gray-600">Bồi thường</label><input type="text" placeholder="Mặc định: 100% giá trị (có hóa đơn)" class="mt-1 w-full p-2 border rounded-lg" readonly></div>
+                            <div class="text-xs text-gray-500">
+                                <p>Yêu cầu hóa đơn chứng minh giá trị</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Settings Tab -->
+        <div id="storage-settings" class="tab-content hidden">
+            <div class="space-y-6">
+                <h3 class="text-lg font-bold text-gray-800">Cài đặt Lưu kho Riêng</h3>
+                
+                <div class="bg-yellow-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-yellow-800 mb-3">Quy định Lưu kho</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div><label class="block text-gray-600">Thời gian lưu kho miễn phí (ngày)</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="block text-gray-600">Phí lưu kho sau đó (VNĐ/kg/ngày)</label><input type="number" placeholder="Mặc định: 1,000" class="mt-1 w-full p-2 border rounded-lg"></div>
+                        <div><label class="block text-gray-600">Đặt cọc tối thiểu (%)</label><input type="number" placeholder="Mặc định: 70%" class="mt-1 w-full p-2 border rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Information Section -->
+        <div class="mt-8 bg-gray-50 p-4 rounded-lg border-t">
+            <h4 class="font-semibold text-gray-800 mb-3"><i class="fas fa-user mr-2"></i>Thông tin Khách hàng áp dụng</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <label class="block text-gray-600">Tên khách hàng</label>
+                    <input type="text" value="Nguyễn Văn A" class="mt-1 w-full p-2 border rounded-lg bg-gray-100" readonly>
+                </div>
+                <div>
+                    <label class="block text-gray-600">Mã khách hàng</label>
+                    <input type="text" value="KH001" class="mt-1 w-full p-2 border rounded-lg bg-gray-100" readonly>
+                </div>
+                <div>
+                    <label class="block text-gray-600">Nhóm khách hàng</label>
+                    <input type="text" value="VIP" class="mt-1 w-full p-2 border rounded-lg bg-gray-100" readonly>
+                </div>
+            </div>
+            <div class="mt-3 text-xs text-gray-500">
+                <p><i class="fas fa-info-circle mr-1"></i>Các cài đặt phí riêng sẽ được áp dụng cho khách hàng này và ghi đè lên cài đặt mặc định của hệ thống.</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between items-center border-t pt-4 mt-6">
+            <div class="flex gap-2">
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
+                    <i class="fas fa-undo mr-2"></i>Khôi phục Mặc định
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
+                    <i class="fas fa-copy mr-2"></i>Sao chép từ KH khác
+                </button>
+            </div>
+            <div class="flex gap-2">
+                <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
+                    <i class="fas fa-times mr-2"></i>Hủy
+                </button>
+                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
+                    <i class="fas fa-save mr-2"></i>Lưu tất cả thay đổi
+                </button>
             </div>
         </div>
     </div>
