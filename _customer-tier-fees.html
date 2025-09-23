@@ -1,312 +1,974 @@
-<div class="space-y-6">
-    <div class="bg-white rounded-lg shadow-md p-6 tab-container">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-800">Chính sách Phí riêng cho Khách hàng</h2>
-            <div class="flex gap-3">
-                <button id="save-all-settings-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
-                    <i class="fas fa-save mr-2"></i>Lưu tất cả
-                </button>
-                <a href="#" data-target-page="_customer-detail-360.html" data-target-title="Chi tiết 360° Khách hàng" class="nav-link text-sm text-blue-600 font-semibold">
-                    <i class="fas fa-arrow-left mr-2"></i>Quay lại Chi tiết 360°
-                </a>
-            </div>
-        </div>
-        
-        <div class="bg-yellow-50 p-4 rounded-lg mb-6 text-sm border-l-4 border-yellow-400">
-            <p class="font-medium text-yellow-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Thông tin về Chính sách Phí riêng:</p>
-            <p class="text-yellow-700 mb-2">Đây là cài đặt phí riêng cho loại khách hàng cụ thể, sẽ ghi đè lên các cài đặt mặc định của hệ thống.</p>
-            <p class="text-yellow-700">
-                <strong>Để áp dụng phí mặc định:</strong> Vui lòng để trống các trường hoặc nhập giá trị 0.
-            </p>
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt phí riêng cho loại khách hàng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .tab-link.active-tab {
+            border-color: #3b82f6;
+            /* blue-500 */
+            color: #1e40af;
+            /* blue-800 */
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .table-input {
+            text-align: center;
+            font-size: 0.875rem;
+            background-color: #f9fafb;
+        }
+
+        .table-input.highlight {
+            font-weight: bold;
+            color: #dc2626;
+            /* red-600 */
+        }
+
+        .table-input:disabled {
+            background-color: #e5e7eb;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-8">
+    <div class="bg-white rounded-lg shadow-xl p-6 tab-container max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-2xl font-bold text-gray-800">Cài đặt phí riêng cho loại khách hàng</h2>
+            <a href="#" class="nav-link text-sm text-blue-600 font-semibold hover:underline"><i
+                    class="fas fa-arrow-left mr-2"></i>Quay lại Cài đặt</a>
         </div>
 
-        <!-- Tab Navigation -->
-        <div class="border-b border-gray-200 mb-6">
+        <div class="border-b border-gray-200 mb-8">
             <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
-                <a href="#exchange-rates" class="tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-tab">
-                    <i class="fas fa-exchange-alt mr-2"></i>Tỷ giá riêng
+                <a href="#currency-rates" class="tab-link shrink-0 border-b-2 px-4 pb-3 text-sm font-medium active-tab">
+                    <i class="fas fa-exchange-alt mr-2"></i>Tỷ Giá Ngoại Tệ
                 </a>
-                <a href="#shipping-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    <i class="fas fa-shipping-fast mr-2"></i>Phí vận chuyển
+                <a href="#rates-surcharges"
+                    class="tab-link shrink-0 border-b-2 px-4 pb-3 text-sm font-medium">
+                    <i class="fas fa-pallet mr-2"></i>Vận Chuyển & Phụ Thu
                 </a>
-                <a href="#surcharges" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    <i class="fas fa-plus-circle mr-2"></i>Phụ thu sản phẩm
+                <a href="#other-services"
+                    class="tab-link shrink-0 border-b-2 border-transparent px-4 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-concierge-bell mr-2"></i>Dịch Vụ & Giao Hàng
                 </a>
-                <a href="#service-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    <i class="fas fa-cogs mr-2"></i>Phí dịch vụ
-                </a>
-                <a href="#delivery-fees" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    <i class="fas fa-truck mr-2"></i>Phí giao hàng
-                </a>
-                <a href="#storage-settings" class="tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                    <i class="fas fa-warehouse mr-2"></i>Lưu kho
+                <a href="#general-insurance"
+                    class="tab-link shrink-0 border-b-2 border-transparent px-4 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                    <i class="fas fa-shield-alt mr-2"></i>Bảo Hiểm & Quy Định Chung
                 </a>
             </nav>
         </div>
 
-        <!-- Exchange Rates Tab -->
-        <div id="exchange-rates" class="tab-content">
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Tỷ giá Ngoại tệ Riêng</h3>
-                    
-                    <div class="bg-blue-50 p-4 rounded-lg mb-6 text-sm border-l-4 border-blue-400">
-                        <p class="font-medium text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Lưu ý về Tỷ giá riêng:</p>
-                        <p class="text-blue-700 mb-2">Nếu có cài đặt tỷ giá riêng, hệ thống sẽ áp dụng tỷ giá này thay vì tỷ giá mặc định.</p>
-                        <p class="text-blue-700">Để sử dụng tỷ giá mặc định của hệ thống, vui lòng để trống các trường bên dưới.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-4 rounded-lg border">
-                            <h4 class="font-semibold text-gray-800 mb-3">Tỷ giá USD - VNĐ</h4>
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-gray-600 text-sm">1 USD = ? VNĐ</label>
-                                    <input type="number" step="0.01" placeholder="Để trống = dùng mặc định (25,450)" class="mt-1 w-full p-2 border rounded-lg">
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    <p><i class="fas fa-info-circle mr-1"></i>Tỷ giá mặc định hiện tại: <strong>25,450 VNĐ</strong></p>
-                                    <p><i class="fas fa-clock mr-1"></i>Cập nhật: 16/09/2025 14:30</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-lg border">
-                            <h4 class="font-semibold text-gray-800 mb-3">Tỷ giá JPY - VNĐ</h4>
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-gray-600 text-sm">1 JPY = ? VNĐ</label>
-                                    <input type="number" step="0.01" placeholder="Để trống = dùng mặc định (162)" class="mt-1 w-full p-2 border rounded-lg">
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    <p><i class="fas fa-info-circle mr-1"></i>Tỷ giá mặc định hiện tại: <strong>162 VNĐ</strong></p>
-                                    <p><i class="fas fa-clock mr-1"></i>Cập nhật: 16/09/2025 14:30</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Shipping Fees Tab -->
-        <div id="shipping-fees" class="tab-content hidden">
-            <div class="space-y-6">
-                <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Phí Vận chuyển Riêng</h3>
-                    
-                    <!-- Tuyến Mỹ -->
-                    <div class="mb-8">
-                        <h4 class="font-semibold border-b pb-2 mb-4 text-red-700">
-                            <i class="fas fa-flag-usa mr-2"></i>TUYẾN MỸ -> VIỆT NAM
-                        </h4>
-                        
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h5 class="font-semibold text-red-800 mb-3">Phí Vận chuyển (VNĐ/Kg)</h5>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 235,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Đồ giá trị cao >100$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Apple Watch, Airpod >100$</label><input type="number" placeholder="Mặc định: 245,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Laptop, iPad, iPhone ≤300$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Laptop, iPad, iPhone 300$-500$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Hàng giá trị cao 500$-2000$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Hàng giá trị cao >2000$</label><input type="number" placeholder="Mặc định: 230,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tuyến Nhật -->
-                    <div>
-                        <h4 class="font-semibold border-b pb-2 mb-4 text-blue-700">
-                            <i class="fas fa-flag mr-2"></i>TUYẾN NHẬT BẢN -> VIỆT NAM
-                        </h4>
-                        
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h5 class="font-semibold text-blue-800 mb-3">Phí Vận chuyển (VNĐ/Kg) - Về Hà Nội</h5>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 175,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Hàng lô linh kiện điện thoại, máy tính</label><input type="number" placeholder="Mặc định: 225,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Điện thoại iPhone 15, 16 pro max, Samsung S24</label><input type="number" placeholder="Mặc định: 175,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Surcharges Tab -->
-        <div id="surcharges" class="tab-content hidden">
-            <div class="space-y-6">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-gray-800">Phụ thu Sản phẩm Riêng</h3>
-                    <button id="add-custom-surcharge-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm text-sm">
-                        <i class="fas fa-plus mr-2"></i>Thêm Phụ thu tùy chỉnh
+        <!-- Currency Rates Tab -->
+        <div id="currency-rates" class="tab-content active space-y-8">
+            <div class="p-5 rounded-lg border border-gray-200 bg-blue-50">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 class="font-bold text-xl text-gray-800"><i
+                            class="fas fa-exchange-alt mr-3 text-blue-600"></i>Cài Đặt Tỷ Giá Ngoại Tệ Thống Nhất</h3>
+                    <button id="save-rates-btn"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm">
+                        <i class="fas fa-save mr-2"></i>Lưu Tỷ Giá
                     </button>
                 </div>
-                
-                <!-- Country Tabs for Surcharges -->
-                <div class="border-b border-gray-200 mb-6">
-                    <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
-                        <a href="#us-surcharges" class="surcharge-tab-link shrink-0 border-b-2 px-3 pb-3 text-sm font-medium active-surcharge-tab">
-                            <i class="fas fa-flag-usa mr-2"></i>Phụ thu Tuyến Mỹ
-                        </a>
-                        <a href="#japan-surcharges" class="surcharge-tab-link shrink-0 border-b-2 border-transparent px-3 pb-3 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                            <i class="fas fa-flag mr-2"></i>Phụ thu Tuyến Nhật
-                        </a>
-                    </nav>
+
+                <div class="bg-blue-100 p-4 rounded-lg mb-6 text-sm border-l-4 border-blue-500">
+                    <p class="font-medium text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Thông tin về Tỷ giá
+                        thống nhất:</p>
+                    <p class="text-blue-700 mb-2">Tỷ giá này sẽ được áp dụng cho toàn bộ hệ thống Dream Cargo và sẽ tự
+                        động cập nhật vào tất cả các giao dịch.</p>
+                    <p class="text-blue-700">Tỷ giá sẽ được sử dụng để quy đổi giữa USD, JPY và VNĐ trong các tính toán
+                        phí vận chuyển.</p>
                 </div>
 
-                <!-- US Surcharges -->
-                <div id="us-surcharges" class="surcharge-tab-content">
-                    <div class="bg-red-50 p-4 rounded-lg">
-                        <h4 class="font-semibold text-red-800 mb-3">Phụ Thu Tuyến Mỹ (VNĐ)</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Đồ giá trị cao >100$</label><input type="number" placeholder="Mặc định: 30,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Apple Watch, Airpod >100$</label><input type="number" placeholder="Mặc định: 100,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Laptop, iPad, iPhone ≤300$</label><input type="number" placeholder="Mặc định: 400,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Laptop, iPad, iPhone 300$-500$</label><input type="number" placeholder="Mặc định: 500,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Hàng giá trị cao 500$-2000$ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Hàng giá trị cao >2000$ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 5%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Japan Surcharges -->
-                <div id="japan-surcharges" class="surcharge-tab-content hidden">
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        <h4 class="font-semibold text-blue-800 mb-3">Phụ Thu Tuyến Nhật (VNĐ)</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <div><label class="block text-gray-600">Hàng thông thường</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Hàng lô linh kiện</label><input type="number" placeholder="Mặc định: 0" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Đồ giá trị cao 5-10 triệu VNĐ</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Đồ giá trị cao 10-30 triệu VNĐ</label><input type="number" placeholder="Mặc định: 250,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Apple Watch, Airpod</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">iPhone 12-14 pro max, Samsung</label><input type="number" placeholder="Mặc định: 300,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">iPhone 15, 16 pro max, Samsung S24 ultra</label><input type="number" placeholder="Mặc định: 1,000,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Laptop, iPad <10 triệu VNĐ</label><input type="number" placeholder="Mặc định: 200,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Laptop, iPad <20 triệu VNĐ</label><input type="number" placeholder="Mặc định: 300,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Laptop, iPad >20 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Loa, đài, ampli >20 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Hàng giá trị cao >50 triệu VNĐ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Service Fees Tab -->
-        <div id="service-fees" class="tab-content hidden">
-            <div class="space-y-6">
-                <h3 class="text-lg font-bold text-gray-800">Phí Dịch vụ Riêng</h3>
-                
-                <!-- Tuyến Mỹ Service Fees -->
-                <div>
-                    <h4 class="font-semibold border-b pb-2 mb-4 text-red-700">
-                        <i class="fas fa-flag-usa mr-2"></i>Phí Dịch vụ Tuyến Mỹ
-                    </h4>
-                    <div class="bg-red-50 p-4 rounded-lg">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div><label class="block text-gray-600">Phí mua hộ (%)</label><input type="number" step="0.1" placeholder="Mặc định: 4%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Phí gia cố (VNĐ/Kg)</label><input type="number" placeholder="Mặc định: 5,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Phí kiểm đếm (USD/tracking)</label><input type="number" placeholder="Mặc định: 5" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Chụp ảnh kho (USD/tracking)</label><input type="number" placeholder="Mặc định: 3" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Repackage (USD/tracking)</label><input type="number" placeholder="Mặc định: 7" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tuyến Nhật Service Fees -->
-                <div>
-                    <h4 class="font-semibold border-b pb-2 mb-4 text-blue-700">
-                        <i class="fas fa-flag mr-2"></i>Phí Dịch vụ Tuyến Nhật
-                    </h4>
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div><label class="block text-gray-600">Phí mua hộ (%) từ</label><input type="number" step="0.1" placeholder="Mặc định: 3%" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Phí gia cố (VNĐ/Kg)</label><input type="number" placeholder="Mặc định: 5,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Phí kiểm đếm (VNĐ/tracking)</label><input type="number" placeholder="Mặc định: 10,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Chụp ảnh kho nhật (JPY/tracking)</label><input type="number" placeholder="Mặc định: 500" class="mt-1 w-full p-2 border rounded-lg"></div>
-                            <div><label class="block text-gray-600">Repackage (JPY/tracking)</label><input type="number" placeholder="Mặc định: 1,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delivery Fees Tab -->
-        <div id="delivery-fees" class="tab-content hidden">
-            <div class="space-y-6">
-                <h3 class="text-lg font-bold text-gray-800">Phí Giao hàng Riêng</h3>
-                
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-green-800 mb-3">Phí Giao hàng theo Khu vực (Nội thành Hà Nội)</h4>
-                    <div class="space-y-4 text-sm">
-                        <div class="bg-white p-3 rounded border">
-                            <div class="font-medium mb-2">KV1 (Hoàn Kiếm, Ba Đình, Hai Bà Trưng, Tây Hồ, Đống Đa, Cầu Giấy, Thanh Xuân, Bắc Từ Liêm, Hoàng Mai, Hà Đông)</div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 50,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Miễn phí tuyến Mỹ >kg</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Miễn phí tuyến Nhật >kg</label><input type="number" placeholder="Mặc định: 5" class="mt-1 w-full p-2 border rounded-lg"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg border shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-dollar-sign mr-2 text-green-600"></i>Tỷ giá USD → VNĐ
+                        </h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-600 text-sm font-medium">1 USD = ? VNĐ</label>
+                                <input type="number" step="1" value="25450"
+                                    class="mt-1 w-full p-3 border rounded-lg text-lg font-semibold text-center">
                             </div>
-                        </div>
-                        
-                        <div class="bg-white p-3 rounded border">
-                            <div class="font-medium mb-2">KV2 (Long Biên, Thanh Trì)</div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 100,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Miễn phí tuyến Mỹ >kg</label><input type="number" placeholder="Mặc định: 20" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div><label class="block text-gray-600">Miễn phí tuyến Nhật >kg</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
+                            <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded">
+                                <p><i class="fas fa-clock mr-1"></i>Cập nhật lần cuối: <strong>23/09/2025 14:30</strong>
+                                </p>
+                                <p><i class="fas fa-user mr-1"></i>Được cập nhật bởi: <strong>Admin</strong></p>
                             </div>
+                            <button
+                                class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                                <i class="fas fa-sync mr-2"></i>Cập nhật từ API
+                            </button>
                         </div>
-                        
-                        <div class="bg-white p-3 rounded border">
-                            <div class="font-medium mb-2">KV3 (Huyện Gia Lâm)</div>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div><label class="block text-gray-600">Phí giao hàng (VNĐ)</label><input type="number" placeholder="Mặc định: 200,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                                <div class="text-gray-500 text-center py-2">Không miễn phí</div>
-                                <div class="text-gray-500 text-center py-2">Không miễn phí</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg border shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-yen-sign mr-2 text-red-600"></i>Tỷ giá JPY → VNĐ
+                        </h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-600 text-sm font-medium">1 JPY = ? VNĐ</label>
+                                <input type="number" step="0.1" value="162.5"
+                                    class="mt-1 w-full p-3 border rounded-lg text-lg font-semibold text-center">
                             </div>
+                            <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded">
+                                <p><i class="fas fa-clock mr-1"></i>Cập nhật lần cuối: <strong>23/09/2025 14:30</strong>
+                                </p>
+                                <p><i class="fas fa-user mr-1"></i>Được cập nhật bởi: <strong>Admin</strong></p>
+                            </div>
+                            <button
+                                class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                                <i class="fas fa-sync mr-2"></i>Cập nhật từ API
+                            </button>
                         </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-4 rounded-lg mt-6 border-l-4 border-yellow-400">
+                    <h4 class="font-semibold text-yellow-800 mb-3"><i class="fas fa-calculator mr-2"></i>Công cụ Quy đổi
+                        Nhanh</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-yellow-700 text-sm">USD</label>
+                            <input type="number" placeholder="Nhập số USD" class="w-full p-2 border rounded-lg"
+                                id="usd-input">
+                        </div>
+                        <div>
+                            <label class="block text-yellow-700 text-sm">JPY</label>
+                            <input type="number" placeholder="Nhập số JPY" class="w-full p-2 border rounded-lg"
+                                id="jpy-input">
+                        </div>
+                        <div>
+                            <label class="block text-yellow-700 text-sm">VNĐ</label>
+                            <input type="number" placeholder="Nhập số VNĐ" class="w-full p-2 border rounded-lg"
+                                id="vnd-input">
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <button
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                            <i class="fas fa-exchange-alt mr-2"></i>Tính toán Quy đổi
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Storage Settings Tab -->
-        <div id="storage-settings" class="tab-content hidden">
-            <div class="space-y-6">
-                <h3 class="text-lg font-bold text-gray-800">Cài đặt Lưu kho Riêng</h3>
-                
-                <div class="bg-yellow-50 p-4 rounded-lg">
-                    <h4 class="font-semibold text-yellow-800 mb-3">Quy định Lưu kho</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div><label class="block text-gray-600">Thời gian lưu kho miễn phí (ngày)</label><input type="number" placeholder="Mặc định: 10" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="block text-gray-600">Phí lưu kho sau đó (VNĐ/kg/ngày)</label><input type="number" placeholder="Mặc định: 1,000" class="mt-1 w-full p-2 border rounded-lg"></div>
-                        <div><label class="block text-gray-600">Đặt cọc tối thiểu (%)</label><input type="number" placeholder="Mặc định: 70%" class="mt-1 w-full p-2 border rounded-lg"></div>
+        <div id="rates-surcharges" class="tab-content space-y-8">
+            <div class="p-5 rounded-lg border border-gray-200 bg-gray-50">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 class="font-bold text-xl text-gray-800"><i class="fas fa-flag-usa mr-3 text-red-600"></i>Bảng
+                        Giá Tuyến US → Hà Nội (Kho Oregon / New Hampshire)</h3>
+                    <button id="add-us-rate-btn"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm">
+                        <i class="fas fa-plus mr-2"></i>Thêm mới
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="p-3 text-center">STT</th>
+                                <th class="p-3 text-left">Sản Phẩm</th>
+                                <th class="p-3 text-center">Loại điều kiện</th>
+                                <th class="p-3 text-center">Giá trị (USD)</th>
+                                <th class="p-3 text-center">Giá Kg - HN (VNĐ)</th>
+                                <th class="p-3 text-center">Phụ Thu</th>
+                                <th class="p-3 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            <tr>
+                                <td class="p-2 text-center">1</td>
+                                <td class="p-2">Hàng thông thường: Quần áo, giày dép, túi xách, đồ gia dụng không có
+                                    điện, đồ chơi trẻ em, sữa bột, đồ gia dụng có điện, gậy golf, gậy bida, mỹ phẩm,
+                                    thực phẩm chức năng...</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="220,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="0" class="table-input"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">2</td>
+                                <td class="p-2">Đồ giá trị cao >100$ (đồng hồ, kính mắt, Kindle, Nook, e-Reader, Tablet,
+                                    các loại linh kiện máy tính, Ram, CPU...)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="100" class="table-input" placeholder="100">
+                                </td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="30,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">3</td>
+                                <td class="p-2">Đồng hồ Apple Watch, Air pod >100$</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="100" class="table-input" placeholder="100">
+                                </td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="100,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">4</td>
+                                <td class="p-2">Laptop, ipad, iphone, điện thoại, đồ điện tử <=300$< /td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt" selected>
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="300" class="table-input" placeholder="300">
+                                </td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="400,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">5</td>
+                                <td class="p-2">Laptop, ipad, iphone, điện thoại, đồ điện tử <=300$-500$ (nếu>500$ liên
+                                        hệ NVKD)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range" selected>Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="300-500" class="table-input"
+                                        placeholder="300-500"></td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="500,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">6</td>
+                                <td class="p-2">Hàng có giá trị cao khác: đồng hồ, giày dép, túi xách, trang sức, linh
+                                    kiện điện tử, linh kiện phụ tùng...(500$-2000$)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range" selected>Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="500-2000" class="table-input"
+                                        placeholder="500-2000"></td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="3%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">7</td>
+                                <td class="p-2">Hàng có giá trị cao khác: đồng hồ, giày dép, túi xách, trang sức, linh
+                                    kiện điện tử, linh kiện phụ tùng...>2000$</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="2000" class="table-input" placeholder="2000">
+                                </td>
+                                <td class="p-2"><input type="text" value="230,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="5%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">8</td>
+                                <td class="p-2">Phí mua hộ</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="4%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">9</td>
+                                <td class="p-2">Phí gia cố, xử lý hàng hóa...tại kho Việt Nam (/Kg)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="5,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">10</td>
+                                <td class="p-2">Phí kiểm đếm, chụp ảnh tại kho Mỹ (Theo tracking number)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="5$" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="p-5 rounded-lg border border-gray-200 bg-gray-50">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 class="font-bold text-xl text-gray-800"><i class="fa-solid fa-flag mr-3 text-blue-600"></i>Bảng
+                        Giá Tuyến Nhật Bản → Hà Nội</h3>
+                    <button id="add-jp-rate-btn"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-sm">
+                        <i class="fas fa-plus mr-2"></i>Thêm mới
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="p-3 text-center">STT</th>
+                                <th class="p-3 text-left">Sản Phẩm</th>
+                                <th class="p-3 text-center">Loại điều kiện</th>
+                                <th class="p-3 text-center">Giá trị (VNĐ)</th>
+                                <th class="p-3 text-center">Giá Kg - HN (VNĐ)</th>
+                                <th class="p-3 text-center">Phụ Thu</th>
+                                <th class="p-3 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            <tr>
+                                <td class="p-2 text-center">1</td>
+                                <td class="p-2">Hàng thông thường: Quần áo, giày dép, túi xách, đồ gia dụng, đồ chơi trẻ
+                                    em, sữa bột, gậy golf, gậy bida, mỹ phẩm, thực phẩm chức năng...</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="175,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="0" class="table-input"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">2</td>
+                                <td class="p-2">Hàng lô linh kiện điện thoại, linh kiện máy tính,...</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="225,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="0" class="table-input"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">3</td>
+                                <td class="p-2">Đồ giá trị cao 5-10tr (Đồng hồ, kính mắt, Kindle, Nook, e-Reader,
+                                    Tablet, các loại linh kiện máy tính, Ram, CPU...)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range" selected>Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="5000000-10000000" class="table-input"
+                                        placeholder="5000000-10000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="50,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">4</td>
+                                <td class="p-2">Đồ giá trị cao 10-30tr (Đồng hồ, kính mắt, Kindle, Nook, e-Reader,
+                                    Tablet, các loại linh kiện máy tính, Ram, CPU...)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range" selected>Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="10000000-30000000" class="table-input"
+                                        placeholder="10000000-30000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="250,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">5</td>
+                                <td class="p-2">Đồng hồ Apple Watch, Airpod</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="50,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">6</td>
+                                <td class="p-2">Điện thoại Iphone (12-14 pro max), Samsung ($20-$23),...</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="300,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">7</td>
+                                <td class="p-2">Điện thoại Iphone (15,16 pro max), Samsung (S24 ultra),...</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="175,000" class="table-input"></td>
+                                <td class="p-2"><input type="text" value="1,000,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">8</td>
+                                <td class="p-2">Laptop, Ipad, Suface, Imac, Máy tính bảng < 10tr</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt" selected>
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="10000000" class="table-input"
+                                        placeholder="10000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="200,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">9</td>
+                                <td class="p-2">Laptop, Ipad, Suface, Imac, Máy tính bảng < 20tr</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt" selected>
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="20000000" class="table-input"
+                                        placeholder="20000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="300,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">10</td>
+                                <td class="p-2">Laptop, Ipad, Suface, Imac, Máy tính bảng > 20tr</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="20000000" class="table-input"
+                                        placeholder="20000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="3%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">11</td>
+                                <td class="p-2">Loa đài, ampli, điện thoại >20tr</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="20000000" class="table-input"
+                                        placeholder="20000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="3%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">12</td>
+                                <td class="p-2">Hàng giá trị cao khác >50tr</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none">Không</option>
+                                        <option value="gt" selected>> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="50000000" class="table-input"
+                                        placeholder="50000000"></td>
+                                <td class="p-2"><input type="text" class="table-input" value="" disabled></td>
+                                <td class="p-2"><input type="text" value="3%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">13</td>
+                                <td class="p-2">Phí mua hộ</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="3%" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">14</td>
+                                <td class="p-2">Phí gia cố, xử lý hàng hóa...tại kho Việt Nam (/Kg)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="5,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-center">15</td>
+                                <td class="p-2">Phí kiểm đếm, chụp ảnh tại kho Nhật (Theo tracking number)</td>
+                                <td class="p-2">
+                                    <select class="table-input text-xs">
+                                        <option value="none" selected>Không</option>
+                                        <option value="gt">> Trên</option>
+                                        <option value="lt">
+                                            < Dưới</option>
+                                        <option value="eq">= Bằng</option>
+                                        <option value="range">Khoảng</option>
+                                    </select>
+                                </td>
+                                <td class="p-2"><input type="text" value="0" class="table-input" placeholder="0"></td>
+                                <td class="p-2"><input type="text" value="" class="table-input" disabled></td>
+                                <td class="p-2"><input type="text" value="10,000" class="table-input highlight"></td>
+                                <td class="p-2 text-center">
+                                    <button
+                                        class="delete-row-btn bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                        title="Xóa dòng">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="other-services" class="tab-content space-y-8">
+            <div class="p-5 rounded-lg border">
+                <h3 class="font-bold text-xl border-b pb-3 mb-4 text-gray-800"><i
+                        class="fas fa-concierge-bell mr-2"></i>Phí Dịch Vụ Khác (Áp dụng chung)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg space-y-4 border">
+                        <label class="font-semibold text-gray-700">Phí mua hộ (%)</label>
+                        <div><label for="buy-us">Tuyến Mỹ</label><input id="buy-us" type="number" value="4" step="0.1">
+                        </div>
+                        <div><label for="buy-jp">Tuyến Nhật</label><input id="buy-jp" type="number" value="3"
+                                step="0.1"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <label for="reinforce-fee" class="font-semibold text-gray-700">Phí gia cố (VNĐ/Kg)</label>
+                        <input id="reinforce-fee" type="number" value="5000">
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg space-y-4 border">
+                        <label class="font-semibold text-gray-700">Phí kiểm đếm/chụp ảnh</label>
+                        <div><label for="check-us">Tại Mỹ (USD/track)</label><input id="check-us" type="number"
+                                value="5"></div>
+                        <div><label for="check-jp">Tại Nhật (VNĐ/track)</label><input id="check-jp" type="number"
+                                value="10000"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-5 rounded-lg border">
+                <h3 class="font-bold text-xl border-b pb-3 mb-4 text-green-800"><i class="fas fa-truck mr-2"></i>Phí
+                    Giao Hàng Nội Thành Hà Nội</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-sm">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200 space-y-3">
+                        <h4 class="font-semibold text-green-900">KV1 (Hoàn Kiếm, Ba Đình, Đống Đa...)</h4>
+                        <div><label for="kv1-fee">Phí giao hàng (VNĐ)</label><input id="kv1-fee" type="number"
+                                value="50000"></div>
+                        <div><label for="kv1-free-us">Miễn phí tuyến Mỹ (Kg >)</label><input id="kv1-free-us"
+                                type="number" value="10"></div>
+                        <div><label for="kv1-free-jp">Miễn phí tuyến Nhật (Kg >)</label><input id="kv1-free-jp"
+                                type="number" value="5"></div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200 space-y-3">
+                        <h4 class="font-semibold text-green-900">KV2 (Long Biên, Thanh Trì)</h4>
+                        <div><label for="kv2-fee">Phí giao hàng (VNĐ)</label><input id="kv2-fee" type="number"
+                                value="100000"></div>
+                        <div><label for="kv2-free-us">Miễn phí tuyến Mỹ (Kg >)</label><input id="kv2-free-us"
+                                type="number" value="20"></div>
+                        <div><label for="kv2-free-jp">Miễn phí tuyến Nhật (Kg >)</label><input id="kv2-free-jp"
+                                type="number" value="10"></div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200 space-y-3">
+                        <h4 class="font-semibold text-green-900">KV3 (Huyện Gia Lâm)</h4>
+                        <div><label for="kv3-fee">Phí giao hàng (VNĐ)</label><input id="kv3-fee" type="number"
+                                value="200000"></div>
+                        <div class="text-gray-500 text-center pt-8 font-medium">Không áp dụng miễn phí</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="flex justify-between items-center border-t pt-4 mt-6">
-            <div class="flex gap-2">
-                <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
-                    <i class="fas fa-undo mr-2"></i>Khôi phục Mặc định
-                </button>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
-                    <i class="fas fa-copy mr-2"></i>Sao chép từ KH khác
-                </button>
+        <div id="general-insurance" class="tab-content space-y-8">
+            <div class="p-5 rounded-lg border">
+                <h3 class="font-bold text-xl border-b pb-3 mb-4 text-gray-800"><i class="fas fa-shield-alt mr-2"></i>Cài
+                    Đặt Bảo Hiểm</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg space-y-3 border border-blue-200">
+                        <h4 class="font-semibold text-blue-800">Gói Mặc Định (Không mua bảo hiểm)</h4>
+                        <p class="text-sm text-blue-700">Mức bồi thường tối đa khi mất hàng:</p>
+                        <div><label for="ins-default-us">Tuyến Mỹ (USD/sản phẩm)</label><input id="ins-default-us"
+                                type="number" value="100"></div>
+                        <div><label for="ins-default-jp">Tuyến Nhật (VNĐ/sản phẩm)</label><input id="ins-default-jp"
+                                type="number" value="1000000"></div>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg space-y-3 border border-yellow-200">
+                        <h4 class="font-semibold text-yellow-800">Gói Hàng Giá Trị Cao</h4>
+                        <p class="text-sm text-yellow-700">Bồi thường 100% giá trị sản phẩm (yêu cầu invoice).</p>
+                        <div><label for="ins-premium-fee">Phí bảo hiểm (% giá trị hàng)</label><input
+                                id="ins-premium-fee" type="number" value="3" step="0.1"></div>
+                    </div>
+                </div>
             </div>
-            <div class="flex gap-2">
-                <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
-                    <i class="fas fa-times mr-2"></i>Hủy
-                </button>
-                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm text-sm">
-                    <i class="fas fa-save mr-2"></i>Lưu tất cả thay đổi
-                </button>
+            <div class="p-5 rounded-lg border">
+                <h3 class="font-bold text-xl border-b pb-3 mb-4 text-gray-800"><i
+                        class="fas fa-info-circle mr-2"></i>Quy Định Chung</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div><label for="storage-days">Thời gian lưu kho miễn phí (ngày)</label><input id="storage-days"
+                            type="number" value="10"></div>
+                    <div><label for="storage-fee">Phí lưu kho sau đó (VNĐ/kg/ngày)</label><input id="storage-fee"
+                            type="number" value="1000"></div>
+                    <div><label for="deposit-min">Đặt cọc mua hộ tối thiểu (%)</label><input id="deposit-min"
+                            type="number" value="70"></div>
+                </div>
             </div>
+        </div>
+
+        <div class="text-right border-t pt-6 mt-8">
+            <button
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                <i class="fas fa-save mr-2"></i>Lưu Tất Cả Thay Đổi
+            </button>
         </div>
     </div>
-</div>
+</body>
+
+</html>
